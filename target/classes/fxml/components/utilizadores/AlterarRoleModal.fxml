@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.AlterarRoleModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Alterar Papéis (Roles)" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+        <VBox styleClass="form-group">
+            <Label text="Nome do Utilizador" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control" disable="true"/>
+        </VBox>
+
+        <VBox styleClass="form-group">
+            <Label text="Papéis (Roles)*" styleClass="form-label"/>
+            <ListView fx:id="listRoles" styleClass="list-view-roles"/>
+        </VBox>
+
+        <Label fx:id="lblErro" styleClass="form-error" managed="false" visible="false"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: -color-fg-muted;"/>
+        <Button text="Guardar" defaultButton="true" onAction="#handleGuardar"
+                style="-fx-background-color: -color-accent-emphasis; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>

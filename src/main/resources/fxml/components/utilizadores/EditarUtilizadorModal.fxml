@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.EditarUtilizadorModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Editar Utilizador" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+        <VBox styleClass="form-group">
+            <Label text="Nome*" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control" promptText="Nome completo"/>
+            <Label fx:id="lblErroNome" styleClass="form-error" managed="false" visible="false"/>
+        </VBox>
+
+        <VBox fx:id="boxTurno" styleClass="form-group">
+            <Label text="Turno*" styleClass="form-label"/>
+            <ComboBox fx:id="comboTurno" styleClass="form-control" maxWidth="Infinity"/>
+            <Label fx:id="lblErroTurno" styleClass="form-error" managed="false" visible="false"/>
+        </VBox>
+
+        <VBox styleClass="form-group">
+            <Label text="Papel (Role)*" styleClass="form-label"/>
+            <ComboBox fx:id="comboRole" styleClass="form-control" maxWidth="Infinity"/>
+            <Label fx:id="lblErroRole" styleClass="form-error" managed="false" visible="false"/>
+        </VBox>
+
+        <VBox fx:id="boxEmpresa" styleClass="form-group" managed="false" visible="false">
+            <Label text="Empresa*" styleClass="form-label"/>
+            <ComboBox fx:id="comboEmpresa" styleClass="form-control" maxWidth="Infinity" promptText="Selecione uma empresa..."/>
+            <Label fx:id="lblErroEmpresa" styleClass="form-error" managed="false" visible="false"/>
+        </VBox>
+
+        <Label fx:id="lblErro" styleClass="form-error" managed="false" visible="false"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: -color-fg-muted;"/>
+        <Button text="Guardar Alterações" defaultButton="true" onAction="#handleGuardar"
+                style="-fx-background-color: -color-accent-emphasis; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>

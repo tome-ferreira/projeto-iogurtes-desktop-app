@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.DesativarUtilizadorModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Desativar Utilizador" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content" alignment="CENTER" spacing="16">
+        <FontIcon iconLiteral="mdi2a-alert-circle-outline" iconSize="48" style="-fx-icon-color: -color-danger-emphasis;"/>
+        <Label text="Tem a certeza que deseja desativar este utilizador?"
+               wrapText="true" textAlignment="CENTER"
+               style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+               
+        <Label fx:id="lblNome" style="-fx-font-size: 13px; -fx-text-fill: -color-fg-muted;"/>
+
+        <Label text="O utilizador não poderá aceder ao sistema, mas o histórico permanece intacto."
+               wrapText="true" textAlignment="CENTER"
+               style="-fx-font-size: 12px; -fx-text-fill: -color-fg-subtle;"/>
+
+        <Label fx:id="lblErro" styleClass="form-error" managed="false" visible="false"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                style="-fx-background-color: transparent; -fx-cursor: hand; -fx-text-fill: -color-fg-muted;"/>
+        <Button text="Desativar" defaultButton="true" onAction="#handleDesativar"
+                style="-fx-background-color: -color-danger-emphasis; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;"/>
+    </HBox>
+
+</VBox>

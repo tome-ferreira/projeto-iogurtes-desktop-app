@@ -34,12 +34,16 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\iogurtes\DetalhesIogurteModal.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\iogurtes\EditarIogurteModal.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\iogurtes\IogurteFormHelper.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\utilizadores\CriarUtilizadorModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\utilizadores\DesativarUtilizadorModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\utilizadores\EditarUtilizadorModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\GestaoIogurtes.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\layout\Sidebar.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\model\IogurteVM.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\paginas\Dashboard.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\paginas\Iogurtes.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\paginas\PaginaLogin.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\paginas\UtilizadoresController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\interfaces\IEmpresaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\interfaces\IEncomendaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\interfaces\IFornecedorService.java
@@ -65,4 +69,5 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\mock\MockUserService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\ServiceLocator.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\AppAware.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\EnumDisplayHelper.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\NavigationHelper.java

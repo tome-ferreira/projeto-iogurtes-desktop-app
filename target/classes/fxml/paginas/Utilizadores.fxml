@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gestaoiogurtes.paginas.UtilizadoresController">
+
+    <left>
+        <fx:include fx:id="sidebar" source="/fxml/layout/Sidebar.fxml"/>
+    </left>
+
+    <center>
+        <VBox styleClass="pagina-conteudo" VBox.vgrow="ALWAYS">
+            <stylesheets>
+                <String fx:value="/styles/utilizadores.css"/>
+            </stylesheets>
+
+            <!-- ── Cabeçalho ─────────────────────────────────────── -->
+            <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
+                <Label text="Gestão de Utilizadores" styleClass="pagina-titulo"
+                       maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnNovo" text="Novo Utilizador"
+                        styleClass="btn-primario-cabecalho"
+                        onAction="#handleNovo">
+                    <graphic><FontIcon iconLiteral="mdi2a-account-plus-outline" iconSize="16"/></graphic>
+                </Button>
+            </HBox>
+
+            <Separator styleClass="pagina-separador"/>
+
+            <!-- ── Toolbar de filtros ────────────────────────────── -->
+            <HBox styleClass="toolbar-filtros">
+                <HBox fx:id="campoPesquisaWrapper" spacing="8"
+                      alignment="CENTER_LEFT"
+                      styleClass="campo-pesquisa-wrapper">
+                    <FontIcon iconLiteral="mdi2m-magnify" iconSize="15"
+                              styleClass="icone-pesquisa"/>
+                    <TextField fx:id="campoPesquisa"
+                               promptText="Procurar por nome ou e-mail..."
+                               styleClass="campo-pesquisa"/>
+                </HBox>
+
+                <ComboBox fx:id="comboEstado" styleClass="combo-filtro"/>
+
+                <ComboBox fx:id="comboRoleFiltro" styleClass="combo-filtro"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- ── Tabela + FAB ──────────────────────────────────── -->
+            <StackPane VBox.vgrow="ALWAYS">
+
+                <!-- Table wrapper -->
+                <VBox VBox.vgrow="ALWAYS">
+                    <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
+                    <VBox fx:id="tabelaContainer"
+                          styleClass="tabela-card"
+                          fillWidth="true"
+                          VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+                <!-- Floating action button -->
+                <Button fx:id="fab" styleClass="fab"
+                        onAction="#handleNovo"
+                        StackPane.alignment="BOTTOM_RIGHT">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2a-account-plus-outline" iconSize="22"
+                                  styleClass="fab-icone"/>
+                    </graphic>
+                    <tooltip><Tooltip text="Novo utilizador"/></tooltip>
+                    <StackPane.margin>
+                        <Insets top="0" right="24" bottom="24" left="0"/>
+                    </StackPane.margin>
+                </Button>
+
+            </StackPane>
+        </VBox>
+    </center>
+
+</BorderPane>
