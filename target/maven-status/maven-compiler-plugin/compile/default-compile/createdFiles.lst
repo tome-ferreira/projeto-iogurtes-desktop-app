@@ -1,0 +1,15 @@
+com\gestaoiogurtes\paginas\Dashboard.class
+com\gestaoiogurtes\paginas\Iogurtes.class
+com\gestaoiogurtes\api\iogurtes\IIogurtesApiService.class
+com\gestaoiogurtes\services\mock\MockMovimentoStockMPService$1.class
+com\gestaoiogurtes\layout\Sidebar.class
+com\gestaoiogurtes\model\IogurteVM.class
+com\gestaoiogurtes\components\iogurtes\ConfirmarApagarIogurteModal.class
+com\gestaoiogurtes\components\iogurtes\EditarIogurteModal.class
+com\gestaoiogurtes\components\iogurtes\IogurteFormHelper.class
+com\gestaoiogurtes\api\iogurtes\IogurtesApiServiceFactory.class
+com\gestaoiogurtes\components\iogurtes\DetalhesIogurteModal.class
+com\gestaoiogurtes\api\iogurtes\MockIogurtesApiService.class
+com\gestaoiogurtes\api\iogurtes\RealIogurtesApiService.class
+com\gestaoiogurtes\components\iogurtes\CriarIogurteModal.class
+com\gestaoiogurtes\GestaoIogurtes.class

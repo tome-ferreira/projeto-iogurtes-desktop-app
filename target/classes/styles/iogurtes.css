@@ -1,0 +1,423 @@
+/* =============================================================
+   iogurtes.css  –  Gestão de Iogurtes
+   Organização:
+     1. Variáveis locais
+     2. Layout da página
+     3. Cabeçalho da página
+     4. Barra de ferramentas (pesquisa + filtros)
+     5. Tabela customizada
+        5a. Header da tabela
+        5b. Linhas
+        5c. Avatar / iniciais
+        5d. Badges de estado
+        5e. Utilitarios para celulas
+     6. Botão flutuante (FAB)
+     7. Estado vazio
+   ============================================================= */
+
+
+/* ── 1. Variáveis locais ─────────────────────────────────────
+   Usam as variáveis AtlantaFX como base para facilitar
+   compatibilidade com qualquer tema (light / dark / etc.)
+   ------------------------------------------------------------ */
+.root {
+    /* raio padrão de elementos internos */
+    -gi-radius-sm:   4px;
+    -gi-radius-md:   8px;
+    -gi-radius-lg:  12px;
+
+    /* sombras */
+    -gi-shadow-card: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);
+    -gi-shadow-fab:  dropshadow(gaussian, rgba(0,0,0,0.22), 16, 0, 0, 4);
+}
+
+
+/* ── 2. Layout da página ─────────────────────────────────────
+   Wrapper principal do conteúdo (VBox center do BorderPane)
+   ------------------------------------------------------------ */
+.pagina-conteudo {
+    -fx-background-color: -color-bg-default;
+}
+
+
+/* ── 3. Cabeçalho da página ──────────────────────────────────
+   HBox com título + botão primário
+   ------------------------------------------------------------ */
+.pagina-cabecalho {
+    -fx-padding: 28 32 12 32;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 12;
+}
+
+.pagina-titulo {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-default;
+}
+
+.pagina-separador {
+    -fx-padding: 0 32 0 32;
+    -fx-opacity: 0.6;
+}
+
+/* Botão primário do cabeçalho — "Novo iogurte" */
+.btn-primario-cabecalho {
+    -fx-background-color: -color-accent-emphasis;
+    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 14;
+    -fx-graphic-text-gap: 6;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.btn-primario-cabecalho:hover {
+    -fx-background-color: derive(-color-accent-emphasis, -10%);
+}
+.btn-primario-cabecalho:pressed {
+    -fx-background-color: derive(-color-accent-emphasis, -18%);
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+
+/* ── 4. Barra de ferramentas (pesquisa + filtros) ────────────
+   HBox com: campo de pesquisa | ComboBox estado | botões extra
+   ------------------------------------------------------------ */
+.toolbar-filtros {
+    -fx-padding: 16 32 16 32;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: -color-bg-default;
+}
+
+/* Campo de pesquisa */
+.campo-pesquisa {
+    -fx-background-color: -color-bg-inset;
+    -fx-background-radius: 8;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 8 12 8 12;
+    -fx-pref-width: 300;
+    -fx-font-size: 13px;
+    -fx-prompt-text-fill: -color-fg-muted;
+}
+.campo-pesquisa:focused {
+    -fx-border-color: -color-accent-emphasis;
+    -fx-border-width: 1.5;
+    -fx-background-color: -color-bg-default;
+}
+/*
+.campo-pesquisa-wrapper {
+    -fx-background-color: -color-bg-inset;
+    -fx-background-radius: 8;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 0 8 0 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.campo-pesquisa-wrapper:focused-within {
+    -fx-border-color: -color-accent-emphasis;
+    -fx-background-color: -color-bg-default;
+}*/
+
+/* remove visual duplicado do TextField */
+/*
+.campo-pesquisa {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 6 8 6;
+}*/
+
+/* ícone */
+/*
+.icone-pesquisa {
+    -fx-icon-color: -color-fg-muted;
+}*/
+
+/* ComboBox de filtro de estado */
+.combo-filtro {
+    -fx-background-color: -color-bg-inset;
+    -fx-background-radius: 8;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-pref-width: 170;
+    -fx-font-size: 13px;
+}
+.combo-filtro:focused,
+.combo-filtro:showing {
+    -fx-border-color: -color-accent-emphasis;
+}
+.combo-filtro .list-cell {
+    -fx-padding: 6 12 6 12;
+}
+
+/* Botão secundário da toolbar — ex: "Adicionar Role" */
+.btn-toolbar-secundario {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 7 14 7 12;
+    -fx-text-fill: -color-fg-default;
+    -fx-graphic-text-gap: 6;
+    -fx-cursor: hand;
+}
+.btn-toolbar-secundario:hover {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-accent-muted;
+}
+
+
+/* ── 5. Tabela customizada ───────────────────────────────────
+   Substituição da TableView nativa por linhas HBox manuais,
+   dentro de um VBox com card visual.
+   ------------------------------------------------------------ */
+.tabela-card {
+    -fx-background-color: -color-bg-default;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-effect: -gi-shadow-card;
+    -fx-padding: 0;
+}
+
+
+/* ── 5a. Header da tabela ────────────────────────────────────*/
+.tabela-header {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 10 10 0 0;
+    -fx-padding: 10 16 10 16;
+    -fx-border-color: transparent transparent -color-border-default transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 12;
+}
+
+.tabela-header-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-muted;
+    -fx-text-transform: uppercase;   /* nota: JavaFX não suporta; use texto em maiúsculas no código */
+    -fx-alignment: CENTER_LEFT;
+}
+
+
+/* ── 5b. Linhas da tabela ────────────────────────────────────*/
+.tabela-linha {
+    -fx-padding: 10 16 10 16;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 12;
+    -fx-border-color: transparent transparent -color-border-subtle transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-cursor: default;
+}
+
+/* última linha sem separador — aplica-se via código: linha.getStyleClass().add("tabela-linha-ultima") */
+.tabela-linha-ultima {
+    -fx-border-color: transparent;
+    -fx-background-radius: 0 0 10 10;
+}
+
+.tabela-linha:hover {
+    //-fx-background-color: -color-bg-subtle;
+    -fx-background-color: derive(-color-bg-subtle, 4%);
+}
+
+/* Célula de nome principal + subtítulo */
+.celula-nome-principal {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-default;
+}
+.celula-nome-subtitulo {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg-muted;
+}
+
+/* Célula genérica de dados */
+.celula-dados {
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-fg-default;
+}
+
+/* SKU — código pequeno e discreto */
+.celula-sku {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-family: monospace;
+}
+
+/* Valores em alerta (stock baixo, preço especial, etc.) */
+.celula-alerta {
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-danger-fg;
+}
+
+/* Botão de ação por linha — "Ver detalhes" */
+.btn-linha-acao {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-accent-fg;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-width: 0;
+    -fx-padding: 4 8 4 8;
+    -fx-cursor: hand;
+}
+.btn-linha-acao:hover {
+    -fx-text-fill: -color-accent-emphasis;
+    -fx-underline: true;
+}
+
+
+/* ── 5c. Avatar / iniciais ───────────────────────────────────
+   StackPane circular com iniciais do nome
+   ------------------------------------------------------------ */
+.avatar {
+    -fx-background-radius: 50%;
+    -fx-background-color: -color-accent-muted;
+    -fx-pref-width: 36;
+    -fx-pref-height: 36;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+    -fx-alignment: CENTER;
+}
+
+.avatar-texto {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-accent-fg;
+}
+
+/* Variantes de cor para avatares (atribuídas ciclicamente via código) */
+.avatar-cor-0 { -fx-background-color: derive(-color-accent-muted, 0%);   }
+.avatar-cor-1 { -fx-background-color: derive(-color-success-muted, 0%);  }
+.avatar-cor-2 { -fx-background-color: derive(-color-warning-muted, 0%);  }
+.avatar-cor-3 { -fx-background-color: derive(-color-danger-muted, 0%);   }
+
+.avatar-texto-cor-0 { -fx-text-fill: -color-accent-fg;   }
+.avatar-texto-cor-1 { -fx-text-fill: -color-success-fg;  }
+.avatar-texto-cor-2 { -fx-text-fill: -color-warning-fg;  }
+.avatar-texto-cor-3 { -fx-text-fill: -color-danger-fg;   }
+
+
+/* ── 5d. Badges de estado ────────────────────────────────────
+   Labels com fundo arredondado tipo "pill"
+   ------------------------------------------------------------ */
+.badge {
+    -fx-background-radius: 20;
+    -fx-padding: 3 10 3 10;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+
+    -fx-alignment: CENTER;
+    -fx-min-height: 20;
+    -fx-pref-height: 20;
+    -fx-max-height: 20;
+}
+
+.badge-ativo {
+    -fx-background-color: -color-success-muted;
+    -fx-text-fill: -color-success-fg;
+}
+
+.badge-inativo {
+    -fx-background-color: -color-neutral-muted;
+    -fx-text-fill: -color-fg-muted;
+}
+
+.badge-alerta {
+    -fx-background-color: -color-danger-muted;
+    -fx-text-fill: -color-danger-fg;
+}
+
+.badge-aviso {
+    -fx-background-color: -color-warning-muted;
+    -fx-text-fill: -color-warning-fg;
+}
+
+/* ── 5e. Utilitarios para celulas ────────────────────────────────────
+   Labels com fundo arredondado tipo "pill"
+   ------------------------------------------------------------ */
+
+/* Alinhamento de colunas numéricas */
+
+.celula-direita {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+/* Colunas centradas  */
+.celula-centro {
+    -fx-alignment: CENTER;
+}
+
+/* ── 6. Botão flutuante (FAB) ────────────────────────────────
+   Botão circular fixo no canto inferior direito.
+   Posicionamento via StackPane com alinhamento BOTTOM_RIGHT.
+   ------------------------------------------------------------ */
+.fab {
+    -fx-background-color: -color-accent-emphasis;
+    -fx-background-radius: 50%;
+    -fx-min-width: 52;
+    -fx-min-height: 52;
+    -fx-pref-width: 52;
+    -fx-pref-height: 52;
+    -fx-max-width: 52;
+    -fx-max-height: 52;
+    -fx-cursor: hand;
+    -fx-effect: -gi-shadow-fab;
+    -fx-padding: 0;
+}
+.fab:hover {
+    -fx-background-color: derive(-color-accent-emphasis, -10%);
+    -fx-scale-x: 1.07;
+    -fx-scale-y: 1.07;
+}
+.fab:pressed {
+    -fx-background-color: derive(-color-accent-emphasis, -18%);
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.fab-icone {
+    -fx-icon-color: white;
+    -fx-fill: white;
+    -fx-icon-size: 22;
+}
+
+
+/* ── 7. Estado vazio ─────────────────────────────────────────
+   Exibido quando não há registos na tabela
+   ------------------------------------------------------------ */
+.estado-vazio {
+    -fx-alignment: CENTER;
+    -fx-padding: 80 40 80 40;
+    -fx-spacing: 12;
+}
+
+.estado-vazio-icone {
+    -fx-icon-size: 52;
+    -fx-icon-color: -color-fg-subtle;
+    -fx-fill: -color-fg-subtle;
+    -fx-opacity: 0.5;
+}
+
+.estado-vazio-titulo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-muted;
+}
+
+.estado-vazio-subtitulo {
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-fg-subtle;
+    -fx-text-alignment: CENTER;
+    -fx-wrap-text: true;
+}
