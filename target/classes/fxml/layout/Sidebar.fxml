@@ -85,51 +85,6 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Stock -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
-            <graphic>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2a-archive-outline" iconSize="18"/>
-                    <Label text="Stock" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-                </HBox>
-            </graphic>
-            <tooltip><Tooltip text="Stock"/></tooltip>
-            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
-        </Button>
-
-        <!-- Produção -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
-            <graphic>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2c-cog-outline" iconSize="18"/>
-                    <Label text="Produção" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-                </HBox>
-            </graphic>
-            <tooltip><Tooltip text="Produção"/></tooltip>
-            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
-        </Button>
-
-        <!-- Relatórios -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
-            <graphic>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2c-chart-box-outline" iconSize="18"/>
-                    <Label text="Relatórios" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-                </HBox>
-            </graphic>
-            <tooltip><Tooltip text="Relatórios"/></tooltip>
-            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
-        </Button>
-
         <!-- Utilizadores -->
         <Button fx:id="btnUtilizadores" styleClass="sidebar-item"
                 maxWidth="Infinity"
