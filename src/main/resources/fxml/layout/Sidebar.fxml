@@ -69,22 +69,6 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Iogurtes -->
-        <Button fx:id="btnIogurtes" styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY"
-                onAction="#handleIogurtes">
-            <graphic>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2b-bottle-tonic-outline" iconSize="18"/>
-                    <Label text="Iogurtes" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-                </HBox>
-            </graphic>
-            <tooltip><Tooltip text="Iogurtes"/></tooltip>
-            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
-        </Button>
-
         <!-- Empresas -->
         <Button fx:id="btnEmpresas" styleClass="sidebar-item"
                 maxWidth="Infinity"
@@ -100,23 +84,8 @@
             <tooltip><Tooltip text="Gestão de Empresas"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
-
-        <!-- Utilizadores -->
-        <Button fx:id="btnUtilizadores" styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY"
-                onAction="#handleUtilizadores">
-            <graphic>
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2a-account-multiple-outline" iconSize="18"/>
-                    <Label text="Utilizadores" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-                </HBox>
-            </graphic>
-            <tooltip><Tooltip text="Gestão de Utilizadores"/></tooltip>
-            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
-        </Button>
     </VBox>
+
 
     <!-- ── Rodapé ───────────────────────── -->
     <VBox spacing="2">

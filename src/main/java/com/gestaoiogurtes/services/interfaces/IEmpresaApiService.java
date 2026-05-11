@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  * <p>
  * Exemplo de utilização num controller:
  * </p>
- * 
+ *
  * <pre>{@code
  * empresaService.getAll(state -> {
  *     switch (state.getStatus()) {

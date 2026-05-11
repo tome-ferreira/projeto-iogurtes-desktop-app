@@ -6,7 +6,7 @@ import com.gestaoiogurtes.components.empresas.EditarEmpresaModalController;
 import com.gestaoiogurtes.components.empresas.EliminarEmpresaModalController;
 import com.gestaoiogurtes.layout.Sidebar;
 import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.services.ServiceLocator;
+import com.gestaoiogurtes.services.real.RealEmpresaService;
 import com.gestaoiogurtes.services.interfaces.IEmpresaApiService;
 import com.gestaoiogurtes.utils.AppAware;
 import com.gestaoiogurtes.utils.MessageHelper;
@@ -27,7 +27,7 @@ import java.util.List;
  *
  * <p><strong>Padrão de carregamento de dados:</strong></p>
  * <ol>
- *   <li>Toda a chamada HTTP é feita via {@code ServiceLocator.empresaApiService()} +
+ *   <li>Toda a chamada HTTP é feita via {@link RealEmpresaService} +
  *       {@code ApiQuery.execute()} (já encapsulado no serviço).</li>
  *   <li>No estado {@code LOADING}: o overlay de loading é mostrado e os botões
  *       de acção são desactivados.</li>
@@ -43,7 +43,7 @@ import java.util.List;
 public class EmpresasController implements AppAware {
 
     // ── Serviço ───────────────────────────────────────────────────────────────
-    private final IEmpresaApiService service = ServiceLocator.empresaApiService();
+    private final IEmpresaApiService service = new RealEmpresaService();
 
     // ── FXML references ───────────────────────────────────────────────────────
     @FXML private Sidebar    sidebarController;
