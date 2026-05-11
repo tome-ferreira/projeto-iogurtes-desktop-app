@@ -13,19 +13,22 @@ import java.util.function.Consumer;
  *
  * <h3>Responsabilidades</h3>
  * <ol>
- *   <li>Emite {@link QueryState#loading()} <em>imediatamente</em> antes de
- *       enfileirar o pedido HTTP.</li>
- *   <li>Delega a execução HTTP à thread pool interna do OkHttp via
- *       {@link Call#enqueue(Callback)}.</li>
- *   <li>Devolve o resultado ao controlador JavaFX através de
- *       {@code Platform.runLater()} — garantindo que as actualizações ao
- *       estado da UI acontecem sempre na JavaFX Application Thread.</li>
+ * <li>Emite {@link QueryState#loading()} <em>imediatamente</em> antes de
+ * enfileirar o pedido HTTP.</li>
+ * <li>Delega a execução HTTP à thread pool interna do OkHttp via
+ * {@link Call#enqueue(Callback)}.</li>
+ * <li>Devolve o resultado ao controlador JavaFX através de
+ * {@code Platform.runLater()} — garantindo que as actualizações ao
+ * estado da UI acontecem sempre na JavaFX Application Thread.</li>
  * </ol>
  *
- * <p><strong>Regra importante:</strong> {@code Platform.runLater()} só é
- * chamado aqui. Os controllers <em>nunca</em> o invocam directamente.</p>
+ * <p>
+ * <strong>Regra importante:</strong> {@code Platform.runLater()} só é
+ * chamado aqui. Os controllers <em>nunca</em> o invocam directamente.
+ * </p>
  *
  * <h3>Exemplo de utilização num controller JavaFX</h3>
+ * 
  * <pre>{@code
  * // 1. Obter a interface Retrofit
  * IIogurtesApi api = RetrofitClient.getInstance().getService(IIogurtesApi.class);
@@ -50,19 +53,22 @@ import java.util.function.Consumer;
 public final class ApiQuery {
 
     /** Classe utilitária — não instanciável. */
-    private ApiQuery() {}
+    private ApiQuery() {
+    }
 
     /**
      * Executa um pedido Retrofit de forma assíncrona e notifica o chamador
      * através do {@code onStateChange} com transições de estado.
      *
-     * <p>Sequência de chamadas garantidas:</p>
+     * <p>
+     * Sequência de chamadas garantidas:
+     * </p>
      * <ol>
-     *   <li>{@code onStateChange(QueryState.loading())} — imediatamente, na
-     *       thread do chamador.</li>
-     *   <li>{@code onStateChange(QueryState.success(body))} <em>ou</em>
-     *       {@code onStateChange(QueryState.error(...))} — posteriormente, na
-     *       JavaFX Application Thread via {@code Platform.runLater()}.</li>
+     * <li>{@code onStateChange(QueryState.loading())} — imediatamente, na
+     * thread do chamador.</li>
+     * <li>{@code onStateChange(QueryState.success(body))} <em>ou</em>
+     * {@code onStateChange(QueryState.error(...))} — posteriormente, na
+     * JavaFX Application Thread via {@code Platform.runLater()}.</li>
      * </ol>
      *
      * @param <T>           tipo do corpo da resposta esperada pelo Retrofit
@@ -83,16 +89,24 @@ public final class ApiQuery {
                 if (response.isSuccessful()) {
                     // ── 3a. Sucesso: devolver na JavaFX Application Thread ────
                     T body = response.body();
-                    Platform.runLater(() ->
-                            onStateChange.accept(QueryState.success(body)));
+                    Platform.runLater(() -> onStateChange.accept(QueryState.success(body)));
                 } else {
-                    // Resposta HTTP mas com código de erro (4xx / 5xx)
-                    String message = "Erro HTTP " + response.code() +
-                                     (response.message() != null
-                                             ? " – " + response.message()
-                                             : "");
-                    Platform.runLater(() ->
-                            onStateChange.accept(QueryState.error(message, null)));
+                    // Tenta extrair "message" do errorBody JSON
+                    String message = "Erro HTTP " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            com.google.gson.JsonObject json = com.google.gson.JsonParser
+                                    .parseString(errorBody).getAsJsonObject();
+                            if (json.has("message")) {
+                                message = json.get("message").getAsString();
+                            }
+                        }
+                    } catch (Exception ignored) {
+                    }
+
+                    final String finalMessage = message;
+                    Platform.runLater(() -> onStateChange.accept(QueryState.error(finalMessage, null)));
                 }
             }
 
@@ -102,8 +116,7 @@ public final class ApiQuery {
                 String message = t.getMessage() != null
                         ? t.getMessage()
                         : "Falha de rede desconhecida";
-                Platform.runLater(() ->
-                        onStateChange.accept(QueryState.error(message, t)));
+                Platform.runLater(() -> onStateChange.accept(QueryState.error(message, t)));
             }
         });
     }

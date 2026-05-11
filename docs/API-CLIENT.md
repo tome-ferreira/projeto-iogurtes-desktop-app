@@ -170,7 +170,7 @@ ApiQuery.execute(call, state -> {
 |--------|--------------------------|
 | `LOADING` | Mostrar `ProgressIndicator`, desactivar botões de acção |
 | `SUCCESS` | Ocultar spinner, popular `TableView` / `ListView` com `state.getData()` |
-| `ERROR`   | Ocultar spinner, mostrar mensagem de erro ao utilizador; opcionalmente registar `state.getError()` para diagnóstico |
+| `ERROR`   | Ocultar spinner, mostrar mensagem de erro ao utilizador (`state.getErrorMessage()`). O `ApiQuery` tenta extrair automaticamente o campo `"message"` de respostas JSON (ex: HTTP 4xx/5xx). Opcionalmente registar `state.getError()` para diagnóstico. |
 
 ---
 

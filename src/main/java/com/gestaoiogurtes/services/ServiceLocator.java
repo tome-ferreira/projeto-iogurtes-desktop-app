@@ -3,6 +3,7 @@ package com.gestaoiogurtes.services;
 
 import com.gestaoiogurtes.services.interfaces.*;
 import com.gestaoiogurtes.services.mock.*;
+import com.gestaoiogurtes.services.real.RealEmpresaService;
 
 /**
  * Ponto central de instanciação e acesso a todos os serviços da aplicação.
@@ -162,6 +163,20 @@ public final class ServiceLocator {
      */
     public static IPalletTipoService palletTipoService() {
         return USE_MOCK ? mockPalletTipo : stubReal("IPalletTipoService");
+    }
+
+    // ── Serviços com ApiQuery (real, assíncrono) ─────────────────────
+
+    /**
+     * Devolve o serviço assíncrono de Empresas (sempre a implementação real).
+     *
+     * <p>Este serviço usa {@link com.gestaoiogurtes.api.ApiQuery} e comunica
+     * directamente com o backend via Retrofit. Não depende de {@code USE_MOCK}.</p>
+     *
+     * @return instância de {@link IEmpresaApiService} (assíncrona)
+     */
+    public static IEmpresaApiService empresaApiService() {
+        return new RealEmpresaService();
     }
 
     // ── Helpers ────────────────────────────────────────────────────
