@@ -491,6 +491,30 @@ O `GsonConverterFactory` faz o mapeamento automaticamente por nome.
 Os serviços assíncronos (que usam `ApiQuery`) podem ser instanciados com `new XxxService()`.
 São sempre conectados ao backend e não precisam de injecção de dependências complexa.
 
+### Padrão opcional: Modal de Detalhes
+When to use:
+- When an entity has fields that are too verbose for the list view
+- When the list should show only the most important summary fields
+
+How to implement:
+- Remove verbose columns from the TableView
+- Create DetalheXxxModal.fxml + DetalheXxxModalController.java
+- Wire row click or a details button to open the modal
+- Display all fields read-only inside the modal
+- No API call needed if data is already loaded in the list
+
+Code example based on FornecedorTipo implementation:
+```java
+row.setOnMouseClicked(e -> {
+    if (e.getClickCount() == 1 && !isActionButtonClicked(e)) {
+        DetalhesFornecedorTipoModalController.show(
+                tipo,
+                tabelaContainer.getScene().getWindow()
+        );
+    }
+});
+```
+
 ---
 
 *Referência criada com base na implementação da página Empresas.*
