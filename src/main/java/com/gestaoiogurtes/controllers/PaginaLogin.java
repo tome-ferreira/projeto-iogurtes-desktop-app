@@ -1,4 +1,4 @@
-package com.gestaoiogurtes.paginas;
+package com.gestaoiogurtes.controllers;
 
 import com.gestaoiogurtes.GestaoIogurtes;
 import com.gestaoiogurtes.utils.AppAware;
@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
  * the login action (currently navigates straight to Dashboard).
  *
  * <p>Moved from the root {@code com.gestaoiogurtes} package into
- * {@code com.gestaoiogurtes.paginas} to match the pages folder convention.
+ * {@code com.gestaoiogurtes.controllers} to match the pages folder convention.
  */
 public class PaginaLogin implements AppAware {
 

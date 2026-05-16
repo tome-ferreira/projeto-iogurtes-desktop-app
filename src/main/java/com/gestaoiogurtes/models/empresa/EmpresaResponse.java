@@ -1,4 +1,4 @@
-package com.gestaoiogurtes.model;
+package com.gestaoiogurtes.models.empresa;
 
 import java.time.LocalDateTime;
 //import java.time.OffsetDateTime;

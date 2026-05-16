@@ -1,13 +1,12 @@
-package com.gestaoiogurtes.paginas;
+package com.gestaoiogurtes.controllers;
 
 import com.gestaoiogurtes.GestaoIogurtes;
 import com.gestaoiogurtes.components.empresas.CriarEmpresaModalController;
 import com.gestaoiogurtes.components.empresas.EditarEmpresaModalController;
 import com.gestaoiogurtes.components.empresas.EliminarEmpresaModalController;
 import com.gestaoiogurtes.layout.Sidebar;
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.services.real.RealEmpresaService;
-import com.gestaoiogurtes.services.interfaces.IEmpresaApiService;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.services.EmpresaService;
 import com.gestaoiogurtes.utils.AppAware;
 import com.gestaoiogurtes.utils.MessageHelper;
 import javafx.geometry.Insets;
@@ -43,7 +42,7 @@ import java.util.List;
 public class EmpresasController implements AppAware {
 
     // ── Serviço ───────────────────────────────────────────────────────────────
-    private final IEmpresaApiService service = new RealEmpresaService();
+    private final EmpresaService service = new EmpresaService();
 
     // ── FXML references ───────────────────────────────────────────────────────
     @FXML private Sidebar    sidebarController;

@@ -1,4 +1,4 @@
-package com.gestaoiogurtes.model;
+package com.gestaoiogurtes.models.empresa;
 
 /**
  * Corpo do pedido POST /empresas (criação de uma nova empresa).

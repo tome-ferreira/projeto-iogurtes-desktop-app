@@ -1,11 +1,11 @@
-package com.gestaoiogurtes.services.real;
+package com.gestaoiogurtes.services;
 
 import com.gestaoiogurtes.api.ApiQuery;
 import com.gestaoiogurtes.api.QueryState;
 import com.gestaoiogurtes.api.RetrofitClient;
-import com.gestaoiogurtes.model.CreateEmpresaRequest;
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.model.UpdateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
 
 import okhttp3.ResponseBody;
 
@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Implementação real do serviço Empresa que comunica com o backend via
- * Retrofit.
+ * Serviço Empresa que comunica com o backend via Retrofit.
  *
  * <p>
  * Cada método segue o mesmo padrão:
@@ -22,7 +21,7 @@ import java.util.function.Consumer;
  * <ol>
  * <li>Obtém a interface Retrofit via {@link RetrofitClient}.</li>
  * <li>Cria o {@code Call} (pedido não enviado).</li>
- * <li>Delega a execução ao {@link ApiQuery#execute(Call, Consumer)}.</li>
+ * <li>Delega a execução ao {@link ApiQuery#execute(retrofit2.Call, Consumer)}.</li>
  * </ol>
  *
  * <p>
@@ -31,7 +30,7 @@ import java.util.function.Consumer;
  * Thread.
  * </p>
  */
-public class RealEmpresaService implements com.gestaoiogurtes.services.interfaces.IEmpresaApiService {
+public class EmpresaService {
 
     /** Devolve o proxy Retrofit (criado lazy via RetrofitClient singleton). */
     private com.gestaoiogurtes.api.services.IEmpresaApiService api() {
@@ -39,27 +38,52 @@ public class RealEmpresaService implements com.gestaoiogurtes.services.interface
                 .getService(com.gestaoiogurtes.api.services.IEmpresaApiService.class);
     }
 
-    @Override
+    /**
+     * Obtém todas as empresas activas.
+     *
+     * @param onStateChange callback com a lista de empresas
+     */
     public void getAll(Consumer<QueryState<List<EmpresaResponse>>> onStateChange) {
         ApiQuery.execute(api().findAll(), onStateChange);
     }
 
-    @Override
+    /**
+     * Obtém uma empresa pelo seu UUID.
+     *
+     * @param id            UUID da empresa
+     * @param onStateChange callback com a empresa
+     */
     public void getById(String id, Consumer<QueryState<EmpresaResponse>> onStateChange) {
         ApiQuery.execute(api().findById(id), onStateChange);
     }
 
-    @Override
+    /**
+     * Cria uma nova empresa.
+     *
+     * @param request       dados da nova empresa
+     * @param onStateChange callback com a empresa criada
+     */
     public void create(CreateEmpresaRequest request, Consumer<QueryState<EmpresaResponse>> onStateChange) {
         ApiQuery.execute(api().create(request), onStateChange);
     }
 
-    @Override
+    /**
+     * Actualiza uma empresa existente.
+     *
+     * @param id            UUID da empresa a actualizar
+     * @param request       novos dados da empresa
+     * @param onStateChange callback com a empresa actualizada
+     */
     public void update(String id, UpdateEmpresaRequest request, Consumer<QueryState<EmpresaResponse>> onStateChange) {
         ApiQuery.execute(api().update(id, request), onStateChange);
     }
 
-    @Override
+    /**
+     * Executa o soft-delete de uma empresa.
+     *
+     * @param id            UUID da empresa a eliminar
+     * @param onStateChange callback com mensagem de confirmação
+     */
     public void delete(String id, Consumer<QueryState<ResponseBody>> onStateChange) {
         ApiQuery.execute(api().softDelete(id), onStateChange);
     }

@@ -76,8 +76,8 @@ state.isError()    // → true quando Status == ERROR
 @FXML private Label                     lblErro;
 
 private void carregarEmpresas() {
-    // 1. Instanciar o serviço real
-    var service = new RealEmpresaService();
+    // 1. Instanciar o serviço
+    var service = new EmpresaService();
 
     // 2. Executar via ApiQuery — tratar cada estado no mesmo lambda
     service.getAll(state -> {
@@ -119,9 +119,9 @@ Cria um ficheiro em `src/main/java/com/gestaoiogurtes/api/services/`:
 ```java
 package com.gestaoiogurtes.api.services;
 
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.model.CreateEmpresaRequest;
-import com.gestaoiogurtes.model.UpdateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -267,10 +267,7 @@ src/
 │   │   │   └── services/
 │   │   │       └── IEmpresaApiService.java   ← interface Retrofit (anotações @GET, @POST, …)
 │   │   ├── services/
-│   │   │   ├── interfaces/
-│   │   │   │   └── IEmpresaApiService.java   ← contrato assíncrono (Consumer<QueryState<T>>)
-│   │   │   └── real/
-│   │   │       └── RealEmpresaService.java   ← implementação real que delega ao ApiQuery
+│   │   │   └── EmpresaService.java           ← serviço da aplicação (chamadas HTTP assíncronas via ApiQuery)
 │   │   └── utils/
 │   │       └── MessageHelper.java            ← mensagens de feedback (AtlantaFX Message)
 │   └── resources/

@@ -1,4 +1,4 @@
-package com.gestaoiogurtes.paginas;
+package com.gestaoiogurtes.controllers;
 
 import com.gestaoiogurtes.GestaoIogurtes;
 import com.gestaoiogurtes.layout.Sidebar;

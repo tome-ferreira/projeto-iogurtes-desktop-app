@@ -1,8 +1,8 @@
 package com.gestaoiogurtes.api.services;
 
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.model.CreateEmpresaRequest;
-import com.gestaoiogurtes.model.UpdateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

@@ -1,7 +1,7 @@
 package com.gestaoiogurtes.components.empresas;
 
-import com.gestaoiogurtes.model.CreateEmpresaRequest;
-import com.gestaoiogurtes.services.interfaces.IEmpresaApiService;
+import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
+import com.gestaoiogurtes.services.EmpresaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 public class CriarEmpresaModalController {
 
-    private IEmpresaApiService service;
+    private EmpresaService service;
 
     @FXML private TextField txtNome;
     @FXML private TextField txtNipc;
@@ -32,7 +32,7 @@ public class CriarEmpresaModalController {
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(IEmpresaApiService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(CriarEmpresaModalController.class.getResource("/fxml/components/empresas/CriarEmpresaModal.fxml"));
             Parent root = loader.load();
@@ -66,7 +66,7 @@ public class CriarEmpresaModalController {
         this.onSuccess = onSuccess;
     }
 
-    private void setService(IEmpresaApiService service) {
+    private void setService(EmpresaService service) {
         this.service = service;
     }
 

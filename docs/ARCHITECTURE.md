@@ -45,21 +45,19 @@ desktop_app/
         │   └── services/
         │       └── IEmpresaApiService.java   # Interface Retrofit para o endpoint /empresas
         │
-        ├── model/                       # DTOs (sem dependências JavaFX)
-        │   ├── EmpresaResponse.java
-        │   ├── CreateEmpresaRequest.java
-        │   └── UpdateEmpresaRequest.java
+        ├── models/                      # DTOs (sem dependências JavaFX)
+        │   └── empresa/
+        │       ├── EmpresaResponse.java
+        │       ├── CreateEmpresaRequest.java
+        │       └── UpdateEmpresaRequest.java
         │
         ├── services/
-        │   ├── interfaces/
-        │   │   └── IEmpresaApiService.java   # Contrato assíncrono (Consumer<QueryState<T>>)
-        │   └── real/
-        │       └── RealEmpresaService.java   # Implementação real via Retrofit
+        │   └── EmpresaService.java      # Serviço da aplicação (chamadas assíncronas via ApiQuery)
         │
         ├── layout/
         │   └── Sidebar.java             # Controller do Sidebar.fxml (navegação + temas)
         │
-        ├── paginas/
+        ├── controllers/
         │   ├── PaginaLogin.java
         │   ├── Dashboard.java
         │   └── EmpresasController.java  # Controller da página Empresas (referência CRUD)
@@ -81,11 +79,10 @@ desktop_app/
 | `config/` | Configuração estática lida de `config.properties` |
 | `api/` | Infraestrutura Retrofit: singleton, estado, executor assíncrono |
 | `api/services/` | Interfaces Retrofit (uma por recurso da API REST) |
-| `model/` | Objectos de transferência de dados (request/response). Sem imports JavaFX. |
-| `services/interfaces/` | Contratos assíncronos orientados ao controller (`Consumer<QueryState<T>>`) |
-| `services/real/` | Implementações reais que delegam ao `ApiQuery` |
+| `models/<domain>/` | Objectos de transferência de dados (request/response). Sem imports JavaFX. |
+| `services/` | Serviços da aplicação que delegam chamadas HTTP ao `ApiQuery` |
 | `layout/` | Wrappers estruturais partilhados por todas as páginas |
-| `paginas/` | Um controller por página navegável |
+| `controllers/` | Um controller por página navegável |
 | `components/<feature>/` | Componentes de UI autocontidos (modais) |
 | `utils/` | Utilitários partilhados sem estado |
 
@@ -99,22 +96,22 @@ Criar `src/main/resources/fxml/paginas/MinhaEntidade.fxml` com um `BorderPane` r
 
 ### 2 — Criar o controller
 
-Criar `src/main/java/com/gestaoiogurtes/paginas/MinhaEntidadeController.java` que implemente `AppAware`.
+Criar `src/main/java/com/gestaoiogurtes/controllers/MinhaEntidadeController.java` que implemente `AppAware`.
 
 ### 3 — Criar a interface Retrofit
 
 Criar `src/main/java/com/gestaoiogurtes/api/services/IMinhaEntidadeApiService.java` com as anotações `@GET`, `@POST`, `@PUT`, `@DELETE` do Retrofit.
 
-### 4 — Criar o serviço real
+### 4 — Criar o serviço
 
-Criar `src/main/java/com/gestaoiogurtes/services/real/RealMinhaEntidadeService.java` que:
+Criar `src/main/java/com/gestaoiogurtes/services/MinhaEntidadeService.java` que:
 1. Obtém o proxy Retrofit via `RetrofitClient.getInstance().getService(IMinhaEntidadeApiService.class)`
 2. Delega cada operação ao `ApiQuery.execute(call, onStateChange)`
 
 ### 5 — Injectar o serviço no controller
 
 ```java
-private final IMinhaEntidadeApiService service = new RealMinhaEntidadeService();
+private final MinhaEntidadeService service = new MinhaEntidadeService();
 ```
 
 ### 6 — Registar navegação no Sidebar
@@ -135,7 +132,7 @@ Controller
     │
     │  service.getAll(onStateChange)
     ▼
-RealXxxService
+XxxService
     │  ApiQuery.execute(call, onStateChange)
     ▼
 ApiQuery
@@ -161,8 +158,7 @@ ApiQuery
 | Modal FXML | `<Acção><Domínio>Modal.fxml` | `CriarEmpresaModal.fxml` |
 | Controller de modal | `<Acção><Domínio>ModalController` | `CriarEmpresaModalController` |
 | Interface Retrofit | `I<Domínio>ApiService` | `IEmpresaApiService` (em `api/services/`) |
-| Contrato assíncrono | `I<Domínio>ApiService` | `IEmpresaApiService` (em `services/interfaces/`) |
-| Serviço real | `Real<Domínio>Service` | `RealEmpresaService` |
+| Serviço | `<Domínio>Service` | `EmpresaService` (em `services/`) |
 | Response DTO | `<Domínio>Response` | `EmpresaResponse` |
 | Request DTO | `<Acção><Domínio>Request` | `CreateEmpresaRequest` |
 
