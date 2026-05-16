@@ -1,8 +1,8 @@
 package com.gestaoiogurtes.components.empresas;
 
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.model.UpdateEmpresaRequest;
-import com.gestaoiogurtes.services.interfaces.IEmpresaApiService;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
+import com.gestaoiogurtes.services.EmpresaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 public class EditarEmpresaModalController {
 
-    private IEmpresaApiService service;
+    private EmpresaService service;
     private EmpresaResponse empresa;
 
     @FXML private Label lblTitulo;
@@ -35,7 +35,7 @@ public class EditarEmpresaModalController {
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(EmpresaResponse empresa, IEmpresaApiService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(EmpresaResponse empresa, EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(EditarEmpresaModalController.class.getResource("/fxml/components/empresas/EditarEmpresaModal.fxml"));
             Parent root = loader.load();
@@ -70,7 +70,7 @@ public class EditarEmpresaModalController {
         this.onSuccess = onSuccess;
     }
 
-    private void setService(IEmpresaApiService service) {
+    private void setService(EmpresaService service) {
         this.service = service;
     }
 

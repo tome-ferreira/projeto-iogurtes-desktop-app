@@ -25,9 +25,9 @@
 ```
 Controller
     │
-    │  ServiceLocator.xxxApiService().getAll(state -> { ... })
+    │  service.getAll(state -> { ... })
     ▼
-RealXxxService
+XxxService
     │  RetrofitClient.getInstance().getService(IXxxApiService.class)
     │  ApiQuery.execute(call, onStateChange)
     ▼
@@ -56,16 +56,14 @@ src/
 │   ├── java/com/gestaoiogurtes/
 │   │   ├── api/services/
 │   │   │   └── IXxxApiService.java          ← interface Retrofit com @GET/@POST/@PUT/@DELETE
-│   │   ├── model/
-│   │   │   ├── XxxResponse.java             ← DTO de resposta (campos = chaves JSON)
-│   │   │   ├── CreateXxxRequest.java        ← corpo do POST
-│   │   │   └── UpdateXxxRequest.java        ← corpo do PUT
+│   │   ├── models/
+│   │   │   └── xxx/
+│   │   │       ├── XxxResponse.java             ← DTO de resposta (campos = chaves JSON)
+│   │   │       ├── CreateXxxRequest.java        ← corpo do POST
+│   │   │       └── UpdateXxxRequest.java        ← corpo do PUT
 │   │   ├── services/
-│   │   │   ├── interfaces/
-│   │   │   │   └── IXxxApiService.java      ← interface assíncrona com Consumer<QueryState<T>>
-│   │   │   └── real/
-│   │   │       └── RealXxxService.java      ← implementação: RetrofitClient + ApiQuery
-│   │   ├── paginas/
+│   │   │   └── XxxService.java              ← serviço da aplicação: RetrofitClient + ApiQuery
+│   │   ├── controllers/
 │   │   │   └── XxxController.java           ← controller da página
 │   │   └── components/xxx/
 │   │       ├── CriarXxxModalController.java
@@ -89,9 +87,7 @@ docs/
 | `XxxResponse.java` | Modelo da resposta JSON (campos = chaves JSON para Gson) |
 | `CreateXxxRequest.java` | Corpo do POST (campos = chaves JSON) |
 | `UpdateXxxRequest.java` | Corpo do PUT (campos = chaves JSON) |
-| `IXxxApiService.java` (services/interfaces) | Contrato assíncrono para o controller |
-| `RealXxxService.java` | Implementação real: delega ao Retrofit via ApiQuery |
-| `ServiceLocator.java` | Regista o serviço com `xxxApiService()` |
+| `XxxService.java` | Serviço da aplicação: delega chamadas HTTP ao Retrofit via ApiQuery |
 | `XxxController.java` | Lógica da página: tabela, filtros, loading, notificações |
 | `Xxx.fxml` | Estrutura estática: cabeçalho, toolbar, StackPane raiz, overlay |
 | `CriarXxxModalController.java` | Modal de criação com formulário |
@@ -121,9 +117,9 @@ Identificar a tag do recurso (ex: `empresa-controller`) e extrair:
 // src/main/java/com/gestaoiogurtes/api/services/IXxxApiService.java
 package com.gestaoiogurtes.api.services;
 
-import com.gestaoiogurtes.model.XxxResponse;
-import com.gestaoiogurtes.model.CreateXxxRequest;
-import com.gestaoiogurtes.model.UpdateXxxRequest;
+import com.gestaoiogurtes.models.xxx.XxxResponse;
+import com.gestaoiogurtes.models.xxx.CreateXxxRequest;
+import com.gestaoiogurtes.models.xxx.UpdateXxxRequest;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -156,7 +152,7 @@ public interface IXxxApiService {
 
 ```java
 // XxxResponse.java
-package com.gestaoiogurtes.model;
+package com.gestaoiogurtes.models.xxx;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -176,69 +172,44 @@ public class XxxResponse {
 
 ---
 
-### 4. Criar `IXxxApiService.java` — interface assíncrona do serviço
+### 4. Criar `XxxService.java`
 
 ```java
-// src/main/java/com/gestaoiogurtes/services/interfaces/IXxxApiService.java
-package com.gestaoiogurtes.services.interfaces;
-
-import com.gestaoiogurtes.api.QueryState;
-import com.gestaoiogurtes.model.*;
-import java.util.List;
-import java.util.function.Consumer;
-
-public interface IXxxApiService {
-    void getAll(Consumer<QueryState<List<XxxResponse>>> onStateChange);
-    void getById(String id, Consumer<QueryState<XxxResponse>> onStateChange);
-    void create(CreateXxxRequest request, Consumer<QueryState<XxxResponse>> onStateChange);
-    void update(String id, UpdateXxxRequest request, Consumer<QueryState<XxxResponse>> onStateChange);
-    void delete(String id, Consumer<QueryState<ResponseBody>> onStateChange);
-}
-```
-
----
-
-### 5. Criar `RealXxxService.java`
-
-```java
-// src/main/java/com/gestaoiogurtes/services/real/RealXxxService.java
-package com.gestaoiogurtes.services.real;
+// src/main/java/com/gestaoiogurtes/services/XxxService.java
+package com.gestaoiogurtes.services;
 
 import com.gestaoiogurtes.api.ApiQuery;
 import com.gestaoiogurtes.api.QueryState;
 import com.gestaoiogurtes.api.RetrofitClient;
-import com.gestaoiogurtes.model.*;
+import com.gestaoiogurtes.models.xxx.*;
+import okhttp3.ResponseBody;
+
 import java.util.List;
 import java.util.function.Consumer;
 
-public class RealXxxService implements com.gestaoiogurtes.services.interfaces.IXxxApiService {
+public class XxxService {
 
     private com.gestaoiogurtes.api.services.IXxxApiService api() {
         return RetrofitClient.getInstance()
                 .getService(com.gestaoiogurtes.api.services.IXxxApiService.class);
     }
 
-    @Override
     public void getAll(Consumer<QueryState<List<XxxResponse>>> cb) {
         ApiQuery.execute(api().findAll(), cb);
     }
 
-    @Override
     public void getById(String id, Consumer<QueryState<XxxResponse>> cb) {
         ApiQuery.execute(api().findById(id), cb);
     }
 
-    @Override
     public void create(CreateXxxRequest req, Consumer<QueryState<XxxResponse>> cb) {
         ApiQuery.execute(api().create(req), cb);
     }
 
-    @Override
     public void update(String id, UpdateXxxRequest req, Consumer<QueryState<XxxResponse>> cb) {
         ApiQuery.execute(api().update(id, req), cb);
     }
 
-    @Override
     public void delete(String id, Consumer<QueryState<ResponseBody>> cb) {
         ApiQuery.execute(api().softDelete(id), cb);
     }
@@ -247,23 +218,7 @@ public class RealXxxService implements com.gestaoiogurtes.services.interfaces.IX
 
 ---
 
-### 6. Registar no `ServiceLocator`
-
-```java
-// Adicionar import no topo:
-import com.gestaoiogurtes.services.real.RealXxxService;
-
-// Adicionar accessor (antes dos Helpers):
-public static com.gestaoiogurtes.services.interfaces.IXxxApiService xxxApiService() {
-    return new RealXxxService();
-}
-```
-
-> **Regra:** nunca alterar as entradas existentes. Apenas adicionar.
-
----
-
-### 7. Criar o controller e o FXML da página
+### 5. Criar o controller e o FXML da página
 
 O controller segue sempre a mesma estrutura. Ver `EmpresasController.java` como referência.
 
@@ -314,7 +269,7 @@ O controller segue sempre a mesma estrutura. Ver `EmpresasController.java` como 
 
 ---
 
-### 8. Criar os modais (Criar, Editar, Eliminar)
+### 6. Criar os modais (Criar, Editar, Eliminar)
 
 Os modais são classes Java com método estático `show(...)`. Não usam FXML.
 Ver `CriarEmpresaModalController.java`, `EditarEmpresaModalController.java`,
@@ -322,14 +277,14 @@ Ver `CriarEmpresaModalController.java`, `EditarEmpresaModalController.java`,
 
 ---
 
-### 9. Criar `xxx.css`
+### 7. Criar `xxx.css`
 
 Copiar `empresas.css` e adaptar. A secção 8 (loading overlay) é sempre idêntica
 — copiar sem alterações.
 
 ---
 
-### 10. Adicionar à sidebar
+### 8. Adicionar à sidebar
 
 **`Sidebar.java`:**
 ```java
@@ -500,12 +455,11 @@ service.create(request, state -> {
 | Tipo | Convenção | Exemplo |
 |------|-----------|---------|
 | Interface Retrofit | `IXxxApiService` em `api/services/` | `IEmpresaApiService` |
-| Modelo resposta | `XxxResponse` em `model/` | `EmpresaResponse` |
-| Modelo criar | `CreateXxxRequest` em `model/` | `CreateEmpresaRequest` |
-| Modelo actualizar | `UpdateXxxRequest` em `model/` | `UpdateEmpresaRequest` |
-| Interface serviço | `IXxxApiService` em `services/interfaces/` | `IEmpresaApiService` |
-| Implementação real | `RealXxxService` em `services/real/` | `RealEmpresaService` |
-| Controller página | `XxxController` em `paginas/` | `EmpresasController` |
+| Modelo resposta | `XxxResponse` em `models/xxx/` | `EmpresaResponse` |
+| Modelo criar | `CreateXxxRequest` em `models/xxx/` | `CreateEmpresaRequest` |
+| Modelo actualizar | `UpdateXxxRequest` em `models/xxx/` | `UpdateEmpresaRequest` |
+| Serviço | `XxxService` em `services/` | `EmpresaService` |
+| Controller página | `XxxController` em `controllers/` | `EmpresasController` |
 | FXML página | `Xxx.fxml` em `fxml/paginas/` | `Empresas.fxml` |
 | Modal criar | `CriarXxxModalController` em `components/xxx/` | `CriarEmpresaModalController` |
 | Modal editar | `EditarXxxModalController` | `EditarEmpresaModalController` |
@@ -532,10 +486,10 @@ Os controllers podem actualizar a UI directamente nos callbacks sem usar `Platfo
 Os nomes dos campos devem coincidir exactamente com as chaves JSON.
 O `GsonConverterFactory` faz o mapeamento automaticamente por nome.
 
-### `ServiceLocator.xxxApiService()` retorna sempre a implementação real
+### Os serviços são instanciados directamente
 
-Os serviços assíncronos (que usam `ApiQuery`) **não dependem do `USE_MOCK`**.
-São sempre a implementação real conectada ao backend.
+Os serviços assíncronos (que usam `ApiQuery`) podem ser instanciados com `new XxxService()`.
+São sempre conectados ao backend e não precisam de injecção de dependências complexa.
 
 ---
 

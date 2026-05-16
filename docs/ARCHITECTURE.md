@@ -1,242 +1,177 @@
-# Architecture — Gestão de Iogurtes (Desktop App)
+# Arquitectura — Gestão de Iogurtes (Aplicação Desktop)
 
-JavaFX 21 + AtlantaFX desktop application. All UI is constructed programmatically in Java — no FXML files are used.
+Aplicação desktop JavaFX 21 + AtlantaFX com estrutura FXML + Controllers. Toda a UI estática está declarada em FXML; os controllers gerem apenas lógica dinâmica e chamadas HTTP.
 
 ---
 
-## Project Structure
+## Estrutura do Projecto
 
 ```
 desktop_app/
-├── pom.xml                          # Maven build (JavaFX 21, AtlantaFX 2.0.1, Ikonli)
+├── pom.xml                              # Maven (JavaFX 21, AtlantaFX, Retrofit2, OkHttp, Ikonli)
 ├── docs/
-│   └── ARCHITECTURE.md              # ← this file
-└── src/main/java/com/gestaoiogurtes/
-    │
-    ├── GestaoIogurtes.java          # Application entry point, stage & navigation
-    ├── PaginaLogin.java             # Login screen (no sidebar)
-    │
-    ├── model/                       # Plain data classes (view-models)
-    │   └── IogurteVM.java
-    │
-    ├── layout/                      # Reusable layout wrappers
-    │   ├── PaginaComSidebar.java    # BorderPane: sidebar left, content center
-    │   └── Sidebar.java            # Navigation sidebar with theme switcher
-    │
-    ├── paginas/                     # One class per page/route
-    │   ├── Dashboard.java
-    │   └── Iogurtes.java           # Iogurtes list page (controller)
-    │
-    ├── components/                  # Reusable UI components
-    │   └── iogurtes/               # Components scoped to the Iogurtes feature
-    │       ├── CriarIogurteModal.java
-    │       ├── DetalhesIogurteModal.java
-    │       ├── EditarIogurteModal.java
-    │       ├── ConfirmarApagarIogurteModal.java
-    │       └── IogurteFormHelper.java   # package-private shared form builder
-    │
-    └── api/                         # Data / API service layer
-        └── iogurtes/
-            ├── IIogurtesApiService.java        # Interface (contract)
-            ├── MockIogurtesApiService.java     # In-memory implementation
-            ├── RealIogurtesApiService.java     # HTTP stub (TODO)
-            └── IogurtesApiServiceFactory.java  # One-line toggle: mock ↔ real
+│   ├── ARCHITECTURE.md                  # ← este ficheiro
+│   ├── API-CLIENT.md                    # Documentação do cliente HTTP assíncrono
+│   └── CRUD-REFERENCE.md               # Referência de implementação CRUD
+└── src/main/
+    ├── resources/
+    │   ├── config.properties            # URL base, timeout, logging HTTP
+    │   ├── fxml/
+    │   │   ├── layout/
+    │   │   │   └── Sidebar.fxml         # Estrutura estática da barra lateral
+    │   │   ├── paginas/
+    │   │   │   ├── PaginaLogin.fxml
+    │   │   │   ├── Dashboard.fxml
+    │   │   │   └── Empresas.fxml
+    │   │   └── components/
+    │   │       └── empresas/
+    │   │           ├── CriarEmpresaModal.fxml
+    │   │           ├── EditarEmpresaModal.fxml
+    │   │           └── EliminarEmpresaModal.fxml
+    │   └── styles/
+    │       ├── sidebar.css
+    │       └── empresas.css
+    └── java/com/gestaoiogurtes/
+        │
+        ├── GestaoIogurtes.java          # Ponto de entrada da aplicação, stage e navegação
+        │
+        ├── config/
+        │   └── ApiConfig.java           # Lê config.properties para constantes estáticas
+        │
+        ├── api/
+        │   ├── ApiQuery.java            # Executor assíncrono + Platform.runLater()
+        │   ├── QueryState.java          # Estado imutável do pedido HTTP
+        │   ├── RetrofitClient.java      # Singleton Retrofit + OkHttp
+        │   └── services/
+        │       └── IEmpresaApiService.java   # Interface Retrofit para o endpoint /empresas
+        │
+        ├── models/                      # DTOs (sem dependências JavaFX)
+        │   └── empresa/
+        │       ├── EmpresaResponse.java
+        │       ├── CreateEmpresaRequest.java
+        │       └── UpdateEmpresaRequest.java
+        │
+        ├── services/
+        │   └── EmpresaService.java      # Serviço da aplicação (chamadas assíncronas via ApiQuery)
+        │
+        ├── layout/
+        │   └── Sidebar.java             # Controller do Sidebar.fxml (navegação + temas)
+        │
+        ├── controllers/
+        │   ├── PaginaLogin.java
+        │   ├── Dashboard.java
+        │   └── EmpresasController.java  # Controller da página Empresas (referência CRUD)
+        │
+        ├── components/
+        │   └── empresas/
+        │       ├── CriarEmpresaModalController.java
+        │       ├── EditarEmpresaModalController.java
+        │       └── EliminarEmpresaModalController.java
+        │
+        └── utils/
+            ├── AppAware.java            # Interface para injecção do GestaoIogurtes
+            ├── NavigationHelper.java    # Navegação entre páginas via FXML
+            └── MessageHelper.java       # Mensagens de feedback AtlantaFX (Message)
 ```
 
-| Folder | Purpose |
+| Pasta | Propósito |
 |---|---|
-| `model/` | Data transfer / view-model objects. No JavaFX imports. |
-| `layout/` | Structural wrappers used by every page. |
-| `paginas/` | One class per navigable page. Extends `PaginaComSidebar`. |
-| `components/<feature>/` | Self-contained UI components (modals, cards, etc.). |
-| `api/<feature>/` | Service interface + mock + real implementations. |
+| `config/` | Configuração estática lida de `config.properties` |
+| `api/` | Infraestrutura Retrofit: singleton, estado, executor assíncrono |
+| `api/services/` | Interfaces Retrofit (uma por recurso da API REST) |
+| `models/<domain>/` | Objectos de transferência de dados (request/response). Sem imports JavaFX. |
+| `services/` | Serviços da aplicação que delegam chamadas HTTP ao `ApiQuery` |
+| `layout/` | Wrappers estruturais partilhados por todas as páginas |
+| `controllers/` | Um controller por página navegável |
+| `components/<feature>/` | Componentes de UI autocontidos (modais) |
+| `utils/` | Utilitários partilhados sem estado |
 
 ---
 
-## How to Create a New Page
+## Como Criar uma Nova Página CRUD
 
-### 1 — Create the page class
+### 1 — Criar o FXML da página
 
-Create `src/main/java/com/gestaoiogurtes/paginas/MinhaNovaPage.java`:
+Criar `src/main/resources/fxml/paginas/MinhaEntidade.fxml` com um `BorderPane` raiz que inclua o Sidebar e um `StackPane` central (ver `Empresas.fxml` como referência).
 
-```java
-package com.gestaoiogurtes.paginas;
+### 2 — Criar o controller
 
-import atlantafx.base.theme.Styles;
-import com.gestaoiogurtes.GestaoIogurtes;
-import com.gestaoiogurtes.layout.PaginaComSidebar;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+Criar `src/main/java/com/gestaoiogurtes/controllers/MinhaEntidadeController.java` que implemente `AppAware`.
 
-public class MinhaNovaPage extends PaginaComSidebar {
+### 3 — Criar a interface Retrofit
 
-    public MinhaNovaPage(GestaoIogurtes app) {
-        super(app, criarConteudo());
-    }
+Criar `src/main/java/com/gestaoiogurtes/api/services/IMinhaEntidadeApiService.java` com as anotações `@GET`, `@POST`, `@PUT`, `@DELETE` do Retrofit.
 
-    private static VBox criarConteudo() {
-        var titulo = new Label("Minha Nova Página");
-        titulo.getStyleClass().add(Styles.TITLE_2);
+### 4 — Criar o serviço
 
-        var area = new VBox(16, titulo);
-        area.setPadding(new Insets(32));
-        return area;
-    }
-}
-```
+Criar `src/main/java/com/gestaoiogurtes/services/MinhaEntidadeService.java` que:
+1. Obtém o proxy Retrofit via `RetrofitClient.getInstance().getService(IMinhaEntidadeApiService.class)`
+2. Delega cada operação ao `ApiQuery.execute(call, onStateChange)`
 
-### 2 — Register navigation in the Sidebar
-
-In `Sidebar.java`, add a nav button inside the `navArea` block:
+### 5 — Injectar o serviço no controller
 
 ```java
-var btnMinha = criarItem("Minha Página", new FontIcon(MaterialDesignX.SOME_ICON));
-btnMinha.setOnAction(e -> app.getStage().getScene().setRoot(new MinhaNovaPage(app)));
+private final MinhaEntidadeService service = new MinhaEntidadeService();
 ```
 
-Add it to the `navArea` VBox children list.
+### 6 — Registar navegação no Sidebar
 
-### 3 — (Optional) Add a top-level navigate method
-
-In `GestaoIogurtes.java` you can add:
-
-```java
-public void navegarParaMinhaPage() {
-    stage.getScene().setRoot(new MinhaNovaPage(this));
-}
-```
-
-### Theme / styles
-
-- The AtlantaFX theme is set globally in `GestaoIogurtes.start()` via `Application.setUserAgentStylesheet(...)`.
-- The sidebar "Mudar tema" button cycles through all available AtlantaFX themes at runtime.
-- Use `Styles.*` constants (from `atlantafx.base.theme.Styles`) for typography, colours, and button variants — never hardcode colour hex values.
+Em `Sidebar.fxml`: adicionar um `<Button onAction="#handleMinhaEntidade">`.
+Em `Sidebar.java`: adicionar o método `handleMinhaEntidade()` com `NavigationHelper.navigateTo(...)`.
 
 ---
 
-## Component Conventions
+## Padrão de Comunicação HTTP (ApiQuery)
 
-### Reusable Modal Pattern
+Ver `docs/API-CLIENT.md` para a documentação completa.
 
-Each modal is a **plain Java class** (not a JavaFX control) with:
-- A constructor that accepts the **data it needs** + the **API service** + a **`Runnable` callback** (fired on success).
-- A single `public void show(Window owner)` method that builds and opens the dialog.
+Resumo do fluxo:
 
-**Naming:** `<Action><Domain>Modal.java` — e.g. `CriarIogurteModal`, `EditarIogurteModal`.
-
-**Location:** `src/main/java/com/gestaoiogurtes/components/<feature>/`
-
-**Example skeleton:**
-
-```java
-package com.gestaoiogurtes.components.iogurtes;
-
-import com.gestaoiogurtes.api.iogurtes.IIogurtesApiService;
-import com.gestaoiogurtes.model.IogurteVM;
-import javafx.scene.control.*;
-import javafx.stage.Window;
-
-public class ExemploIogurteModal {
-
-    private final IogurteVM iogurte;
-    private final IIogurtesApiService api;
-    private final Runnable onConcluido;
-
-    public ExemploIogurteModal(IogurteVM iogurte, IIogurtesApiService api, Runnable onConcluido) {
-        this.iogurte = iogurte;
-        this.api = api;
-        this.onConcluido = onConcluido;
-    }
-
-    public void show(Window owner) {
-        var dialog = new Dialog<Void>();
-        dialog.setTitle("Exemplo");
-        dialog.initOwner(owner);
-
-        var btnOk     = new ButtonType("OK",       ButtonBar.ButtonData.OK_DONE);
-        var btnCancel = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().addAll(btnOk, btnCancel);
-
-        dialog.setResultConverter(bt -> {
-            if (bt == btnOk) {
-                // perform action via api, then:
-                onConcluido.run();
-            }
-            return null;
-        });
-
-        dialog.showAndWait();
-    }
-}
+```
+Controller
+    │
+    │  service.getAll(onStateChange)
+    ▼
+XxxService
+    │  ApiQuery.execute(call, onStateChange)
+    ▼
+ApiQuery
+    ├── onStateChange( QueryState.loading() )     ← imediato, na thread do controller
+    │
+    │  call.enqueue(...)                          ← background (OkHttp thread pool)
+    │
+    ├── [OK]   Platform.runLater( onStateChange( QueryState.success(body) ) )
+    └── [Erro] Platform.runLater( onStateChange( QueryState.error(...) ) )
 ```
 
-**Calling from the page controller:**
+> **Regra fundamental:** `Platform.runLater()` é chamado **apenas** dentro de `ApiQuery`.
+> Os controllers e serviços nunca tocam na thread JavaFX directamente.
 
-```java
-private void abrirExemploModal(IogurteVM iogurte) {
-    new ExemploIogurteModal(iogurte, api, this::renderizarTabela)
-            .show(getScene().getWindow());
-}
-```
+---
 
-### Shared form helpers
+## Convenções de Nomenclatura
 
-If two modals (e.g. Criar and Editar) share form fields, extract them to a **package-private** helper class named `<Domain>FormHelper.java` in the same `components/<feature>/` package. See `IogurteFormHelper.java` as the reference example.
-
-### Naming conventions
-
-| Thing | Convention | Example |
+| Artefacto | Convenção | Exemplo |
 |---|---|---|
-| Page class | `PascalCase` noun | `Iogurtes`, `Dashboard` |
-| Modal class | `<Verb><Domain>Modal` | `CriarIogurteModal` |
-| Form helper | `<Domain>FormHelper` | `IogurteFormHelper` |
-| Model class | `<Domain>VM` | `IogurteVM` |
-| API interface | `I<Domain>ApiService` | `IIogurtesApiService` |
-| Mock impl | `Mock<Domain>ApiService` | `MockIogurtesApiService` |
-| Real impl | `Real<Domain>ApiService` | `RealIogurtesApiService` |
-| Factory | `<Domain>ApiServiceFactory` | `IogurtesApiServiceFactory` |
+| Página FXML | `PascalCase.fxml` | `Empresas.fxml` |
+| Controller de página | `<Domínio>Controller` | `EmpresasController` |
+| Modal FXML | `<Acção><Domínio>Modal.fxml` | `CriarEmpresaModal.fxml` |
+| Controller de modal | `<Acção><Domínio>ModalController` | `CriarEmpresaModalController` |
+| Interface Retrofit | `I<Domínio>ApiService` | `IEmpresaApiService` (em `api/services/`) |
+| Serviço | `<Domínio>Service` | `EmpresaService` (em `services/`) |
+| Response DTO | `<Domínio>Response` | `EmpresaResponse` |
+| Request DTO | `<Acção><Domínio>Request` | `CreateEmpresaRequest` |
 
 ---
 
-## API Conventions
+## Mensagens de Feedback ao Utilizador
 
-### Adding a new operation
-
-1. **Declare it** in the interface (`IIogurtesApiService.java`):
-   ```java
-   void arquivar(IogurteVM iogurte);
-   ```
-2. **Implement it** in `MockIogurtesApiService`:
-   ```java
-   @Override
-   public void arquivar(IogurteVM iogurte) {
-       iogurte.visivelCliente = false; // or move to an archived list
-   }
-   ```
-3. **Stub it** in `RealIogurtesApiService`:
-   ```java
-   @Override
-   public void arquivar(IogurteVM iogurte) {
-       // TODO: PATCH /api/iogurtes/{id}/arquivar
-       throw new UnsupportedOperationException("Real API not implemented yet");
-   }
-   ```
-
-### Switching mock → real
-
-Open `IogurtesApiServiceFactory.java` and change **one line**:
+Usar sempre `MessageHelper.mostrar(rootStack, mensagem, sucesso)`.
 
 ```java
-// Before (mock)
-private static final boolean USE_MOCK = true;
-
-// After (real API)
-private static final boolean USE_MOCK = false;
+MessageHelper.mostrar(rootStack, "Empresa criada com sucesso!", true);  // verde
+MessageHelper.mostrar(rootStack, "Erro: " + mensagem,         false); // vermelho
 ```
 
-### Adding a new domain (e.g. Encomendas)
-
-1. Create `src/main/java/com/gestaoiogurtes/api/encomendas/`
-2. Add `IEncomendasApiService.java`, `MockEncomendasApiService.java`, `RealEncomendasApiService.java`, `EncomendasApiServiceFactory.java`
-3. Follow the same interface + factory pattern.
+O `MessageHelper` usa o componente `atlantafx.base.controls.Message` (não `Notification`).
+Ver `docs/CRUD-REFERENCE.md` para a documentação completa do padrão.

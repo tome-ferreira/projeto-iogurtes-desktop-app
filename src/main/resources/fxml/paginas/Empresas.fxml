@@ -30,7 +30,7 @@
 -->
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.gestaoiogurtes.paginas.EmpresasController">
+            fx:controller="com.gestaoiogurtes.controllers.EmpresasController">
 
     <left>
         <fx:include fx:id="sidebar" source="/fxml/layout/Sidebar.fxml"/>

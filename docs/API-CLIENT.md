@@ -69,22 +69,18 @@ state.isError()    // → true quando Status == ERROR
 ### Exemplo completo num controller JavaFX
 
 ```java
-// ─── Num controller JavaFX (ex.: IogurtesController) ───────────────────────
+// ─── Num controller JavaFX (ex.: EmpresasController) ───────────────────────
 
-@FXML private TableView<IogurteVM> tabela;
-@FXML private ProgressIndicator    spinner;
-@FXML private Label                lblErro;
+@FXML private TableView<EmpresaResponse> tabela;
+@FXML private ProgressIndicator         spinner;
+@FXML private Label                     lblErro;
 
-private void carregarIogurtes() {
-    // 1. Obter a interface Retrofit
-    IIogurtesRetrofitApi api = RetrofitClient.getInstance()
-                                             .getService(IIogurtesRetrofitApi.class);
+private void carregarEmpresas() {
+    // 1. Instanciar o serviço
+    var service = new EmpresaService();
 
-    // 2. Criar o Call (pedido ainda não enviado)
-    Call<List<IogurteVM>> call = api.listarTodos();
-
-    // 3. Executar via ApiQuery — tratar cada estado no mesmo lambda
-    ApiQuery.execute(call, state -> {
+    // 2. Executar via ApiQuery — tratar cada estado no mesmo lambda
+    service.getAll(state -> {
         switch (state.getStatus()) {
 
             case LOADING -> {
@@ -123,39 +119,42 @@ Cria um ficheiro em `src/main/java/com/gestaoiogurtes/api/services/`:
 ```java
 package com.gestaoiogurtes.api.services;
 
-import com.gestaoiogurtes.model.IogurteVM;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
+import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
 
-public interface IIogurtesRetrofitApi {
+public interface IEmpresaApiService {
 
-    @GET("api/iogurtes")
-    Call<List<IogurteVM>> listarTodos();
+    @GET("api/empresas")
+    Call<List<EmpresaResponse>> findAll();
 
-    @POST("api/iogurtes")
-    Call<IogurteVM> adicionar(@Body IogurteVM iogurte);
+    @POST("api/empresas")
+    Call<EmpresaResponse> create(@Body CreateEmpresaRequest request);
 
-    @PUT("api/iogurtes/{id}")
-    Call<IogurteVM> atualizar(@Path("id") String id, @Body IogurteVM iogurte);
+    @PUT("api/empresas/{id}")
+    Call<EmpresaResponse> update(@Path("id") String id, @Body UpdateEmpresaRequest request);
 
-    @DELETE("api/iogurtes/{id}")
-    Call<Void> remover(@Path("id") String id);
+    @DELETE("api/empresas/{id}")
+    Call<ResponseBody> softDelete(@Path("id") String id);
 }
 ```
 
 ### Passo 2 — Obter a instância via RetrofitClient
 
 ```java
-IIogurtesRetrofitApi api = RetrofitClient.getInstance()
-                                         .getService(IIogurtesRetrofitApi.class);
+IEmpresaApiService api = RetrofitClient.getInstance()
+                                       .getService(IEmpresaApiService.class);
 ```
 
 ### Passo 3 — Criar um Call e passar ao ApiQuery
 
 ```java
-Call<List<IogurteVM>> call = api.listarTodos();
+Call<List<EmpresaResponse>> call = api.findAll();
 
 ApiQuery.execute(call, state -> {
     if (state.isLoading())  { /* mostrar spinner */ }
@@ -179,23 +178,23 @@ ApiQuery.execute(call, state -> {
 ### 1. Criar a interface Retrofit em `api/services/`
 
 ```java
-// src/main/java/com/gestaoiogurtes/api/services/IEncomendaRetrofitApi.java
+// src/main/java/com/gestaoiogurtes/api/services/IFornecedorApiService.java
 
-public interface IEncomendaRetrofitApi {
+public interface IFornecedorApiService {
 
-    @GET("api/encomendas")
-    Call<List<EncomendaVM>> listarTodas();
+    @GET("api/fornecedores")
+    Call<List<FornecedorResponse>> findAll();
 
-    @POST("api/encomendas")
-    Call<EncomendaVM> criar(@Body EncomendaVM encomenda);
+    @POST("api/fornecedores")
+    Call<FornecedorResponse> create(@Body CreateFornecedorRequest request);
 }
 ```
 
 ### 2. Obter a instância via RetrofitClient
 
 ```java
-IEncomendaRetrofitApi api = RetrofitClient.getInstance()
-                                          .getService(IEncomendaRetrofitApi.class);
+IFornecedorApiService api = RetrofitClient.getInstance()
+                                          .getService(IFornecedorApiService.class);
 ```
 
 > `RetrofitClient.getService()` cria o proxy Retrofit internamente e reutiliza
@@ -204,9 +203,9 @@ IEncomendaRetrofitApi api = RetrofitClient.getInstance()
 ### 3. Chamar via ApiQuery.execute()
 
 ```java
-ApiQuery.execute(api.listarTodas(), state -> {
+ApiQuery.execute(api.findAll(), state -> {
     if (state.isSuccess()) {
-        encomendas.setAll(state.getData());
+        fornecedores.setAll(state.getData());
     }
 });
 ```
@@ -253,20 +252,26 @@ com nível `BODY` (inclui URL, headers e corpo JSON completo).
 
 ---
 
-## Estrutura de ficheiros criados
+## Estrutura de ficheiros relevantes
 
 ```
 src/
 ├── main/
 │   ├── java/com/gestaoiogurtes/
 │   │   ├── config/
-│   │   │   └── ApiConfig.java          ← lê config.properties para constantes estáticas
-│   │   └── api/
-│   │       ├── RetrofitClient.java     ← singleton Retrofit + OkHttp
-│   │       ├── QueryState.java         ← estado imutável do pedido HTTP
-│   │       └── ApiQuery.java           ← executor assíncrono + Platform.runLater()
+│   │   │   └── ApiConfig.java                ← lê config.properties para constantes estáticas
+│   │   ├── api/
+│   │   │   ├── RetrofitClient.java           ← singleton Retrofit + OkHttp
+│   │   │   ├── QueryState.java               ← estado imutável do pedido HTTP
+│   │   │   ├── ApiQuery.java                 ← executor assíncrono + Platform.runLater()
+│   │   │   └── services/
+│   │   │       └── IEmpresaApiService.java   ← interface Retrofit (anotações @GET, @POST, …)
+│   │   ├── services/
+│   │   │   └── EmpresaService.java           ← serviço da aplicação (chamadas HTTP assíncronas via ApiQuery)
+│   │   └── utils/
+│   │       └── MessageHelper.java            ← mensagens de feedback (AtlantaFX Message)
 │   └── resources/
-│       └── config.properties           ← URL base, timeout, logging
+│       └── config.properties                 ← URL base, timeout, logging
 docs/
-└── API-CLIENT.md                       ← este ficheiro
+└── API-CLIENT.md                             ← este ficheiro
 ```

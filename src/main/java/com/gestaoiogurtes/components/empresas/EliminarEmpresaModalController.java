@@ -1,7 +1,7 @@
 package com.gestaoiogurtes.components.empresas;
 
-import com.gestaoiogurtes.model.EmpresaResponse;
-import com.gestaoiogurtes.services.interfaces.IEmpresaApiService;
+import com.gestaoiogurtes.models.empresa.EmpresaResponse;
+import com.gestaoiogurtes.services.EmpresaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 public class EliminarEmpresaModalController {
 
-    private IEmpresaApiService service;
+    private EmpresaService service;
     private EmpresaResponse empresa;
 
     @FXML private Label lblAviso;
@@ -28,7 +28,7 @@ public class EliminarEmpresaModalController {
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(EmpresaResponse empresa, IEmpresaApiService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(EmpresaResponse empresa, EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(EliminarEmpresaModalController.class.getResource("/fxml/components/empresas/EliminarEmpresaModal.fxml"));
             Parent root = loader.load();
@@ -63,7 +63,7 @@ public class EliminarEmpresaModalController {
         this.onSuccess = onSuccess;
     }
 
-    private void setService(IEmpresaApiService service) {
+    private void setService(EmpresaService service) {
         this.service = service;
     }
 
