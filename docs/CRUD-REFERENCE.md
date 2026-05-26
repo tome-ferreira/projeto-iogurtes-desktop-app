@@ -448,6 +448,122 @@ service.create(request, state -> {
 
 ---
 
+## Paginação
+
+### Quando usar
+Sempre — todos os endpoints de listagem suportam paginação. Este é o padrão obrigatório para todas as páginas CRUD.
+
+### PaginatedResponse<T>
+Existe um modelo genérico `src/main/java/com/gestaoiogurtes/models/PaginatedResponse.java` que representa o wrapper retornado pela API.
+- `content`: Os dados da página atual
+- `totalElements`: Total de elementos em todas as páginas
+- `totalPages`: Número total de páginas
+- `currentPage`: Índice da página atual (0-based)
+- `pageSize`: Tamanho da página solicitado
+- `first`: Indica se é a primeira página
+- `last`: Indica se é a última página
+
+### Passos para implementar paginação numa nova página
+1. Atualizar o método da API (interface) para aceitar os parâmetros `@Query` de paginação:
+   `Call<PaginatedResponse<XxxResponse>> findAll(@Query("page") int page, @Query("size") int size);`
+2. Atualizar a assinatura do serviço para receber a página e tamanho.
+3. Adicionar o estado ao controller: `currentPage`, `pageSize`, `totalPages`.
+4. Adicionar a barra de paginação ao FXML (`HBox` com botão Anterior, label, ComboBox de tamanho de página, e botão Próxima).
+   ```xml
+   <!-- Barra de paginação -->
+   <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="8">
+       <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"/>
+       <Region HBox.hgrow="ALWAYS"/>
+       <HBox alignment="CENTER" spacing="8">
+           <Button fx:id="btnAnterior" text="Anterior" onAction="#handlePaginaAnterior" styleClass="btn-pagination">
+               <graphic><FontIcon iconLiteral="mdi2c-chevron-left" iconSize="18"/></graphic>
+           </Button>
+           <Label text="Linhas por página:" styleClass="pagination-label"/>
+           <ComboBox fx:id="cbTamanhoPagina" styleClass="pagination-combo"/>
+           <Button fx:id="btnProxima" text="Próxima" contentDisplay="RIGHT" onAction="#handleProximaPagina" styleClass="btn-pagination">
+               <graphic><FontIcon iconLiteral="mdi2c-chevron-right" iconSize="18"/></graphic>
+           </Button>
+       </HBox>
+   </HBox>
+   ```
+5. Criar `handleProximaPagina()` e `handlePaginaAnterior()` que incrementam/decrementam `currentPage` e chamam o reload.
+6. Atualizar a desativação dos botões baseada em `response.first` e `response.last`.
+7. Após Create/Update/Delete, invocar o método de carregamento da página atual para não perder o contexto da tabela (ou seja, `carregarXxx()` mantém-se na mesma `currentPage`).
+
+### Código de exemplo (Controller)
+```java
+// Estado
+private int currentPage = 0;
+private int pageSize = 20;
+private int totalPages = 0;
+
+@FXML private ComboBox<Integer> cbTamanhoPagina;
+
+@FXML
+public void initialize() {
+    if (cbTamanhoPagina != null) {
+        cbTamanhoPagina.getItems().addAll(10, 20, 50, 100);
+        cbTamanhoPagina.setValue(pageSize);
+        cbTamanhoPagina.valueProperty().addListener((obs, old, val) -> {
+            if (val != null && val != pageSize) {
+                pageSize = val;
+                currentPage = 0;
+                carregarItens();
+            }
+        });
+    }
+    carregarItens();
+}
+
+private void carregarItens() {
+    service.getAll(currentPage, pageSize, state -> {
+        switch (state.getStatus()) {
+            case LOADING -> setLoading(true);
+            case SUCCESS -> {
+                setLoading(false);
+                var response = state.getData();
+                if (response != null) {
+                    todosItens = response.content != null ? response.content : List.of();
+                    this.totalPages = response.totalPages;
+                    // Nota: NÃO atualizamos this.currentPage com response.currentPage
+                    // porque a nossa classe de Controller já gere a página actual com sucesso.
+                    
+                    if (lblPagina != null) {
+                        lblPagina.setText("Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                    }
+                    if (btnAnterior != null) btnAnterior.setDisable(response.first);
+                    if (btnProxima != null) btnProxima.setDisable(response.last);
+                }
+                renderizarTabela();
+            }
+            case ERROR -> {
+                setLoading(false);
+                mostrarNotificacao("Erro: " + state.getErrorMessage(), false);
+            }
+            default -> {}
+        }
+    });
+}
+
+@FXML
+private void handlePaginaAnterior() {
+    if (currentPage > 0) {
+        currentPage--;
+        carregarItens();
+    }
+}
+
+@FXML
+private void handleProximaPagina() {
+    if (currentPage < totalPages - 1) {
+        currentPage++;
+        carregarItens();
+    }
+}
+```
+
+---
+
 ## Convenções obrigatórias
 
 ### Nomes de ficheiros e classes

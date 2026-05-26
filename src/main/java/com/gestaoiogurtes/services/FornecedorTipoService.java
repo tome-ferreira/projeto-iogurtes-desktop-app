@@ -7,6 +7,7 @@ import com.gestaoiogurtes.api.services.IFornecedorTipoApiService;
 import com.gestaoiogurtes.models.fornecedortipo.CreateFornecedorTipoRequest;
 import com.gestaoiogurtes.models.fornecedortipo.FornecedorTipoResponse;
 import com.gestaoiogurtes.models.fornecedortipo.UpdateFornecedorTipoRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 import okhttp3.ResponseBody;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class FornecedorTipoService {
         return RetrofitClient.getInstance().getService(IFornecedorTipoApiService.class);
     }
 
-    public void getAll(Consumer<QueryState<List<FornecedorTipoResponse>>> cb) {
-        ApiQuery.execute(api().findAllActive(), cb);
+    public void getAll(int page, int size, Consumer<QueryState<PaginatedResponse<FornecedorTipoResponse>>> cb) {
+        ApiQuery.execute(api().findAllActive(page, size), cb);
     }
 
     public void getById(String id, Consumer<QueryState<FornecedorTipoResponse>> cb) {

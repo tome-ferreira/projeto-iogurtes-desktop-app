@@ -3,6 +3,7 @@ package com.gestaoiogurtes.api.services;
 import com.gestaoiogurtes.models.empresa.EmpresaResponse;
 import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
 import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,9 +35,12 @@ import java.util.List;
  */
 public interface IEmpresaApiService {
 
-    /** Devolve todas as empresas activas. */
+    /** Devolve todas as empresas activas paginadas. */
     @GET("empresas")
-    Call<List<EmpresaResponse>> findAll();
+    Call<PaginatedResponse<EmpresaResponse>> findAll(
+            @Query("page") int page,
+            @Query("size") int size
+    );
 
     /** Devolve uma empresa pelo seu UUID. */
     @GET("empresas/{id}")

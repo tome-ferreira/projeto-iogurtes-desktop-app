@@ -6,6 +6,7 @@ import com.gestaoiogurtes.api.RetrofitClient;
 import com.gestaoiogurtes.models.empresa.CreateEmpresaRequest;
 import com.gestaoiogurtes.models.empresa.EmpresaResponse;
 import com.gestaoiogurtes.models.empresa.UpdateEmpresaRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 
 import okhttp3.ResponseBody;
 
@@ -39,12 +40,14 @@ public class EmpresaService {
     }
 
     /**
-     * Obtém todas as empresas activas.
+     * Obtém as empresas activas com paginação.
      *
-     * @param onStateChange callback com a lista de empresas
+     * @param page          página actual (0-indexed)
+     * @param size          tamanho da página
+     * @param onStateChange callback com a resposta paginada
      */
-    public void getAll(Consumer<QueryState<List<EmpresaResponse>>> onStateChange) {
-        ApiQuery.execute(api().findAll(), onStateChange);
+    public void getAll(int page, int size, Consumer<QueryState<PaginatedResponse<EmpresaResponse>>> onStateChange) {
+        ApiQuery.execute(api().findAll(page, size), onStateChange);
     }
 
     /**

@@ -31,6 +31,14 @@ public class FornecedoresTipoController implements AppAware {
     @FXML private TextField  campoPesquisa;
     @FXML private Button     btnNovo;
     @FXML private Button     fab;
+    @FXML private Button     btnAnterior;
+    @FXML private Button     btnProxima;
+    @FXML private Label      lblPagina;
+    @FXML private ComboBox<Integer> cbTamanhoPagina;
+
+    private int currentPage = 0;
+    private int pageSize = 20;
+    private int totalPages = 0;
 
     private List<FornecedorTipoResponse> todosTipos = List.of();
 
@@ -42,6 +50,19 @@ public class FornecedoresTipoController implements AppAware {
     @FXML
     public void initialize() {
         campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
+
+        if (cbTamanhoPagina != null) {
+            cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
+            cbTamanhoPagina.setValue(pageSize);
+            cbTamanhoPagina.valueProperty().addListener((obs, old, val) -> {
+                if (val != null && val != pageSize) {
+                    pageSize = val;
+                    currentPage = 0;
+                    carregarTipos();
+                }
+            });
+        }
+
         carregarTipos();
     }
 
@@ -55,13 +76,28 @@ public class FornecedoresTipoController implements AppAware {
     }
 
     private void carregarTipos() {
-        service.getAll(state -> {
+        service.getAll(currentPage, pageSize, state -> {
             switch (state.getStatus()) {
                 case LOADING -> setLoading(true);
 
                 case SUCCESS -> {
                     setLoading(false);
-                    todosTipos = state.getData() != null ? state.getData() : List.of();
+                    var response = state.getData();
+                    if (response != null) {
+                        todosTipos = response.content != null ? response.content : List.of();
+                        this.totalPages = response.totalPages;
+                        
+                        if (lblPagina != null) {
+                            lblPagina.setText(
+                                    "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                        }
+                        if (btnAnterior != null)
+                            btnAnterior.setDisable(response.first);
+                        if (btnProxima != null)
+                            btnProxima.setDisable(response.last);
+                    } else {
+                        todosTipos = List.of();
+                    }
                     filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
                 }
 
@@ -70,9 +106,26 @@ public class FornecedoresTipoController implements AppAware {
                     mostrarNotificacao("Erro ao carregar tipos de fornecedor: " + state.getErrorMessage(), false);
                 }
 
-                default -> {} 
+                default -> {
+                } 
             }
         });
+    }
+
+    @FXML
+    private void handlePaginaAnterior() {
+        if (currentPage > 0) {
+            currentPage--;
+            carregarTipos();
+        }
+    }
+
+    @FXML
+    private void handleProximaPagina() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            carregarTipos();
+        }
     }
 
     private void filtrarTabela(String pesquisa) {
