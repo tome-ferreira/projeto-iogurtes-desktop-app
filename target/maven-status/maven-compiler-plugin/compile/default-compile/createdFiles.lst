@@ -40,6 +40,7 @@ com\gestaoiogurtes\components\certificacoes\CriarCertificacaoModalController.cla
 com\gestaoiogurtes\controllers\FornecedoresTipoController.class
 com\gestaoiogurtes\models\empresa\EmpresaResponse.class
 com\gestaoiogurtes\api\RetrofitClient.class
+com\gestaoiogurtes\models\PaginatedResponse.class
 com\gestaoiogurtes\GestaoIogurtes.class
 com\gestaoiogurtes\config\ApiConfig.class
 com\gestaoiogurtes\api\ApiQuery.class

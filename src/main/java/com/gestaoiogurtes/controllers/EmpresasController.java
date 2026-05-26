@@ -20,24 +20,29 @@ import javafx.fxml.FXML;
 
 import java.util.List;
 
-
 /**
  * Controller para Empresas.fxml.
  *
- * <p><strong>Padrão de carregamento de dados:</strong></p>
+ * <p>
+ * <strong>Padrão de carregamento de dados:</strong>
+ * </p>
  * <ol>
- *   <li>Toda a chamada HTTP é feita via {@link RealEmpresaService} +
- *       {@code ApiQuery.execute()} (já encapsulado no serviço).</li>
- *   <li>No estado {@code LOADING}: o overlay de loading é mostrado e os botões
- *       de acção são desactivados.</li>
- *   <li>No estado {@code SUCCESS}: o overlay é escondido, a tabela é actualizada.</li>
- *   <li>No estado {@code ERROR}: o overlay é escondido, uma notificação de erro
- *       é apresentada no topo direito.</li>
+ * <li>Toda a chamada HTTP é feita via {@link RealEmpresaService} +
+ * {@code ApiQuery.execute()} (já encapsulado no serviço).</li>
+ * <li>No estado {@code LOADING}: o overlay de loading é mostrado e os botões
+ * de acção são desactivados.</li>
+ * <li>No estado {@code SUCCESS}: o overlay é escondido, a tabela é
+ * actualizada.</li>
+ * <li>No estado {@code ERROR}: o overlay é escondido, uma notificação de erro
+ * é apresentada no topo direito.</li>
  * </ol>
  *
- * <p><strong>Regra fundamental:</strong> {@code Platform.runLater()} nunca é chamado aqui.
+ * <p>
+ * <strong>Regra fundamental:</strong> {@code Platform.runLater()} nunca é
+ * chamado aqui.
  * O {@link com.gestaoiogurtes.api.ApiQuery} já garante que os callbacks chegam
- * na JavaFX Application Thread.</p>
+ * na JavaFX Application Thread.
+ * </p>
  */
 public class EmpresasController implements AppAware {
 
@@ -45,15 +50,34 @@ public class EmpresasController implements AppAware {
     private final EmpresaService service = new EmpresaService();
 
     // ── FXML references ───────────────────────────────────────────────────────
-    @FXML private Sidebar    sidebarController;
-    @FXML private VBox       tabelaContainer;
-    @FXML private StackPane  rootStack;
-    @FXML private VBox       loadingOverlay;
-    @FXML private TextField  campoPesquisa;
-    @FXML private Button     btnNovo;
-    @FXML private Button     fab;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private VBox tabelaContainer;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private TextField campoPesquisa;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Button fab;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProxima;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPagina;
 
     // ── Estado local ──────────────────────────────────────────────────────────
+    private int currentPage = 0;
+    private int pageSize = 20;
+    private int totalPages = 0;
+
     /** Cache da última lista recebida da API, usada pelos filtros. */
     private List<EmpresaResponse> todasEmpresas = List.of();
 
@@ -68,6 +92,19 @@ public class EmpresasController implements AppAware {
     @FXML
     public void initialize() {
         campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
+
+        if (cbTamanhoPagina != null) {
+            cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
+            cbTamanhoPagina.setValue(pageSize);
+            cbTamanhoPagina.valueProperty().addListener((obs, old, val) -> {
+                if (val != null && val != pageSize) {
+                    pageSize = val;
+                    currentPage = 0;
+                    carregarEmpresas();
+                }
+            });
+        }
+
         carregarEmpresas();
     }
 
@@ -78,24 +115,42 @@ public class EmpresasController implements AppAware {
         CriarEmpresaModalController.show(
                 service,
                 tabelaContainer.getScene().getWindow(),
-                this::onMutacaoBemSucedida
-        );
+                this::onMutacaoBemSucedida);
     }
 
     // ── Carregamento de dados ─────────────────────────────────────────────────
 
     /**
-     * Dispara o pedido GET /empresas via ApiQuery.
+     * Dispara o pedido GET /empresas via ApiQuery com paginação.
      * Aplica loading overlay durante o pedido e actualiza a tabela no sucesso.
      */
     private void carregarEmpresas() {
-        service.getAll(state -> {
+        service.getAll(currentPage, pageSize, state -> {
             switch (state.getStatus()) {
                 case LOADING -> setLoading(true);
 
                 case SUCCESS -> {
                     setLoading(false);
-                    todasEmpresas = state.getData() != null ? state.getData() : List.of();
+                    var response = state.getData();
+                    if (response != null) {
+                        todasEmpresas = response.content != null ? response.content : List.of();
+                        this.totalPages = response.totalPages;
+                        // Removemos a sobreposição do currentPage pelo response.currentPage
+                        // porque se a API não mapear perfeitamente esta variável fica a 0 
+                        // e quebra a navegação (fix para o bug reportado).
+
+                        // Actualizar UI de paginação
+                        if (lblPagina != null) {
+                            lblPagina.setText(
+                                    "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                        }
+                        if (btnAnterior != null)
+                            btnAnterior.setDisable(response.first);
+                        if (btnProxima != null)
+                            btnProxima.setDisable(response.last);
+                    } else {
+                        todasEmpresas = List.of();
+                    }
                     filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
                 }
 
@@ -104,9 +159,26 @@ public class EmpresasController implements AppAware {
                     mostrarNotificacao("Erro ao carregar empresas: " + state.getErrorMessage(), false);
                 }
 
-                default -> {} // IDLE — ignorar
+                default -> {
+                } // IDLE — ignorar
             }
         });
+    }
+
+    @FXML
+    private void handlePaginaAnterior() {
+        if (currentPage > 0) {
+            currentPage--;
+            carregarEmpresas();
+        }
+    }
+
+    @FXML
+    private void handleProximaPagina() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            carregarEmpresas();
+        }
     }
 
     // ── Filtros ───────────────────────────────────────────────────────────────
@@ -145,13 +217,12 @@ public class EmpresasController implements AppAware {
         row.setMaxWidth(Double.MAX_VALUE);
 
         row.getChildren().addAll(
-                headerCol("",            48,  false),
-                headerCol("Empresa",    220, true),
-                headerCol("NIPC",        120, false),
-                headerCol("Cidade",     120, false),
-                headerCol("Telefone",   120, false),
-                headerCol("Ações",      140, false)
-        );
+                headerCol("", 48, false),
+                headerCol("Empresa", 220, true),
+                headerCol("NIPC", 120, false),
+                headerCol("Cidade", 120, false),
+                headerCol("Telefone", 120, false),
+                headerCol("Ações", 140, false));
         return row;
     }
 
@@ -207,7 +278,7 @@ public class EmpresasController implements AppAware {
         telefoneLabel.setMinWidth(120);
 
         // Botões de acção
-        var btnEditar   = new Button("Editar");
+        var btnEditar = new Button("Editar");
         var btnEliminar = new Button("Eliminar");
         btnEditar.getStyleClass().add("btn-linha-acao");
         btnEliminar.getStyleClass().addAll("btn-linha-acao", "btn-linha-danger");
@@ -246,7 +317,8 @@ public class EmpresasController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
@@ -280,9 +352,12 @@ public class EmpresasController implements AppAware {
     /**
      * Mostra ou esconde o overlay de loading e desactiva/activa os botões de acção.
      *
-     * <p>Padrão reutilizável: em cada controller CRUD, mantém um {@code VBox}
-     * com styleClass {@code loading-overlay} como segundo filho do {@code StackPane}
-     * raiz. Basta chamar {@code setLoading(true/false)} em LOADING/SUCCESS/ERROR.</p>
+     * <p>
+     * Padrão reutilizável: em cada controller CRUD, mantém um {@code VBox}
+     * com styleClass {@code loading-overlay} como segundo filho do
+     * {@code StackPane}
+     * raiz. Basta chamar {@code setLoading(true/false)} em LOADING/SUCCESS/ERROR.
+     * </p>
      *
      * @param loading {@code true} para mostrar; {@code false} para esconder
      */
@@ -291,8 +366,10 @@ public class EmpresasController implements AppAware {
             loadingOverlay.setVisible(loading);
             loadingOverlay.setManaged(loading);
         }
-        if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab     != null) fab.setDisable(loading);
+        if (btnNovo != null)
+            btnNovo.setDisable(loading);
+        if (fab != null)
+            fab.setDisable(loading);
     }
 
     // ── Mensagens de feedback ─────────────────────────────────────────────────
@@ -307,7 +384,6 @@ public class EmpresasController implements AppAware {
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);
     }
-
 
     // ── Callback após mutação (criar / editar / eliminar) ─────────────────────
 

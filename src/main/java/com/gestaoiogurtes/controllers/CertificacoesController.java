@@ -32,6 +32,14 @@ public class CertificacoesController implements AppAware {
     @FXML private TextField  campoPesquisa;
     @FXML private Button     btnNovo;
     @FXML private Button     fab;
+    @FXML private Button     btnAnterior;
+    @FXML private Button     btnProxima;
+    @FXML private Label      lblPagina;
+    @FXML private ComboBox<Integer> cbTamanhoPagina;
+
+    private int currentPage = 0;
+    private int pageSize = 20;
+    private int totalPages = 0;
 
     private List<CertificacaoResponse> todasCertificacoes = List.of();
 
@@ -43,6 +51,19 @@ public class CertificacoesController implements AppAware {
     @FXML
     public void initialize() {
         campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
+
+        if (cbTamanhoPagina != null) {
+            cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
+            cbTamanhoPagina.setValue(pageSize);
+            cbTamanhoPagina.valueProperty().addListener((obs, old, val) -> {
+                if (val != null && val != pageSize) {
+                    pageSize = val;
+                    currentPage = 0;
+                    carregarCertificacoes();
+                }
+            });
+        }
+
         carregarCertificacoes();
     }
 
@@ -56,13 +77,28 @@ public class CertificacoesController implements AppAware {
     }
 
     private void carregarCertificacoes() {
-        service.getAll(state -> {
+        service.getAll(currentPage, pageSize, state -> {
             switch (state.getStatus()) {
                 case LOADING -> setLoading(true);
 
                 case SUCCESS -> {
                     setLoading(false);
-                    todasCertificacoes = state.getData() != null ? state.getData() : List.of();
+                    var response = state.getData();
+                    if (response != null) {
+                        todasCertificacoes = response.content != null ? response.content : List.of();
+                        this.totalPages = response.totalPages;
+                        
+                        if (lblPagina != null) {
+                            lblPagina.setText(
+                                    "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                        }
+                        if (btnAnterior != null)
+                            btnAnterior.setDisable(response.first);
+                        if (btnProxima != null)
+                            btnProxima.setDisable(response.last);
+                    } else {
+                        todasCertificacoes = List.of();
+                    }
                     filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
                 }
 
@@ -71,9 +107,26 @@ public class CertificacoesController implements AppAware {
                     mostrarNotificacao("Erro ao carregar certificações: " + state.getErrorMessage(), false);
                 }
 
-                default -> {} 
+                default -> {
+                } 
             }
         });
+    }
+
+    @FXML
+    private void handlePaginaAnterior() {
+        if (currentPage > 0) {
+            currentPage--;
+            carregarCertificacoes();
+        }
+    }
+
+    @FXML
+    private void handleProximaPagina() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            carregarCertificacoes();
+        }
     }
 
     private void filtrarTabela(String pesquisa) {

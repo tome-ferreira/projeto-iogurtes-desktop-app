@@ -7,6 +7,7 @@ import com.gestaoiogurtes.api.services.ICertificacaoApiService;
 import com.gestaoiogurtes.models.certificacao.CreateCertificacaoRequest;
 import com.gestaoiogurtes.models.certificacao.CertificacaoResponse;
 import com.gestaoiogurtes.models.certificacao.UpdateCertificacaoRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 import okhttp3.ResponseBody;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class CertificacaoService {
         return RetrofitClient.getInstance().getService(ICertificacaoApiService.class);
     }
 
-    public void getAll(Consumer<QueryState<List<CertificacaoResponse>>> cb) {
-        ApiQuery.execute(api().findAllActive(), cb);
+    public void getAll(int page, int size, Consumer<QueryState<PaginatedResponse<CertificacaoResponse>>> cb) {
+        ApiQuery.execute(api().findAllActive(page, size), cb);
     }
 
     public void getById(String id, Consumer<QueryState<CertificacaoResponse>> cb) {

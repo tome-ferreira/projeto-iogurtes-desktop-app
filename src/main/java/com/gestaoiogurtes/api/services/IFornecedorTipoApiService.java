@@ -3,6 +3,7 @@ package com.gestaoiogurtes.api.services;
 import com.gestaoiogurtes.models.fornecedortipo.FornecedorTipoResponse;
 import com.gestaoiogurtes.models.fornecedortipo.CreateFornecedorTipoRequest;
 import com.gestaoiogurtes.models.fornecedortipo.UpdateFornecedorTipoRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -16,7 +17,10 @@ import java.util.List;
 public interface IFornecedorTipoApiService {
 
     @GET("fornecedor-tipos")
-    Call<List<FornecedorTipoResponse>> findAllActive();
+    Call<PaginatedResponse<FornecedorTipoResponse>> findAllActive(
+            @Query("page") int page,
+            @Query("size") int size
+    );
 
     @GET("fornecedor-tipos/{id}")
     Call<FornecedorTipoResponse> findById(@Path("id") String id);
