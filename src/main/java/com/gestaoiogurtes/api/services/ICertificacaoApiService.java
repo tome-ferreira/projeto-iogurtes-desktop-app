@@ -3,6 +3,7 @@ package com.gestaoiogurtes.api.services;
 import com.gestaoiogurtes.models.certificacao.CertificacaoResponse;
 import com.gestaoiogurtes.models.certificacao.CreateCertificacaoRequest;
 import com.gestaoiogurtes.models.certificacao.UpdateCertificacaoRequest;
+import com.gestaoiogurtes.models.PaginatedResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -15,8 +16,11 @@ import java.util.List;
  */
 public interface ICertificacaoApiService {
 
-    @GET("certificacoes")
-    Call<List<CertificacaoResponse>> findAllActive();
+    @GET("certificacoes/active")
+    Call<PaginatedResponse<CertificacaoResponse>> findAllActive(
+            @Query("page") int page,
+            @Query("size") int size
+    );
 
     @GET("certificacoes/{id}")
     Call<CertificacaoResponse> findById(@Path("id") String id);
