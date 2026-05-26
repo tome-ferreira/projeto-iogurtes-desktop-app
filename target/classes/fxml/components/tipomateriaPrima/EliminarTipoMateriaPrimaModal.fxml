@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.tipomateriaPrima.EliminarTipoMateriaPrimaModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/tipomateriaPrima.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Eliminar Tipo" styleClass="modal-title" style="-fx-text-fill: -color-danger-fg;"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+        <Label fx:id="lblMensagem" wrapText="true" style="-fx-font-size: 14px; -fx-text-fill: -color-fg-default;"/>
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnEliminar" text="Eliminar" defaultButton="true" onAction="#handleEliminar"
+                styleClass="btn-modal-submit-danger"/>
+    </HBox>
+
+</VBox>

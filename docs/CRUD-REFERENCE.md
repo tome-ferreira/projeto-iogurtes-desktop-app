@@ -614,21 +614,35 @@ When to use:
 
 How to implement:
 - Remove verbose columns from the TableView
-- Create DetalheXxxModal.fxml + DetalheXxxModalController.java
+- Create DetalhesXxxModal.fxml + DetalhesXxxModalController.java
 - Wire row click or a details button to open the modal
-- Display all fields read-only inside the modal
+- Display all fields read-only inside the modal using `TextField` and `TextArea` with `editable="false"` and `styleClass="form-control"`
+- Avoid using `Label` for data display inside the modal to maintain consistency with the rest of the app's forms
 - No API call needed if data is already loaded in the list
 
-Code example based on FornecedorTipo implementation:
+Code example based on TipoMateriaPrima implementation:
+
+**DetalhesTipoMateriaPrimaModal.fxml** (exemplo parcial):
+```xml
+<VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+    <Label text="Nome" styleClass="form-label"/>
+    <TextField fx:id="txtNome" styleClass="form-control" editable="false"/>
+</VBox>
+<VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+    <Label text="Descrição" styleClass="form-label"/>
+    <TextArea fx:id="txtDescricao" styleClass="form-control" editable="false" prefRowCount="3" wrapText="true"/>
+</VBox>
+```
+
+**DetalhesTipoMateriaPrimaModalController.java** (exemplo parcial):
 ```java
-row.setOnMouseClicked(e -> {
-    if (e.getClickCount() == 1 && !isActionButtonClicked(e)) {
-        DetalhesFornecedorTipoModalController.show(
-                tipo,
-                tabelaContainer.getScene().getWindow()
-        );
-    }
-});
+public void preencherDados(TipoMateriaPrimaResponse t) {
+    txtNome.setText(t.nome != null ? t.nome : "—");
+    txtDescricao.setText(t.descricao != null ? t.descricao : "—");
+    
+    txtNome.setEditable(false);
+    txtDescricao.setEditable(false);
+}
 ```
 
 ---

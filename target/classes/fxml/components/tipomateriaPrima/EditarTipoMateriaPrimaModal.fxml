@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.tipomateriaPrima.EditarTipoMateriaPrimaModalController"
+      styleClass="modal-root" prefWidth="500">
+
+    <stylesheets>
+        <String fx:value="/styles/tipomateriaPrima.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Editar Tipo de Matéria Prima" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+
+        <!-- Linha 1: Nome -->
+        <VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+            <Label text="Nome*" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control" promptText="Ex: Leite Gordo"/>
+        </VBox>
+
+        <!-- Linha 2: Descrição -->
+        <VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+            <Label text="Descrição*" styleClass="form-label"/>
+            <TextArea fx:id="txtDescricao" styleClass="form-control" promptText="Breve descrição do tipo de matéria prima..." prefRowCount="3" wrapText="true"/>
+        </VBox>
+
+        <!-- Linha 3: Taxa IVA -->
+        <VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+            <Label text="Taxa IVA (%)*" styleClass="form-label"/>
+            <TextField fx:id="txtTaxaIva" styleClass="form-control" promptText="Ex: 23.0"/>
+        </VBox>
+
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnGuardar" text="Guardar Alterações" defaultButton="true" onAction="#handleGuardar"
+                styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

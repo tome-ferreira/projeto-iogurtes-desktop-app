@@ -90,6 +90,16 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
+    private void handleTiposMateriaPrima() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/TiposMateriaPrima.fxml");
+    }
+
+    @FXML
+    private void handleTiposPallet() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/TiposPallet.fxml");
+    }
+
+    @FXML
     private void handleTema() {
         temaAtual = (temaAtual + 1) % temas.length;
         Application.setUserAgentStylesheet(temas[temaAtual]);

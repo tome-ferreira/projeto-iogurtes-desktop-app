@@ -1,0 +1,82 @@
+.sidebar-root {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-border-default;
+    -fx-border-width: 0 1 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 2, 0);
+}
+
+/* ── Header ───────────────────────────── */
+.sidebar-header {
+    -fx-padding: 16 10 16 14;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.sidebar-toggle {
+    -fx-cursor: hand;
+}
+
+/* ── Section label ───────────────────── */
+.sidebar-section-label {
+    -fx-padding: 8 8 4 8;
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* ── Sidebar items ───────────────────── */
+.sidebar-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 9 12 9 10;
+    -fx-cursor: hand;
+
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+/* Hover suave tipo tabela */
+.sidebar-item:hover {
+    -fx-background-color: -color-bg-subtle;
+}
+
+/* Active (opcional se quiseres usar depois) */
+.sidebar-item.active {
+    -fx-background-color: derive(-color-accent-muted, 20%);
+}
+
+/* Ícones */
+.sidebar-item .ikonli-font-icon {
+    -fx-icon-color: -color-fg-muted;
+}
+
+/* Texto */
+.sidebar-item .label {
+    -fx-text-fill: -color-fg-default;
+}
+
+/* Hover melhora contraste */
+.sidebar-item:hover .ikonli-font-icon {
+    -fx-icon-color: -color-accent-fg;
+}
+
+.sidebar-item:hover .label {
+    -fx-text-fill: -color-fg-default;
+}
+
+/* ── Danger (logout) ─────────────────── */
+.sidebar-item-danger .ikonli-font-icon {
+    -fx-icon-color: -color-danger-fg;
+}
+
+.sidebar-item-danger .label {
+    -fx-text-fill: -color-danger-fg;
+}
+
+.sidebar-item-danger:hover {
+    -fx-background-color: derive(-color-danger-muted, 30%);
+}
+
+/* ── Footer spacing ─────────────────── */
+.sidebar-root > VBox:last-child {
+    -fx-padding: 4 6 10 6;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.tipoPallet.EliminarTipoPalletModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/tipoPallet.css"/>
+    </stylesheets>
+
+    <HBox styleClass="modal-header">
+        <Label text="Eliminar Tipo de Pallet" styleClass="modal-title"/>
+    </HBox>
+
+    <VBox styleClass="modal-content">
+        <Label fx:id="lblMensagem" styleClass="form-label" wrapText="true"/>
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true"/>
+    </VBox>
+
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnEliminar" text="Eliminar" defaultButton="true" onAction="#handleEliminar" styleClass="btn-modal-submit-danger"/>
+    </HBox>
+
+</VBox>
