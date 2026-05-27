@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.DetalhesClienteModalController"
+      styleClass="modal-root" prefWidth="480">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <HBox styleClass="modal-header">
+        <Label text="Detalhes do Cliente" styleClass="modal-title"/>
+    </HBox>
+
+    <VBox styleClass="modal-content">
+        <HBox fx:id="hboxInativo" visible="false" managed="false" styleClass="modal-content" spacing="8">
+            <Label fx:id="lblInativo" text="Utilizador Desativado" styleClass="badge-inativo"/>
+        </HBox>
+
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Nome" styleClass="form-label"/>
+                <TextField fx:id="txtNome" styleClass="form-control" editable="false"/>
+            </VBox>
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Email" styleClass="form-label"/>
+                <TextField fx:id="txtEmail" styleClass="form-control" editable="false"/>
+            </VBox>
+        </HBox>
+        <VBox styleClass="form-group">
+            <Label text="ID da Empresa" styleClass="form-label"/>
+            <TextField fx:id="txtEmpresaId" styleClass="form-control" editable="false"/>
+        </VBox>
+    </VBox>
+
+    <HBox styleClass="modal-footer">
+        <Button text="Fechar" cancelButton="true" defaultButton="true" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
+    </HBox>
+</VBox>

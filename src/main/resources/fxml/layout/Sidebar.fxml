@@ -85,6 +85,38 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
+        <!-- Moedas -->
+        <Button fx:id="btnMoedas" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleMoedas">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-currency-usd" iconSize="18"/>
+                    <Label text="Moedas" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Moedas"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Utilizadores -->
+        <Button fx:id="btnUtilizadores" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleUtilizadores">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2a-account-group" iconSize="18"/>
+                    <Label text="Utilizadores" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Utilizadores"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
         <!-- Tipos de Fornecedor -->
         <Button fx:id="btnTiposFornecedor" styleClass="sidebar-item"
                 maxWidth="Infinity"

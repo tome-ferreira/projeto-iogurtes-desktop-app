@@ -49,11 +49,14 @@ com\gestaoiogurtes\models\tipoPallet\TipoPalletResponse.class
 com\gestaoiogurtes\components\certificacoes\DetalhesCertificacaoModalController.class
 com\gestaoiogurtes\components\fornecedorestipo\EditarFornecedorTipoModalController.class
 com\gestaoiogurtes\controllers\TiposPalletController.class
+com\gestaoiogurtes\controllers\UtilizadoresController$1.class
 com\gestaoiogurtes\api\services\ITipoPalletApiService.class
 com\gestaoiogurtes\api\services\IFornecedorTipoApiService.class
 com\gestaoiogurtes\services\CertificacaoService.class
 com\gestaoiogurtes\components\empresas\CriarEmpresaModalController.class
 com\gestaoiogurtes\models\fornecedortipo\CreateFornecedorTipoRequest.class
+com\gestaoiogurtes\controllers\MoedasController$1.class
+com\gestaoiogurtes\models\moeda\UpdateMoedaRequest.class
 com\gestaoiogurtes\models\tipoMateriaPrima\TipoMateriaPrimaResponse.class
 com\gestaoiogurtes\models\certificacao\UpdateCertificacaoRequest.class
 com\gestaoiogurtes\components\tipoPallet\EliminarTipoPalletModalController.class

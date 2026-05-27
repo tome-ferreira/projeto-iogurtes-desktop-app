@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.EditarClienteModalController"
+      styleClass="modal-root" prefWidth="480">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <HBox styleClass="modal-header">
+        <Label text="Editar Cliente" styleClass="modal-title"/>
+    </HBox>
+
+    <VBox styleClass="modal-content">
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Nome*" styleClass="form-label"/>
+                <TextField fx:id="txtNome" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="ID da Empresa" styleClass="form-label"/>
+                <TextField fx:id="txtEmpresaId" styleClass="form-control" promptText="UUID da empresa"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true" visible="true" managed="true" minHeight="32"/>
+    </VBox>
+
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnGuardar" text="Guardar Alterações" defaultButton="true" onAction="#handleGuardar" styleClass="btn-modal-submit"/>
+    </HBox>
+</VBox>
