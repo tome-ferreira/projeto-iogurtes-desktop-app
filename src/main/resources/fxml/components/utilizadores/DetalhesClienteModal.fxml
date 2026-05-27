@@ -31,9 +31,18 @@
                 <TextField fx:id="txtEmail" styleClass="form-control" editable="false"/>
             </VBox>
         </HBox>
+
+        <!-- Empresa: nome resolvido via API, com estado de loading -->
         <VBox styleClass="form-group">
-            <Label text="ID da Empresa" styleClass="form-label"/>
-            <TextField fx:id="txtEmpresaId" styleClass="form-control" editable="false"/>
+            <Label text="Empresa" styleClass="form-label"/>
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <ProgressIndicator fx:id="loadingEmpresa"
+                                   styleClass="loading-spinner"
+                                   prefWidth="18" prefHeight="18"
+                                   visible="false" managed="false"/>
+                <Label fx:id="lblEmpresaNome" styleClass="detalhes-empresa-nome"
+                       text="Sem empresa associada"/>
+            </HBox>
         </VBox>
     </VBox>
 

@@ -269,11 +269,42 @@ O controller segue sempre a mesma estrutura. Ver `EmpresasController.java` como 
 
 ---
 
-### 6. Criar os modais (Criar, Editar, Eliminar)
+### 6. Criar os modais (Criar, Editar, Eliminar, Detalhes)
 
-Os modais são classes Java com método estático `show(...)`. Não usam FXML.
-Ver `CriarEmpresaModalController.java`, `EditarEmpresaModalController.java`,
-`EliminarEmpresaModalController.java` como referência.
+Cada modal é composto por dois ficheiros: um **FXML** que define o layout e
+um **controller Java** com um método estático `show(...)`.
+
+O método estático segue sempre o mesmo padrão:
+
+```java
+// Exemplo genérico
+public static void show(XxxResponse entidade, XxxService service, Window owner, Consumer<String> onSuccess) {
+    FXMLLoader loader = new FXMLLoader(
+            XxxModalController.class.getResource("/fxml/components/xxx/XxxModal.fxml"));
+    Parent root = loader.load();
+
+    Stage stage = new Stage();
+    stage.initOwner(owner);
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.initStyle(StageStyle.UTILITY);
+    stage.setResizable(false);
+    stage.setTitle("Título do Modal");
+    stage.setScene(new Scene(root));
+
+    XxxModalController ctrl = loader.getController();
+    ctrl.dialogStage = stage;
+    ctrl.onSuccess   = onSuccess;
+    ctrl.service     = service;
+    ctrl.setEntidade(entidade); // pré-preenchimento (modal de Editar/Detalhes)
+
+    stage.showAndWait();
+}
+```
+
+**Ficheiros de referência (Empresas):**
+- `CriarEmpresaModalController.java` + `CriarEmpresaModal.fxml`
+- `EditarEmpresaModalController.java` + `EditarEmpresaModal.fxml`
+- `EliminarEmpresaModalController.java` + `EliminarEmpresaModal.fxml`
 
 ---
 
@@ -608,42 +639,208 @@ Os serviços assíncronos (que usam `ApiQuery`) podem ser instanciados com `new 
 São sempre conectados ao backend e não precisam de injecção de dependências complexa.
 
 ### Padrão opcional: Modal de Detalhes
-When to use:
-- When an entity has fields that are too verbose for the list view
-- When the list should show only the most important summary fields
 
-How to implement:
-- Remove verbose columns from the TableView
-- Create DetalhesXxxModal.fxml + DetalhesXxxModalController.java
-- Wire row click or a details button to open the modal
-- Display all fields read-only inside the modal using `TextField` and `TextArea` with `editable="false"` and `styleClass="form-control"`
-- Avoid using `Label` for data display inside the modal to maintain consistency with the rest of the app's forms
-- No API call needed if data is already loaded in the list
+**Quando usar:**
+- Quando uma entidade tem campos que são demasiado extensos para a listagem
+- Quando a listagem deve mostrar apenas os campos mais importantes
+- Quando um campo é uma FK para outra entidade e o detalhe precisa de resolver o nome legível
 
-Code example based on TipoMateriaPrima implementation:
+**Como implementar:**
+- Remover colunas verbosas da TableView/tabela customizada
+- Criar `DetalhesXxxModal.fxml` + `DetalhesXxxModalController.java`
+- Ligar o clique na linha ou um botão "Detalhes" para abrir o modal
+- Apresentar todos os campos em modo leitura com `TextField editable="false"` e `styleClass="form-control"`
+- Para FKs (ex: `empresaId`): resolver o nome via `GET /entidade/{id}` no `setDados()` e apresentar o nome, não o UUID
+- Ver exemplo completo na secção [Padrão de Relações entre Objetos](#padrão-de-relações-entre-objetos)
 
-**DetalhesTipoMateriaPrimaModal.fxml** (exemplo parcial):
-```xml
-<VBox styleClass="form-group" HBox.hgrow="ALWAYS">
-    <Label text="Nome" styleClass="form-label"/>
-    <TextField fx:id="txtNome" styleClass="form-control" editable="false"/>
-</VBox>
-<VBox styleClass="form-group" VBox.vgrow="ALWAYS">
-    <Label text="Descrição" styleClass="form-label"/>
-    <TextArea fx:id="txtDescricao" styleClass="form-control" editable="false" prefRowCount="3" wrapText="true"/>
-</VBox>
-```
+**Código de exemplo:**
 
-**DetalhesTipoMateriaPrimaModalController.java** (exemplo parcial):
 ```java
-public void preencherDados(TipoMateriaPrimaResponse t) {
-    txtNome.setText(t.nome != null ? t.nome : "—");
-    txtDescricao.setText(t.descricao != null ? t.descricao : "—");
-    
-    txtNome.setEditable(false);
-    txtDescricao.setEditable(false);
+// DetalhesClienteModalController.java
+public void preencherDados(UserResponse u, boolean inativo, EmpresaService empresaService) {
+    txtNome.setText(u.nome != null ? u.nome : "—");
+    txtEmail.setText(u.email != null ? u.email : "—");
+
+    if (u.empresaId != null && !u.empresaId.isBlank()) {
+        loadingEmpresa.setVisible(true);
+        lblEmpresaNome.setText("A carregar...");
+
+        empresaService.getById(u.empresaId, state -> {
+            if (state.isSuccess() && state.getData() != null) {
+                loadingEmpresa.setVisible(false);
+                lblEmpresaNome.setText(state.getData().nomeEmpresa);
+            } else {
+                loadingEmpresa.setVisible(false);
+                lblEmpresaNome.setText("Sem empresa associada");
+            }
+        });
+    } else {
+        lblEmpresaNome.setText("Sem empresa associada");
+    }
 }
 ```
+
+---
+
+## Padrão de Relações entre Objetos
+
+> **Implementação de referência:** `SelecionarEmpresaModalController` +
+> `EmpresaSelecao` em `src/main/java/com/gestaoiogurtes/components/utilizadores/`.
+
+### Quando usar este padrão
+
+Usar este padrão quando:
+- Um campo do formulário é uma FK para outra entidade (ex: `empresaId` em Cliente)
+- Um campo de texto livre (TextField com UUID) não é adequado para o utilizador
+- É necessário deixar o utilizador escolher de uma lista paginada
+
+### Componentes envolvidos
+
+| Componente | Papel |
+|---|---|
+| `SelecionarXxxModal.fxml` + `SelecionarXxxModalController.java` | Modal de selecção com lista paginada e selecção única |
+| `XxxSelecao.java` | POJO com os dois campos necessários: `id` e `nome` |
+| Modal pai (Criar/Editar) | Guarda `selectedXxxId`; apresenta nome via `lblXxxNome` |
+| Modal de Detalhes | Chama `GET /xxx/{id}` para resolver o nome a partir do FK |
+
+### Passo a passo para implementar uma nova relação
+
+#### 1. Criar `XxxSelecao.java`
+
+```java
+// src/main/java/com/gestaoiogurtes/components/yyy/XxxSelecao.java
+public class XxxSelecao {
+    public final String id;
+    public final String nome;
+
+    public XxxSelecao(String id, String nome) {
+        this.id   = id;
+        this.nome = nome;
+    }
+}
+```
+
+#### 2. Criar `SelecionarXxxModal.fxml` e `SelecionarXxxModalController.java`
+
+O controller deve:
+- Aceitar `Consumer<XxxSelecao> onConfirm` como parâmetro do `show()`
+- Aceitar um `preSelectedId` opcional
+- Carregar 10 itens por página via `XxxService.getAll(page, 10, callback)`
+- Guardar `selectedId` e `selectedNome` em memória (persistem entre páginas)
+- Marcar visualmente a linha seleccionada com um `RadioButton`
+- Desactivar "Continuar" até haver uma selecção
+- Chamar `onConfirm` **só** ao clicar "Continuar" — nunca ao fechar com X
+
+Ver `SelecionarEmpresaModalController.java` como implementação de referência.
+
+#### 3. No modal Criar — adicionar botão + label ao FXML e controller
+
+**FXML (em vez do TextField da FK):**
+```xml
+<VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+    <Label text="Empresa*" styleClass="form-label"/>
+    <!-- Nome apresentado após selecção (hidden por omissão) -->
+    <Label fx:id="lblEmpresaNome" styleClass="empresa-selecionada-nome"
+           visible="false" managed="false" wrapText="true"/>
+    <!-- Botão que abre o picker -->
+    <Button fx:id="btnSelecionarEmpresa" text="Selecionar Empresa"
+            onAction="#handleSelecionarEmpresa"
+            styleClass="btn-selecionar-empresa"/>
+</VBox>
+```
+
+**Controller:**
+```java
+private String selectedEmpresaId;
+
+@FXML
+private void handleSelecionarEmpresa() {
+    SelecionarEmpresaModalController.show(
+            empresaService,
+            dialogStage,
+            null,   // sem pré-selecção no modal Criar
+            selecao -> {
+                selectedEmpresaId = selecao.id;
+                lblEmpresaNome.setText(selecao.nome);
+                lblEmpresaNome.setVisible(true);
+                lblEmpresaNome.setManaged(true);
+                btnSelecionarEmpresa.setText("Alterar Empresa");
+            }
+    );
+}
+```
+
+#### 4. No modal Editar — pré-carregar o nome e passar pré-selecção
+
+```java
+private void setUtilizador(UserResponse u) {
+    txtNome.setText(u.nome != null ? u.nome : "");
+
+    if (u.empresaId != null && !u.empresaId.isBlank()) {
+        selectedEmpresaId = u.empresaId;
+        lblEmpresaNome.setText("A carregar...");
+        lblEmpresaNome.setVisible(true);
+        lblEmpresaNome.setManaged(true);
+        btnSelecionarEmpresa.setText("Alterar Empresa");
+
+        // Buscar o nome para mostrar imediatamente
+        empresaService.getById(u.empresaId, state -> {
+            if (state.isSuccess() && state.getData() != null) {
+                lblEmpresaNome.setText(state.getData().nomeEmpresa);
+            } else {
+                lblEmpresaNome.setText(u.empresaId); // fallback: mostrar o UUID
+            }
+        });
+    }
+}
+
+@FXML
+private void handleSelecionarEmpresa() {
+    SelecionarEmpresaModalController.show(
+            empresaService,
+            dialogStage,
+            selectedEmpresaId,   // pré-selecção — o utilizador vê a empresa actual marcada
+            selecao -> {
+                selectedEmpresaId = selecao.id;
+                lblEmpresaNome.setText(selecao.nome);
+            }
+    );
+}
+```
+
+#### 5. No modal Detalhes — resolver o nome via API
+
+```java
+// preencherDados() — chamado após showAndWait no show()
+if (u.empresaId != null && !u.empresaId.isBlank()) {
+    loadingEmpresa.setVisible(true);
+    loadingEmpresa.setManaged(true);
+    lblEmpresaNome.setText("A carregar...");
+
+    empresaService.getById(u.empresaId, state -> {
+        loadingEmpresa.setVisible(false);
+        loadingEmpresa.setManaged(false);
+        if (state.isSuccess() && state.getData() != null) {
+            lblEmpresaNome.setText(state.getData().nomeEmpresa);
+        } else {
+            lblEmpresaNome.setText("Sem empresa associada");
+        }
+    });
+} else {
+    lblEmpresaNome.setText("Sem empresa associada");
+}
+```
+
+### Regras obrigatórias
+
+| Regra | Detalhe |
+|---|---|
+| `onConfirm` só ao confirmar | Nunca chamado ao fechar com X ou ESC |
+| Selecção persiste entre páginas | `selectedId` e `selectedNome` são campos do controller, não da linha |
+| Estado de loading sempre visível | Spinner inline enquanto cada página carrega |
+| Pré-selecção suportada | `preSelectedId` passado ao `show()`; a linha correspondente aparece marcada |
+| Zero inline styles | Todos os estilos em `xxx.css` via variáveis CSS |
+| `Platform.runLater()` só no ApiQuery | Os controllers nunca o chamam directamente |
 
 ---
 

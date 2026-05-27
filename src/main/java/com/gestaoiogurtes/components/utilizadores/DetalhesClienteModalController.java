@@ -1,6 +1,7 @@
 package com.gestaoiogurtes.components.utilizadores;
 
 import com.gestaoiogurtes.models.utilizador.UserResponse;
+import com.gestaoiogurtes.services.EmpresaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,13 +17,14 @@ import java.io.IOException;
 
 public class DetalhesClienteModalController {
 
-    @FXML private TextField txtNome;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtEmpresaId;
-    @FXML private Label     lblInativo;
-    @FXML private HBox      hboxInativo;
+    @FXML private TextField         txtNome;
+    @FXML private TextField         txtEmail;
+    @FXML private Label             lblEmpresaNome;
+    @FXML private ProgressIndicator loadingEmpresa;
+    @FXML private Label             lblInativo;
+    @FXML private HBox              hboxInativo;
 
-    public static void show(UserResponse u, boolean inativo, Window owner) {
+    public static void show(UserResponse u, boolean inativo, Window owner, EmpresaService empresaService) {
         try {
             FXMLLoader loader = new FXMLLoader(DetalhesClienteModalController.class
                     .getResource("/fxml/components/utilizadores/DetalhesClienteModal.fxml"));
@@ -37,22 +39,53 @@ public class DetalhesClienteModalController {
             stage.setScene(new Scene(root));
 
             DetalhesClienteModalController ctrl = loader.getController();
-            ctrl.preencherDados(u, inativo);
+            ctrl.preencherDados(u, inativo, empresaService);
 
             stage.showAndWait();
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public void preencherDados(UserResponse u, boolean inativo) {
-        txtNome.setText(u.nome != null ? u.nome : "—");
+    /**
+     * Preenche os campos estáticos e desencadeia a resolução do nome da empresa.
+     */
+    public void preencherDados(UserResponse u, boolean inativo, EmpresaService empresaService) {
+        txtNome.setText(u.nome  != null ? u.nome  : "—");
         txtEmail.setText(u.email != null ? u.email : "—");
-        txtEmpresaId.setText(u.empresaId != null ? u.empresaId : "—");
         txtNome.setEditable(false);
         txtEmail.setEditable(false);
-        txtEmpresaId.setEditable(false);
+
         if (hboxInativo != null) {
             hboxInativo.setVisible(inativo);
             hboxInativo.setManaged(inativo);
+        }
+
+        // Resolução do nome da empresa
+        if (u.empresaId != null && !u.empresaId.isBlank()) {
+            // Mostrar spinner enquanto carrega
+            loadingEmpresa.setVisible(true);
+            loadingEmpresa.setManaged(true);
+            lblEmpresaNome.setText("A carregar...");
+
+            empresaService.getById(u.empresaId, state -> {
+                if (state.isLoading()) {
+                    // estado de transição — já tratado acima
+                } else if (state.isSuccess() && state.getData() != null) {
+                    loadingEmpresa.setVisible(false);
+                    loadingEmpresa.setManaged(false);
+                    String nome = state.getData().nomeEmpresa;
+                    lblEmpresaNome.setText(nome != null ? nome : "Sem empresa associada");
+                } else {
+                    // erro ou body nulo
+                    loadingEmpresa.setVisible(false);
+                    loadingEmpresa.setManaged(false);
+                    lblEmpresaNome.setText("Sem empresa associada");
+                }
+            });
+        } else {
+            // Sem empresaId — mostrar imediatamente
+            loadingEmpresa.setVisible(false);
+            loadingEmpresa.setManaged(false);
+            lblEmpresaNome.setText("Sem empresa associada");
         }
     }
 

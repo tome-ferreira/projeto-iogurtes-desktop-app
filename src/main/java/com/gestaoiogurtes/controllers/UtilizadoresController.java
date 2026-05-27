@@ -4,6 +4,7 @@ import com.gestaoiogurtes.GestaoIogurtes;
 import com.gestaoiogurtes.components.utilizadores.*;
 import com.gestaoiogurtes.layout.Sidebar;
 import com.gestaoiogurtes.models.utilizador.UserResponse;
+import com.gestaoiogurtes.services.EmpresaService;
 import com.gestaoiogurtes.services.UtilizadorService;
 import com.gestaoiogurtes.utils.AppAware;
 import com.gestaoiogurtes.utils.MessageHelper;
@@ -32,7 +33,8 @@ import com.gestaoiogurtes.models.PaginatedResponse;
  */
 public class UtilizadoresController implements AppAware {
 
-    private final UtilizadorService service = new UtilizadorService();
+    private final UtilizadorService service        = new UtilizadorService();
+    private final EmpresaService    empresaService  = new EmpresaService();
 
     // ── FXML ─────────────────────────────────────────────────────
     @FXML private Sidebar sidebarController;
@@ -129,7 +131,7 @@ public class UtilizadoresController implements AppAware {
 
     @FXML
     private void handleCriarCliente() {
-        CriarClienteModalController.show(service,
+        CriarClienteModalController.show(service, empresaService,
                 rootStack.getScene().getWindow(), this::onMutacaoBemSucedida);
     }
 
@@ -421,7 +423,7 @@ public class UtilizadoresController implements AppAware {
         if (u.role == null) return;
         switch (u.role) {
             case "GESTOR"         -> DetalhesGestorModalController.show(u, inativo, window);
-            case "CLIENTE"        -> DetalhesClienteModalController.show(u, inativo, window);
+            case "CLIENTE"        -> DetalhesClienteModalController.show(u, inativo, window, empresaService);
             case "ADMIN"          -> DetalhesAdminModalController.show(u, inativo, window);
             case "FUNCIONARIO_OP" -> DetalhesFuncionarioOpModalController.show(u, inativo, window);
             case "FUNCIONARIO_MP" -> DetalhesFuncionarioMpModalController.show(u, inativo, window);
@@ -433,7 +435,7 @@ public class UtilizadoresController implements AppAware {
         if (u.role == null) return;
         switch (u.role) {
             case "GESTOR"         -> EditarGestorModalController.show(u, service, window, this::onMutacaoBemSucedida);
-            case "CLIENTE"        -> EditarClienteModalController.show(u, service, window, this::onMutacaoBemSucedida);
+            case "CLIENTE"        -> EditarClienteModalController.show(u, service, empresaService, window, this::onMutacaoBemSucedida);
             case "ADMIN"          -> EditarAdminModalController.show(u, service, window, this::onMutacaoBemSucedida);
             case "FUNCIONARIO_OP",
                  "FUNCIONARIO_MP" -> EditarFuncionarioModalController.show(u, service, window, this::onMutacaoBemSucedida);

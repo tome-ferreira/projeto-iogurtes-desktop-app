@@ -17,16 +17,24 @@
     </HBox>
 
     <VBox styleClass="modal-content">
-        <HBox spacing="16">
-            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
-                <Label text="Nome*" styleClass="form-label"/>
-                <TextField fx:id="txtNome" styleClass="form-control"/>
-            </VBox>
-            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
-                <Label text="ID da Empresa" styleClass="form-label"/>
-                <TextField fx:id="txtEmpresaId" styleClass="form-control" promptText="UUID da empresa"/>
-            </VBox>
-        </HBox>
+        <VBox styleClass="form-group">
+            <Label text="Nome*" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control"/>
+        </VBox>
+
+        <VBox styleClass="form-group">
+            <Label text="Empresa" styleClass="form-label"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <!-- Nome da empresa seleccionada (oculto enquanto não há selecção) -->
+                <Label fx:id="lblEmpresaNome" styleClass="empresa-selecionada-nome"
+                       visible="false" managed="false" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <!-- Botão para abrir o modal de selecção -->
+                <Button fx:id="btnSelecionarEmpresa" text="Selecionar Empresa"
+                        onAction="#handleSelecionarEmpresa"
+                        styleClass="btn-selecionar-empresa" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+        </VBox>
+        
         <Label fx:id="lblErro" styleClass="form-error" wrapText="true" visible="true" managed="true" minHeight="32"/>
     </VBox>
 
