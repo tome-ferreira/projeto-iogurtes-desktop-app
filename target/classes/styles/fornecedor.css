@@ -401,3 +401,55 @@
 .btn-selecionar-tipo:hover {
     -fx-background-color: derive(-color-bg-subtle, -5%);
 }
+
+/* ScrollPane transparente usado nos modais de certificações */
+.cert-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: -color-border-subtle;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+.cert-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ── Certificações de Fornecedor Modal ──────────────────────────────────── */
+.cert-pagination-bar {
+    -fx-border-color: transparent transparent -color-border-subtle transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: -color-bg-subtle;
+}
+
+.cert-vazio-label {
+    -fx-padding: 32;
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-fg-muted;
+    -fx-alignment: CENTER;
+}
+
+.cert-erro-label {
+    -fx-padding: 16;
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-danger-fg;
+}
+
+/* Eliminar Certificação Modal */
+.cert-eliminar-icone {
+    -fx-icon-color: -color-danger-fg;
+    -fx-fill: -color-danger-fg;
+}
+
+.cert-eliminar-mensagem {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-fg-default;
+    -fx-text-alignment: CENTER;
+    -fx-alignment: CENTER;
+}
+
+.cert-eliminar-aviso {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg-muted;
+    -fx-text-alignment: CENTER;
+    -fx-alignment: CENTER;
+}

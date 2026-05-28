@@ -1,6 +1,7 @@
 package com.gestaoiogurtes.components.fornecedor;
 
 import com.gestaoiogurtes.models.fornecedor.FornecedorResponse;
+import com.gestaoiogurtes.services.FornecedorService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,9 +24,15 @@ public class DetalhesFornecedorModalController {
     @FXML private TextField txtCidade;
     @FXML private TextField txtTipo;
 
-    private Stage dialogStage;
+    private Stage             dialogStage;
+    private FornecedorResponse fornecedor;
+    private FornecedorService  service;
 
     public static void show(FornecedorResponse fornecedor, Window owner) {
+        show(fornecedor, new FornecedorService(), owner);
+    }
+
+    public static void show(FornecedorResponse fornecedor, FornecedorService service, Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(DetalhesFornecedorModalController.class
                     .getResource("/fxml/components/fornecedor/DetalhesFornecedorModal.fxml"));
@@ -41,6 +48,7 @@ public class DetalhesFornecedorModalController {
 
             DetalhesFornecedorModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
+            ctrl.service     = service;
             ctrl.setFornecedor(fornecedor);
 
             stage.showAndWait();
@@ -50,13 +58,14 @@ public class DetalhesFornecedorModalController {
     }
 
     private void setFornecedor(FornecedorResponse f) {
+        this.fornecedor = f;
         txtNome.setText(f.nome != null ? f.nome : "—");
         txtNif.setText(f.nif != null ? f.nif : "—");
         txtEmail.setText(f.email != null ? f.email : "—");
         txtTelefone.setText(f.telefone != null ? f.telefone : "—");
         txtMorada.setText(f.morada != null ? f.morada : "—");
         txtCidade.setText(f.cidade != null ? f.cidade : "—");
-        
+
         if (f.tipo != null && f.tipo.nome != null) {
             txtTipo.setText(f.tipo.nome);
         } else {
@@ -67,5 +76,15 @@ public class DetalhesFornecedorModalController {
     @FXML
     private void handleFechar() {
         dialogStage.close();
+    }
+
+    @FXML
+    private void handleVerCertificacoes() {
+        if (fornecedor == null || fornecedor.id == null) return;
+        CertificacoesFornecedorModalController.show(
+                fornecedor.id.toString(),
+                fornecedor.nome != null ? fornecedor.nome : "Fornecedor",
+                service,
+                dialogStage);
     }
 }

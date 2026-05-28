@@ -256,7 +256,10 @@ public class FornecedoresController implements AppAware {
                 tabelaContainer.getScene().getWindow(),
                 this::onMutacaoBemSucedida));
                 
-        btnCertificacoes.setOnAction(e -> CertificacoesEmBreveModalController.show(
+        btnCertificacoes.setOnAction(e -> CertificacoesFornecedorModalController.show(
+                item.id.toString(),
+                item.nome != null ? item.nome : "Fornecedor",
+                service,
                 tabelaContainer.getScene().getWindow()));
 
         btnEliminar.setOnAction(e -> EliminarFornecedorModalController.show(

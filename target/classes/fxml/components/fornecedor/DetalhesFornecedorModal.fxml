@@ -63,5 +63,6 @@
     <!-- Footer -->
     <HBox styleClass="modal-footer">
         <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
+        <Button text="Ver Certificações" onAction="#handleVerCertificacoes" styleClass="btn-modal-submit"/>
     </HBox>
 </VBox>
