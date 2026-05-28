@@ -85,6 +85,22 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
+        <!-- Fornecedores -->
+        <Button fx:id="btnFornecedores" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleFornecedores">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2t-truck-delivery-outline" iconSize="18"/>
+                    <Label text="Fornecedores" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Fornecedores"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
         <!-- Moedas -->
         <Button fx:id="btnMoedas" styleClass="sidebar-item"
                 maxWidth="Infinity"

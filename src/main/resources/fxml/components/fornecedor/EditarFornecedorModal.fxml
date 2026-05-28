@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.fornecedor.EditarFornecedorModalController"
+      styleClass="modal-root" prefWidth="550">
+    <stylesheets>
+        <String fx:value="/styles/fornecedor.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Editar Fornecedor" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo do formulário -->
+    <VBox styleClass="modal-content">
+        <!-- Linha 1: Nome e NIF -->
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Nome*" styleClass="form-label"/>
+                <TextField fx:id="txtNome" promptText="Ex: Fornecedor ABC" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" prefWidth="180">
+                <Label text="NIF*" styleClass="form-label"/>
+                <TextField fx:id="txtNif" promptText="Ex: 123456789" styleClass="form-control"/>
+            </VBox>
+        </HBox>
+
+        <!-- Linha 2: Email e Telefone -->
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Email" styleClass="form-label"/>
+                <TextField fx:id="txtEmail" promptText="Ex: geral@abc.pt" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" prefWidth="180">
+                <Label text="Telefone*" styleClass="form-label"/>
+                <TextField fx:id="txtTelefone" promptText="Ex: 912345678" styleClass="form-control"/>
+            </VBox>
+        </HBox>
+
+        <!-- Linha 3: Morada -->
+        <VBox styleClass="form-group">
+            <Label text="Morada" styleClass="form-label"/>
+            <TextField fx:id="txtMorada" promptText="Morada completa" styleClass="form-control"/>
+        </VBox>
+
+        <!-- Linha 4: Cidade -->
+        <VBox styleClass="form-group">
+            <Label text="Cidade" styleClass="form-label"/>
+            <TextField fx:id="txtCidade" promptText="Ex: Lisboa" styleClass="form-control"/>
+        </VBox>
+
+        <!-- Linha 5: Tipo de Fornecedor -->
+        <VBox styleClass="form-group">
+            <Label text="Tipo de Fornecedor*" styleClass="form-label"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label fx:id="lblTipoNome" styleClass="tipo-selecionado-nome" visible="false" managed="false" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <Button fx:id="btnSelecionarTipo" text="Selecionar Tipo" onAction="#handleSelecionarTipo" styleClass="btn-selecionar-tipo" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+        </VBox>
+
+        <!-- Label de erro sempre presente para não saltar o layout -->
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"/>
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnGuardar" text="Guardar Alterações" onAction="#handleGuardar" styleClass="btn-modal-submit"/>
+    </HBox>
+</VBox>
