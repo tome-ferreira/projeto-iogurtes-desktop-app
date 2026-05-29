@@ -5,6 +5,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IEmpresaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IFornecedorApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IFornecedorTipoApiService.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IMateriaPrimaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IMoedaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\ITipoMateriaPrimaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\ITipoPalletApiService.java
@@ -16,7 +17,6 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\CriarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EditarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EliminarEmpresaModalController.java
-C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedor\CertificacoesEmBreveModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedor\CertificacoesFornecedorModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedor\CriarFornecedorModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedor\DetalhesFornecedorModalController.java
@@ -30,6 +30,12 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedorestipo\DetalhesFornecedorTipoModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedorestipo\EditarFornecedorTipoModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\fornecedorestipo\EliminarFornecedorTipoModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\CriarMateriaPrimaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\DetalhesMateriaPrimaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\EditarMateriaPrimaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\EliminarMateriaPrimaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\FornecedoresEmBreveModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\materiaPrima\SelecionarTipoMateriaPrimaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\CriarMoedaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\EditarMoedaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\EliminarMoedaModalController.java
@@ -63,6 +69,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\EmpresasController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\FornecedoresController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\FornecedoresTipoController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\MateriasPrimasController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\MoedasController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\PaginaLogin.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\TiposMateriaPrimaController.java
@@ -87,6 +94,10 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\fornecedortipo\CreateFornecedorTipoRequest.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\fornecedortipo\FornecedorTipoResponse.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\fornecedortipo\UpdateFornecedorTipoRequest.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\materiaPrima\CreateMateriaPrimaRequest.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\materiaPrima\MateriaPrimaResponse.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\materiaPrima\TipoMateriaPrimaSelecao.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\materiaPrima\UpdateMateriaPrimaRequest.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\CreateMoedaRequest.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\MoedaResponse.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\UpdateMoedaRequest.java
@@ -110,6 +121,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\EmpresaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\FornecedorService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\FornecedorTipoService.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\MateriaPrimaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\MoedaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\TipoMateriaPrimaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\TipoPalletService.java

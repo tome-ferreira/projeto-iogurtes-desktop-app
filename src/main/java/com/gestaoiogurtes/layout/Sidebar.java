@@ -85,6 +85,11 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
+    private void handleMateriasPrimas() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/MateriasPrimas.fxml");
+    }
+
+    @FXML
     private void handleMoedas() {
         NavigationHelper.navigateTo(app, "/fxml/paginas/Moedas.fxml");
     }

@@ -1,0 +1,8 @@
+﻿[
+    "/materias-primas/{id}",
+    "/materias-primas/fornecedores/{id}",
+    "/materias-primas",
+    "/materias-primas/{materiaId}/fornecedores",
+    "/materias-primas/inactive",
+    "/materias-primas/fornecedores"
+]
