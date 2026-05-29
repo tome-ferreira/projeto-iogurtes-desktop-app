@@ -57,6 +57,8 @@
     </VBox>
 
     <HBox styleClass="modal-footer">
+        <Button text="Ver Fornecedores" onAction="#handleVerFornecedores"
+                styleClass="btn-modal-secondary"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-submit"/>
     </HBox>

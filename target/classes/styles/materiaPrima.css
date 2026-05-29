@@ -453,3 +453,63 @@
     -fx-text-alignment: CENTER;
     -fx-alignment: CENTER;
 }
+
+/* ── Botão secundário no footer (ex: Ver Fornecedores em Detalhes) ─────────── */
+.btn-modal-secondary {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-default;
+    -fx-cursor: hand;
+}
+.btn-modal-secondary:hover {
+    -fx-background-color: derive(-color-bg-subtle, -6%);
+}
+
+/* ── Padrão de seleção de entidade (picker button + label) ──────────────────── */
+.empresa-selecionada-nome {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-fg-default;
+    -fx-padding: 4 0 4 0;
+    -fx-min-height: 25px;
+}
+.btn-selecionar-empresa {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-border-default;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 12 6 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-fg-default;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+}
+.btn-selecionar-empresa:hover {
+    -fx-background-color: derive(-color-bg-subtle, -5%);
+}
+
+/* ── CheckBox no formulário ─────────────────────────────────────────────────── */
+.form-checkbox {
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-fg-default;
+    -fx-cursor: hand;
+}
+
+/* ── Paginação dentro de modais de seleção ──────────────────────────────────── */
+.selecionar-tipo-pagination {
+    -fx-padding: 0;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER;
+}
+.selecionar-tipo-loading {
+    -fx-padding: 8;
+    -fx-alignment: CENTER;
+}
+.selecionar-tipo-lista {
+    -fx-padding: 0;
+}

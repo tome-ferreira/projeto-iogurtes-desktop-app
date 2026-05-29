@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.materiaPrima.AdicionarFornecedorMateriaPrimaModalController"
+      styleClass="modal-root" prefWidth="460">
+
+    <stylesheets>
+        <String fx:value="/styles/materiaPrima.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Adicionar Fornecedor" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content" spacing="16">
+
+        <!-- Seleção de fornecedor -->
+        <VBox styleClass="form-group">
+            <Label text="Fornecedor*" styleClass="form-label"/>
+            <!-- Nome apresentado após seleção -->
+            <Label fx:id="lblFornecedorNome" styleClass="empresa-selecionada-nome" wrapText="true"/>
+            <Button fx:id="btnSelecionarFornecedor" text="Selecionar Fornecedor"
+                    onAction="#handleSelecionarFornecedor"
+                    styleClass="btn-selecionar-empresa" maxWidth="Infinity"/>
+        </VBox>
+
+        <!-- Moeda -->
+        <VBox styleClass="form-group">
+            <Label text="Moeda*" styleClass="form-label"/>
+            <ComboBox fx:id="cbMoeda" styleClass="form-control" maxWidth="Infinity"/>
+        </VBox>
+
+        <!-- Preço Unitário -->
+        <VBox styleClass="form-group">
+            <Label text="Preço Unitário*" styleClass="form-label"/>
+            <TextField fx:id="txtPrecoUnitario" styleClass="form-control"
+                       promptText="ex: 1.50"/>
+        </VBox>
+
+        <!-- Prazo estimado (opcional) -->
+        <VBox styleClass="form-group">
+            <Label text="Prazo Estimado de Entrega (dias)" styleClass="form-label"/>
+            <TextField fx:id="txtPrazo" styleClass="form-control"
+                       promptText="ex: 5"/>
+        </VBox>
+
+        <!-- Preferencial -->
+        <VBox styleClass="form-group">
+            <CheckBox fx:id="chkPreferencial" text="Fornecedor Preferencial"
+                      styleClass="form-checkbox"/>
+        </VBox>
+
+        <!-- Erro -->
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"/>
+
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnAdicionar" text="Adicionar" defaultButton="true"
+                onAction="#handleAdicionar" styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

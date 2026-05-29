@@ -7,7 +7,7 @@ import com.gestaoiogurtes.components.materiaPrima.CriarMateriaPrimaModalControll
 import com.gestaoiogurtes.components.materiaPrima.DetalhesMateriaPrimaModalController;
 import com.gestaoiogurtes.components.materiaPrima.EditarMateriaPrimaModalController;
 import com.gestaoiogurtes.components.materiaPrima.EliminarMateriaPrimaModalController;
-import com.gestaoiogurtes.components.materiaPrima.FornecedoresEmBreveModalController;
+import com.gestaoiogurtes.components.materiaPrima.FornecedoresMateriaPrimaModalController;
 import com.gestaoiogurtes.models.materiaPrima.MateriaPrimaResponse;
 import com.gestaoiogurtes.services.MateriaPrimaService;
 import com.gestaoiogurtes.services.TipoMateriaPrimaService;
@@ -162,7 +162,7 @@ public class MateriasPrimasController implements AppAware {
 
             Button btnDetalhes = new Button("Detalhes");
             btnDetalhes.getStyleClass().add("btn-linha-acao");
-            btnDetalhes.setOnAction(e -> DetalhesMateriaPrimaModalController.show(p, btnDetalhes.getScene().getWindow()));
+            btnDetalhes.setOnAction(e -> DetalhesMateriaPrimaModalController.show(p, service, btnDetalhes.getScene().getWindow()));
 
             Button btnEditar = new Button("Editar");
             btnEditar.getStyleClass().add("btn-linha-acao");
@@ -173,7 +173,11 @@ public class MateriasPrimasController implements AppAware {
 
             Button btnFornecedores = new Button("Fornecedores");
             btnFornecedores.getStyleClass().add("btn-linha-acao");
-            btnFornecedores.setOnAction(e -> FornecedoresEmBreveModalController.show(btnFornecedores.getScene().getWindow()));
+            btnFornecedores.setOnAction(e -> {
+                String materiaId   = p.id != null ? p.id.toString() : null;
+                String materiaNome = p.nome != null ? p.nome : "Matéria Prima";
+                FornecedoresMateriaPrimaModalController.show(materiaId, materiaNome, service, btnFornecedores.getScene().getWindow());
+            });
 
             Button btnEliminar = new Button("Eliminar");
             btnEliminar.getStyleClass().add("btn-linha-danger");

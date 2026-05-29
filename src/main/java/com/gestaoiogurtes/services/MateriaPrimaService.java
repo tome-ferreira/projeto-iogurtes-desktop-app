@@ -5,8 +5,11 @@ import com.gestaoiogurtes.api.QueryState;
 import com.gestaoiogurtes.api.RetrofitClient;
 import com.gestaoiogurtes.api.services.IMateriaPrimaApiService;
 import com.gestaoiogurtes.models.PaginatedResponse;
+import com.gestaoiogurtes.models.materiaPrima.AddFornecedorMateriaPrimaRequest;
 import com.gestaoiogurtes.models.materiaPrima.CreateMateriaPrimaRequest;
+import com.gestaoiogurtes.models.materiaPrima.MateriaPrimaFornecedorResponse;
 import com.gestaoiogurtes.models.materiaPrima.MateriaPrimaResponse;
+import com.gestaoiogurtes.models.materiaPrima.UpdateFornecedorMateriaPrimaRequest;
 import com.gestaoiogurtes.models.materiaPrima.UpdateMateriaPrimaRequest;
 import okhttp3.ResponseBody;
 
@@ -37,5 +40,26 @@ public class MateriaPrimaService {
 
     public void delete(String id, Consumer<QueryState<ResponseBody>> cb) {
         ApiQuery.execute(api().softDelete(id), cb);
+    }
+
+    // ── Fornecedores de matéria prima ──────────────────────────────────────
+
+    public void getFornecedores(String materiaId, int page, int size,
+                                Consumer<QueryState<PaginatedResponse<MateriaPrimaFornecedorResponse>>> cb) {
+        ApiQuery.execute(api().findFornecedoresByMateria(materiaId, page, size), cb);
+    }
+
+    public void addFornecedor(String materiaId, AddFornecedorMateriaPrimaRequest req,
+                              Consumer<QueryState<MateriaPrimaFornecedorResponse>> cb) {
+        ApiQuery.execute(api().createFornecedor(materiaId, req), cb);
+    }
+
+    public void updateFornecedor(String id, UpdateFornecedorMateriaPrimaRequest req,
+                                 Consumer<QueryState<MateriaPrimaFornecedorResponse>> cb) {
+        ApiQuery.execute(api().updateFornecedor(id, req), cb);
+    }
+
+    public void deleteFornecedor(String id, Consumer<QueryState<ResponseBody>> cb) {
+        ApiQuery.execute(api().softDeleteFornecedor(id), cb);
     }
 }

@@ -1,6 +1,7 @@
 package com.gestaoiogurtes.components.materiaPrima;
 
 import com.gestaoiogurtes.models.materiaPrima.MateriaPrimaResponse;
+import com.gestaoiogurtes.services.MateriaPrimaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,10 +22,12 @@ public class DetalhesMateriaPrimaModalController {
     @FXML private TextField txtStockAtual;
     @FXML private TextField txtTipo;
     @FXML private TextField txtEstado;
-    
-    private Stage dialogStage;
 
-    public static void show(MateriaPrimaResponse entidade, Window owner) {
+    private Stage               dialogStage;
+    private MateriaPrimaService service;
+    private MateriaPrimaResponse entidade;
+
+    public static void show(MateriaPrimaResponse entidade, MateriaPrimaService service, Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     DetalhesMateriaPrimaModalController.class
@@ -41,6 +44,7 @@ public class DetalhesMateriaPrimaModalController {
 
             DetalhesMateriaPrimaModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
+            ctrl.service     = service;
             ctrl.setEntidade(entidade);
 
             stage.showAndWait();
@@ -50,17 +54,26 @@ public class DetalhesMateriaPrimaModalController {
     }
 
     private void setEntidade(MateriaPrimaResponse p) {
+        this.entidade = p;
         txtNome.setText(p.nome != null ? p.nome : "—");
         txtUnidade.setText(p.unidade != null ? p.unidade : "—");
         txtStockMinimo.setText(p.stockMinimo != null ? String.valueOf(p.stockMinimo) : "—");
         txtStockAtual.setText(p.stockAtual != null ? String.valueOf(p.stockAtual) : "—");
         txtTipo.setText(p.tipo != null && p.tipo.nome != null ? p.tipo.nome : "Sem tipo associado");
-        
+
         if (p.isActive != null) {
             txtEstado.setText(p.isActive ? "Ativo" : "Inativo");
         } else {
             txtEstado.setText("—");
         }
+    }
+
+    @FXML
+    private void handleVerFornecedores() {
+        if (entidade == null || entidade.id == null) return;
+        String materiaId   = entidade.id.toString();
+        String materiaNome = entidade.nome != null ? entidade.nome : "Matéria Prima";
+        FornecedoresMateriaPrimaModalController.show(materiaId, materiaNome, service, dialogStage);
     }
 
     @FXML
