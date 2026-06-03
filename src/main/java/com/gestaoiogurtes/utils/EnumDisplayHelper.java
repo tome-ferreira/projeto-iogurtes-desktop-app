@@ -57,4 +57,31 @@ public final class EnumDisplayHelper {
     public static String[] estadoFisicoLabels() {
         return new String[]{"Líquido", "Sólido"};
     }
+
+    // ── Estado Encomenda ─────────────────────────────────────────────────────
+    private static final Map<String, String> ESTADO_ENCOMENDA = new HashMap<>();
+
+    static {
+        ESTADO_ENCOMENDA.put("PENDENTE",  "Pendente");
+        ESTADO_ENCOMENDA.put("EXPEDIDA",  "Expedida");
+        ESTADO_ENCOMENDA.put("CANCELADA", "Cancelada");
+    }
+
+    public static String estadoEncomenda(String valor) {
+        if (valor == null) return "—";
+        return ESTADO_ENCOMENDA.getOrDefault(valor, valor);
+    }
+
+    public static String estadoEncomendaParaApi(String label) {
+        if (label == null) return null;
+        return ESTADO_ENCOMENDA.entrySet().stream()
+                .filter(e -> e.getValue().equals(label))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static String[] estadoEncomendaLabels() {
+        return new String[]{"Pendente", "Expedida", "Cancelada"};
+    }
 }

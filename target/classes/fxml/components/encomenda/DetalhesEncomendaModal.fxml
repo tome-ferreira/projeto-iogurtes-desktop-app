@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.encomenda.DetalhesEncomendaModalController"
+      prefWidth="700" prefHeight="550"
+      styleClass="modal-root">
+
+    <ScrollPane fitToWidth="true" styleClass="edge-to-edge" VBox.vgrow="ALWAYS">
+        <VBox spacing="20">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+            <!-- Título da secção -->
+            <Label text="Detalhes Gerais" styleClass="title-4"/>
+
+            <GridPane hgap="16" vgap="16">
+                <!-- Linha 1: ID, Utilizador -->
+                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="ID da Encomenda" styleClass="form-label"/>
+                    <TextField fx:id="txtId" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="Utilizador" styleClass="form-label"/>
+                    <TextField fx:id="txtUtilizador" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+
+                <!-- Linha 2: Data, Estado -->
+                <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="Data" styleClass="form-label"/>
+                    <TextField fx:id="txtData" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="Estado" styleClass="form-label"/>
+                    <TextField fx:id="txtEstado" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+                
+                <!-- Linha 3: Moeda, Total -->
+                <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="Moeda Base" styleClass="form-label"/>
+                    <TextField fx:id="txtMoeda" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="form-group" GridPane.hgrow="ALWAYS">
+                    <Label text="Total (EUR)" styleClass="form-label"/>
+                    <TextField fx:id="txtTotal" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+
+                <!-- Linha 4: Criado Em -->
+                <VBox GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-group" GridPane.hgrow="ALWAYS" GridPane.columnSpan="2">
+                    <Label text="Data de Criação (Registo)" styleClass="form-label"/>
+                    <TextField fx:id="txtCriadoEm" editable="false" styleClass="form-control, readonly"/>
+                </VBox>
+            </GridPane>
+
+            <Label text="Pallets Encomendadas" styleClass="title-4">
+                <VBox.margin><Insets top="10"/></VBox.margin>
+            </Label>
+            
+            <VBox fx:id="palletsContainer" styleClass="tabela-card" fillWidth="true">
+                <Label text="A carregar pallets..." styleClass="form-label">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                </Label>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer" alignment="CENTER_RIGHT" spacing="12">
+        <padding><Insets top="16" right="24" bottom="16" left="24"/></padding>
+        <Button text="Fechar" onAction="#handleCancelar" styleClass="btn-secundario"/>
+    </HBox>
+
+</VBox>
