@@ -7,6 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+
+import com.gestaoiogurtes.utils.SessionManager;
 
 /**
  * Controller for PaginaLogin.fxml.
@@ -22,8 +25,16 @@ public class PaginaLogin implements AppAware {
     @FXML private TextField campoUser;
     @FXML private PasswordField campoPass;
     @FXML private Button btnEntrar;
+    @FXML private ComboBox<String> comboRole;
 
     private GestaoIogurtes app;
+
+    @FXML public void initialize() {
+        comboRole.getItems().addAll(
+            "ADMIN", "GESTOR", "CLIENTE", "FUNCIONARIO_OP", "FUNCIONARIO_MP"
+        );
+        comboRole.setValue("ADMIN"); // default
+    }
 
     // ── AppAware ──────────────────────────────────────────────────
     @Override
@@ -34,6 +45,10 @@ public class PaginaLogin implements AppAware {
     // ── FXML handler ──────────────────────────────────────────────
     @FXML
     private void handleEntrar() {
+        String role = comboRole.getValue();
+        if (role != null) {
+            SessionManager.getInstance().setUserRole(role);
+        }
         NavigationHelper.navigateTo(app, "/fxml/paginas/Dashboard.fxml");
     }
 }

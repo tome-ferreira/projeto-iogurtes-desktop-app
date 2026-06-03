@@ -5,6 +5,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -18,6 +19,7 @@
 
     <TextField fx:id="campoUser" promptText="Utilizador" maxWidth="300"/>
     <PasswordField fx:id="campoPass" promptText="Palavra-passe" maxWidth="300"/>
+    <ComboBox fx:id="comboRole" maxWidth="300" promptText="Seleciona o role"/>
 
     <Button fx:id="btnEntrar" text="Entrar" maxWidth="300"
             styleClass="button-outlined, accent"
