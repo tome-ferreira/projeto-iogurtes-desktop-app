@@ -49,6 +49,15 @@ public class MateriaPrimaService {
         ApiQuery.execute(api().findFornecedoresByMateria(materiaId, page, size), cb);
     }
 
+    /**
+     * GET /materias-primas/fornecedores — lista paginada de TODOS os registos matéria-fornecedor.
+     * Usado para selecção filtrada por fornecedorId na criação de encomendas MP.
+     */
+    public void getAllFornecedores(int page, int size,
+                                   Consumer<QueryState<PaginatedResponse<MateriaPrimaFornecedorResponse>>> cb) {
+        ApiQuery.execute(api().findAllFornecedores(page, size), cb);
+    }
+
     public void addFornecedor(String materiaId, AddFornecedorMateriaPrimaRequest req,
                               Consumer<QueryState<MateriaPrimaFornecedorResponse>> cb) {
         ApiQuery.execute(api().createFornecedor(materiaId, req), cb);

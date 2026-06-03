@@ -85,6 +85,11 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
+    private void handleEncomendasMp() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/EncomendaMp.fxml");
+    }
+
+    @FXML
     private void handleFornecedores() {
         NavigationHelper.navigateTo(app, "/fxml/paginas/Fornecedores.fxml");
     }

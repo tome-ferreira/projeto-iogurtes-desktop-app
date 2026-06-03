@@ -101,6 +101,22 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
+        <!-- Encomendas MP -->
+        <Button fx:id="btnEncomendasMp" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleEncomendasMp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2s-store-outline" iconSize="18"/>
+                    <Label text="Encomendas MP" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Encomendas de Matéria Prima"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
         <!-- Fornecedores -->
         <Button fx:id="btnFornecedores" styleClass="sidebar-item"
                 maxWidth="Infinity"

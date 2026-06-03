@@ -36,6 +36,12 @@ public interface IMateriaPrimaApiService {
             @Query("page") int page,
             @Query("size") int size);
 
+    /** GET /materias-primas/fornecedores — lista paginada de TODOS os registos matéria-fornecedor. */
+    @GET("materias-primas/fornecedores")
+    Call<PaginatedResponse<MateriaPrimaFornecedorResponse>> findAllFornecedores(
+            @Query("page") int page,
+            @Query("size") int size);
+
     @POST("materias-primas/{materiaId}/fornecedores")
     Call<MateriaPrimaFornecedorResponse> createFornecedor(
             @Path("materiaId") String materiaId,

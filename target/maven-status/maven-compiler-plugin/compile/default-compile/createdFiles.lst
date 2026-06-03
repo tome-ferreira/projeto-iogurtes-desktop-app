@@ -124,6 +124,7 @@ com\gestaoiogurtes\models\tipoPallet\UpdateTipoPalletRequest.class
 com\gestaoiogurtes\controllers\CertificacoesController$1.class
 com\gestaoiogurtes\api\services\IEncomendaApiService.class
 com\gestaoiogurtes\api\services\IUtilizadorApiService.class
+com\gestaoiogurtes\controllers\EncomendaMpController$1.class
 com\gestaoiogurtes\components\fornecedor\EditarCertificacaoModalController.class
 com\gestaoiogurtes\components\utilizadores\CriarFuncionarioOpModalController.class
 com\gestaoiogurtes\components\certificacoes\CriarCertificacaoModalController.class

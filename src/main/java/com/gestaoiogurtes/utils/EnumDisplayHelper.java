@@ -84,4 +84,45 @@ public final class EnumDisplayHelper {
     public static String[] estadoEncomendaLabels() {
         return new String[]{"Pendente", "Expedida", "Cancelada"};
     }
+
+    // ── Estado Encomenda MP ──────────────────────────────────────────────────
+    private static final Map<String, String> ESTADO_ENCOMENDA_MP = new HashMap<>();
+
+    static {
+        ESTADO_ENCOMENDA_MP.put("PENDENTE",     "Pendente");
+        ESTADO_ENCOMENDA_MP.put("ENCOMENDADA",  "Encomendada");
+        ESTADO_ENCOMENDA_MP.put("RECEBIDA",     "Recebida");
+        ESTADO_ENCOMENDA_MP.put("CANCELADA",    "Cancelada");
+    }
+
+    /**
+     * Devolve o rótulo em Português para um valor do enum EstadoEncomendaMP.
+     *
+     * @param valor valor da API (ex: "ENCOMENDADA")
+     * @return rótulo legível (ex: "Encomendada"), ou o próprio valor se não mapeado
+     */
+    public static String estadoEncomendaMp(String valor) {
+        if (valor == null) return "—";
+        return ESTADO_ENCOMENDA_MP.getOrDefault(valor, valor);
+    }
+
+    /**
+     * Devolve o valor da API para um rótulo em Português de EstadoEncomendaMP.
+     */
+    public static String estadoEncomendaMpParaApi(String label) {
+        if (label == null) return null;
+        return ESTADO_ENCOMENDA_MP.entrySet().stream()
+                .filter(e -> e.getValue().equals(label))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Devolve todos os rótulos de EstadoEncomendaMP para preencher ComboBox.
+     */
+    public static String[] estadoEncomendaMpLabels() {
+        return new String[]{"Pendente", "Encomendada", "Recebida", "Cancelada"};
+    }
 }
+

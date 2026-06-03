@@ -10,7 +10,7 @@ public class SessionManager {
 
     private static SessionManager instance;
 
-    private UUID userId   = UUID.fromString("550830fa-e7c3-4e89-af34-9829bdd1349d");
+    private UUID userId  = UUID.fromString("d2548d95-7f32-4151-9f2d-fda1019e460f");
     private String userRole  = "ADMIN";
     private String userName  = "António Silva";
     private String userEmail = "antonio.silva@empresa.com";
