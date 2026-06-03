@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.produtoFinal.DetalhesProdutoFinalModalController"
+      styleClass="modal-root" prefWidth="700" prefHeight="550">
+
+    <stylesheets>
+        <java.lang.String fx:value="/styles/produtoFinal.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Detalhes do Produto Final" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo em scroll -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+        <GridPane hgap="16" vgap="12" styleClass="modal-content">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" percentWidth="50.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" percentWidth="50.0"/>
+            </columnConstraints>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="CÓDIGO SKU" styleClass="detalhe-label"/>
+                <TextField fx:id="txtCodigoSku" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="NOME" styleClass="detalhe-label"/>
+                <TextField fx:id="txtNome" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label text="DESCRIÇÃO" styleClass="detalhe-label"/>
+                <TextField fx:id="txtDescricao" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label text="ABREVIAÇÃO SABOR" styleClass="detalhe-label"/>
+                <TextField fx:id="txtAbreviacaoSabor" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Label text="ESTADO FÍSICO" styleClass="detalhe-label"/>
+                <TextField fx:id="txtEstadoFisico" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Label text="VALIDADE (DIAS)" styleClass="detalhe-label"/>
+                <TextField fx:id="txtValidadeDias" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                <Label text="PREÇO DE VENDA" styleClass="detalhe-label"/>
+                <TextField fx:id="txtPrecoVenda" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Label text="PREÇO POR KG" styleClass="detalhe-label"/>
+                <TextField fx:id="txtPrecoPorKg" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                <Label text="TAXA IVA" styleClass="detalhe-label"/>
+                <TextField fx:id="txtTaxaIva" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <Label text="QUANTIDADE LOTE" styleClass="detalhe-label"/>
+                <TextField fx:id="txtQuantidadeLote" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                <Label text="VISÍVEL AO CLIENTE" styleClass="detalhe-label"/>
+                <TextField fx:id="txtVisivelCliente" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Label text="CRIADO EM" styleClass="detalhe-label"/>
+                <TextField fx:id="txtCreatedAt" editable="false" styleClass="form-control"/>
+            </VBox>
+
+            <!-- Composição -->
+            <VBox styleClass="form-group" spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2">
+                <Label text="COMPOSIÇÃO" styleClass="detalhe-label"/>
+                <VBox fx:id="composicaoContainer" spacing="0"/>
+            </VBox>
+
+        </GridPane>
+    </ScrollPane>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
+    </HBox>
+</VBox>

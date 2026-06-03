@@ -1,0 +1,76 @@
+﻿{
+    "CreateProdutoMateriaRequest":  {
+                                        "type":  "object",
+                                        "properties":  {
+                                                           "materiaId":  {
+                                                                             "type":  "string",
+                                                                             "format":  "uuid"
+                                                                         },
+                                                           "quantidadePorUnidadeProduto":  {
+                                                                                               "type":  "number",
+                                                                                               "minimum":  0.001
+                                                                                           }
+                                                       },
+                                        "required":  [
+                                                         "materiaId",
+                                                         "quantidadePorUnidadeProduto"
+                                                     ]
+                                    },
+    "ProdutoMateriaResponse":  {
+                                   "type":  "object",
+                                   "properties":  {
+                                                      "id":  {
+                                                                 "type":  "string",
+                                                                 "format":  "uuid"
+                                                             },
+                                                      "materiaId":  {
+                                                                        "type":  "string",
+                                                                        "format":  "uuid"
+                                                                    },
+                                                      "materiaNome":  {
+                                                                          "type":  "string"
+                                                                      },
+                                                      "materiaUnidade":  {
+                                                                             "type":  "string"
+                                                                         },
+                                                      "quantidadePorUnidadeProduto":  {
+                                                                                          "type":  "number"
+                                                                                      }
+                                                  }
+                               },
+    "MateriaPrimaResponse":  {
+                                 "type":  "object",
+                                 "properties":  {
+                                                    "id":  {
+                                                               "type":  "string",
+                                                               "format":  "uuid"
+                                                           },
+                                                    "nome":  {
+                                                                 "type":  "string"
+                                                             },
+                                                    "unidade":  {
+                                                                    "type":  "string"
+                                                                },
+                                                    "stockAtual":  {
+                                                                       "type":  "number"
+                                                                   },
+                                                    "stockMinimo":  {
+                                                                        "type":  "number"
+                                                                    },
+                                                    "tipo":  {
+                                                                 "$ref":  "#/components/schemas/MateriaTipoResponse"
+                                                             },
+                                                    "isActive":  {
+                                                                     "type":  "boolean"
+                                                                 },
+                                                    "createdAt":  {
+                                                                      "type":  "string",
+                                                                      "format":  "date-time"
+                                                                  },
+                                                    "updatedAt":  {
+                                                                      "type":  "string",
+                                                                      "format":  "date-time"
+                                                                  }
+                                                }
+                             }
+}

@@ -120,6 +120,11 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
+    private void handleProdutosFinais() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/ProdutosFinais.fxml");
+    }
+
+    @FXML
     private void handleTema() {
         temaAtual = (temaAtual + 1) % temas.length;
         Application.setUserAgentStylesheet(temas[temaAtual]);

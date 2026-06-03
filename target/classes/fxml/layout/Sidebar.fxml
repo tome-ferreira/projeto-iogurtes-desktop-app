@@ -212,6 +212,22 @@
             <tooltip><Tooltip text="Gestão de Tipos de Pallet"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
+
+        <!-- Produtos Finais -->
+        <Button fx:id="btnProdutosFinais" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleProdutosFinais">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2i-ice-cream" iconSize="18"/>
+                    <Label text="Produtos Finais" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Produtos Finais"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
     </VBox>
 
 

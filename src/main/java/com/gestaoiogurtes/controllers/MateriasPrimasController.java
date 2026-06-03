@@ -61,7 +61,7 @@ public class MateriasPrimasController implements AppAware {
         tipoService = new TipoMateriaPrimaService();
 
         if (cbTamanhoPagina != null) {
-            cbTamanhoPagina.getItems().addAll(10, 20, 50, 100);
+            cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
             cbTamanhoPagina.setValue(pageSize);
             cbTamanhoPagina.valueProperty().addListener((obs, old, val) -> {
                 if (val != null && val != pageSize) {

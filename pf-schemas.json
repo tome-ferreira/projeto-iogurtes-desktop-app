@@ -1,0 +1,192 @@
+﻿{
+    "ProdutoFinalResponse":  {
+                                 "type":  "object",
+                                 "properties":  {
+                                                    "id":  {
+                                                               "type":  "string",
+                                                               "format":  "uuid"
+                                                           },
+                                                    "codigoSku":  {
+                                                                      "type":  "string"
+                                                                  },
+                                                    "nome":  {
+                                                                 "type":  "string"
+                                                             },
+                                                    "descricao":  {
+                                                                      "type":  "string"
+                                                                  },
+                                                    "abreviacaoSabor":  {
+                                                                            "type":  "string"
+                                                                        },
+                                                    "estadoFisico":  {
+                                                                         "type":  "string",
+                                                                         "enum":  [
+                                                                                      "LIQUIDO",
+                                                                                      "SOLIDO"
+                                                                                  ]
+                                                                     },
+                                                    "validadeDias":  {
+                                                                         "type":  "integer",
+                                                                         "format":  "int32"
+                                                                     },
+                                                    "precoVenda":  {
+                                                                       "type":  "number"
+                                                                   },
+                                                    "precoPorKg":  {
+                                                                       "type":  "number"
+                                                                   },
+                                                    "taxaIva":  {
+                                                                    "type":  "number"
+                                                                },
+                                                    "visivelCliente":  {
+                                                                           "type":  "boolean"
+                                                                       },
+                                                    "quantidadeLote":  {
+                                                                           "type":  "integer",
+                                                                           "format":  "int32"
+                                                                       },
+                                                    "composicao":  {
+                                                                       "type":  "array",
+                                                                       "items":  {
+                                                                                     "$ref":  "#/components/schemas/ProdutoMateriaResponse"
+                                                                                 }
+                                                                   },
+                                                    "isActive":  {
+                                                                     "type":  "boolean"
+                                                                 },
+                                                    "createdAt":  {
+                                                                      "type":  "string",
+                                                                      "format":  "date-time"
+                                                                  },
+                                                    "updatedAt":  {
+                                                                      "type":  "string",
+                                                                      "format":  "date-time"
+                                                                  }
+                                                }
+                             },
+    "CreateProdutoFinalRequest":  {
+                                      "type":  "object",
+                                      "properties":  {
+                                                         "nome":  {
+                                                                      "type":  "string",
+                                                                      "maxLength":  120,
+                                                                      "minLength":  2
+                                                                  },
+                                                         "descricao":  {
+                                                                           "type":  "string"
+                                                                       },
+                                                         "abreviacaoSabor":  {
+                                                                                 "type":  "string",
+                                                                                 "maxLength":  3,
+                                                                                 "minLength":  3,
+                                                                                 "pattern":  "^[A-Za-z]{3}$"
+                                                                             },
+                                                         "estadoFisico":  {
+                                                                              "type":  "string",
+                                                                              "enum":  [
+                                                                                           "LIQUIDO",
+                                                                                           "SOLIDO"
+                                                                                       ]
+                                                                          },
+                                                         "validadeDias":  {
+                                                                              "type":  "integer",
+                                                                              "format":  "int32",
+                                                                              "minimum":  1
+                                                                          },
+                                                         "precoVenda":  {
+                                                                            "type":  "number",
+                                                                            "minimum":  0.01
+                                                                        },
+                                                         "precoPorKg":  {
+                                                                            "type":  "number",
+                                                                            "minimum":  0.01
+                                                                        },
+                                                         "taxaIva":  {
+                                                                         "type":  "number",
+                                                                         "minimum":  0.0
+                                                                     },
+                                                         "visivelCliente":  {
+                                                                                "type":  "boolean"
+                                                                            },
+                                                         "quantidadeLote":  {
+                                                                                "type":  "integer",
+                                                                                "format":  "int32",
+                                                                                "minimum":  1
+                                                                            },
+                                                         "composicao":  {
+                                                                            "type":  "array",
+                                                                            "items":  {
+                                                                                          "$ref":  "#/components/schemas/CreateProdutoMateriaRequest"
+                                                                                      }
+                                                                        }
+                                                     },
+                                      "required":  [
+                                                       "abreviacaoSabor",
+                                                       "composicao",
+                                                       "estadoFisico",
+                                                       "nome",
+                                                       "quantidadeLote",
+                                                       "taxaIva",
+                                                       "visivelCliente"
+                                                   ]
+                                  },
+    "UpdateProdutoFinalRequest":  {
+                                      "type":  "object",
+                                      "properties":  {
+                                                         "nome":  {
+                                                                      "type":  "string",
+                                                                      "maxLength":  120,
+                                                                      "minLength":  2
+                                                                  },
+                                                         "descricao":  {
+                                                                           "type":  "string"
+                                                                       },
+                                                         "abreviacaoSabor":  {
+                                                                                 "type":  "string",
+                                                                                 "maxLength":  3,
+                                                                                 "minLength":  3,
+                                                                                 "pattern":  "^[A-Za-z]{3}$"
+                                                                             },
+                                                         "estadoFisico":  {
+                                                                              "type":  "string",
+                                                                              "enum":  [
+                                                                                           "LIQUIDO",
+                                                                                           "SOLIDO"
+                                                                                       ]
+                                                                          },
+                                                         "validadeDias":  {
+                                                                              "type":  "integer",
+                                                                              "format":  "int32",
+                                                                              "minimum":  1
+                                                                          },
+                                                         "precoVenda":  {
+                                                                            "type":  "number",
+                                                                            "minimum":  0.01
+                                                                        },
+                                                         "precoPorKg":  {
+                                                                            "type":  "number",
+                                                                            "minimum":  0.01
+                                                                        },
+                                                         "taxaIva":  {
+                                                                         "type":  "number",
+                                                                         "minimum":  0.0
+                                                                     },
+                                                         "visivelCliente":  {
+                                                                                "type":  "boolean"
+                                                                            },
+                                                         "quantidadeLote":  {
+                                                                                "type":  "integer",
+                                                                                "format":  "int32",
+                                                                                "minimum":  1
+                                                                            }
+                                                     },
+                                      "required":  [
+                                                       "abreviacaoSabor",
+                                                       "estadoFisico",
+                                                       "nome",
+                                                       "quantidadeLote",
+                                                       "taxaIva",
+                                                       "visivelCliente"
+                                                   ]
+                                  }
+}
