@@ -287,10 +287,14 @@ public class EncomendaMpController implements AppAware {
     // ── Detalhe da encomenda ──────────────────────────────────────────────────
 
     private void mostrarDetalhes(EncomendaMpResponse item) {
-        // Modal de detalhes simples (não-editable)
         com.gestaoiogurtes.components.encomendaMp.DetalhesEncomendaMpModalController.show(
                 item,
-                tabelaContainer.getScene().getWindow());
+                service,
+                tabelaContainer.getScene().getWindow(),
+                mensagem -> {
+                    currentPage = 0;
+                    onMutacaoBemSucedida(mensagem);
+                });
     }
 
     // ── Utilitários ───────────────────────────────────────────────────────────

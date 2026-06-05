@@ -83,8 +83,24 @@
 
     <!-- Footer -->
     <HBox styleClass="modal-footer">
+        <!-- Botão Cancelar (visível para PENDENTE e ENCOMENDADA) -->
+        <Button fx:id="btnCancelarEncomenda"
+                text="Cancelar Encomenda"
+                onAction="#handleCancelarEncomenda"
+                styleClass="btn-modal-submit-danger"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-submit"/>
+        <!-- Botão Aprovar — visível apenas para PENDENTE -->
+        <Button fx:id="btnAprovar"
+                text="Aprovar e Encomendar"
+                onAction="#handleAprovar"
+                styleClass="btn-modal-submit"/>
+        <!-- Botão Recebida — visível apenas para ENCOMENDADA -->
+        <Button fx:id="btnRecebida"
+                text="Marcar como Recebida"
+                onAction="#handleRecebida"
+                styleClass="btn-modal-submit"/>
+        <!-- Fechar — sempre visível -->
+        <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
     </HBox>
 
 </VBox>

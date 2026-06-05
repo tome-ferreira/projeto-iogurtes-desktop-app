@@ -21,6 +21,9 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EditarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EliminarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomenda\DetalhesEncomendaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\ConfirmarAprovarEncomendaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\ConfirmarCancelarEncomendaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\ConfirmarRecebidaEncomendaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\CriarEncomendaMpModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\DetalhesEncomendaMpModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\SelecionarFornecedorEncomendaModalController.java

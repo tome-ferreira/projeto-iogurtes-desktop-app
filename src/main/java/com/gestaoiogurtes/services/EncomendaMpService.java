@@ -51,4 +51,25 @@ public class EncomendaMpService {
                        Consumer<QueryState<EncomendaMpResponse>> cb) {
         ApiQuery.execute(api().create(request), cb);
     }
+
+    /**
+     * PATCH /encomendas-mp/{id}/aprovar — aprovar e encomendar.
+     */
+    public void aprovar(String id, Consumer<QueryState<EncomendaMpResponse>> cb) {
+        ApiQuery.execute(api().aprovar(id), cb);
+    }
+
+    /**
+     * PATCH /encomendas-mp/{id}/cancelar — cancelar a encomenda.
+     */
+    public void cancelar(String id, Consumer<QueryState<EncomendaMpResponse>> cb) {
+        ApiQuery.execute(api().cancelar(id), cb);
+    }
+
+    /**
+     * PATCH /encomendas-mp/{id}/recebida — marcar como recebida.
+     */
+    public void marcarRecebida(String id, Consumer<QueryState<EncomendaMpResponse>> cb) {
+        ApiQuery.execute(api().marcarRecebida(id), cb);
+    }
 }

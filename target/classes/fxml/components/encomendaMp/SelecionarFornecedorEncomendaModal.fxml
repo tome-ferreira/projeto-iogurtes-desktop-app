@@ -2,6 +2,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import java.lang.String?>
@@ -40,8 +41,11 @@
             <Label text="A carregar..." styleClass="loading-label"/>
         </HBox>
 
-        <!-- Lista de fornecedores (linhas injectadas dinamicamente) -->
-        <VBox fx:id="listaContainer" styleClass="selecionar-tipo-lista" spacing="0"/>
+        <!-- Lista de fornecedores em ScrollPane com altura fixa -->
+        <ScrollPane prefHeight="280" fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox fx:id="listaContainer" styleClass="selecionar-tipo-lista" spacing="0"/>
+        </ScrollPane>
 
     </VBox>
 

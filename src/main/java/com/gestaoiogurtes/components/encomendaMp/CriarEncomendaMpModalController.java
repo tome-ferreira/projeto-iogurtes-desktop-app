@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -47,8 +48,9 @@ import java.util.function.Consumer;
 public class CriarEncomendaMpModalController {
 
     // ── FXML — Tab 1 (Encomenda) ─────────────────────────────────────────────
-    @FXML private Label  lblFornecedorNome;
-    @FXML private Button btnSelecionarFornecedor;
+    @FXML private Label    lblFornecedorNome;
+    @FXML private Button   btnSelecionarFornecedor;
+    @FXML private TextArea campoObservacoes;
 
     // ── FXML — Tab 2 (Matérias Primas) ───────────────────────────────────────
     @FXML private Tab    tabMateriasPrimas;
@@ -209,7 +211,13 @@ public class CriarEncomendaMpModalController {
         request.userId = SessionManager.getInstance().getUserId();
         request.fornecedorId = UUID.fromString(selectedFornecedorId);
         request.linhas = linhasReq;
-        // observacoes é opcional — não incluímos campo de texto para manter o modal simples
+
+        // Campo observações — opcional
+        String obs = campoObservacoes != null && campoObservacoes.getText() != null
+                ? campoObservacoes.getText().trim() : "";
+        if (!obs.isEmpty()) {
+            request.observacoes = obs;
+        }
 
         btnCriar.setDisable(true);
         btnCriar.setText("A criar...");
@@ -265,9 +273,13 @@ public class CriarEncomendaMpModalController {
                     + " " + (item.moedaSimbolo != null ? item.moedaSimbolo : ""));
             lblPreco.getStyleClass().add("linha-row-preco");
 
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.NEVER);
-            spacer.setPrefWidth(8);
+            Region spacer1 = new Region();
+            HBox.setHgrow(spacer1, Priority.NEVER);
+            spacer1.setPrefWidth(8);
+
+            Region spacer2 = new Region();
+            HBox.setHgrow(spacer2, Priority.NEVER);
+            spacer2.setPrefWidth(8);
 
             Button btnRemover = new Button("Remover");
             btnRemover.getStyleClass().add("btn-remover-linha");
@@ -276,7 +288,7 @@ public class CriarEncomendaMpModalController {
                 renderizarLinhas();
             });
 
-            row.getChildren().addAll(lblNome, lblQtd, spacer, lblPreco, spacer, btnRemover);
+            row.getChildren().addAll(lblNome, lblQtd, spacer1, lblPreco, spacer2, btnRemover);
             linhasContainer.getChildren().add(row);
         }
     }

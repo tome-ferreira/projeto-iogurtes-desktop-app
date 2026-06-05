@@ -6,6 +6,7 @@ import com.gestaoiogurtes.models.encomendaMp.EncomendaMpResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -40,4 +41,16 @@ public interface IEncomendaMpApiService {
     /** POST /encomendas-mp — criar nova encomenda MP. */
     @POST("encomendas-mp")
     Call<EncomendaMpResponse> create(@Body CreateEncomendaMpRequest request);
+
+    /** PATCH /encomendas-mp/{id}/aprovar — aprovar e encomendar. */
+    @PATCH("encomendas-mp/{id}/aprovar")
+    Call<EncomendaMpResponse> aprovar(@Path("id") String id);
+
+    /** PATCH /encomendas-mp/{id}/cancelar — cancelar a encomenda. */
+    @PATCH("encomendas-mp/{id}/cancelar")
+    Call<EncomendaMpResponse> cancelar(@Path("id") String id);
+
+    /** PATCH /encomendas-mp/{id}/recebida — marcar como recebida. */
+    @PATCH("encomendas-mp/{id}/recebida")
+    Call<EncomendaMpResponse> marcarRecebida(@Path("id") String id);
 }
