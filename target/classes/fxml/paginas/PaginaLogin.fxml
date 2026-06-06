@@ -14,7 +14,7 @@
 
     <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-    <Label text="Gestão de Iogurtes" styleClass="title-1"/>
+    <Label text="Norgurtes" styleClass="title-1"/>
     <Label text="Inicia sessão para continuar" styleClass="text-muted"/>
 
     <TextField fx:id="campoUser" promptText="Utilizador" maxWidth="300"/>

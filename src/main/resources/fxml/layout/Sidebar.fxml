@@ -27,7 +27,7 @@
 
         <FontIcon iconLiteral="mdi2s-snowflake" iconSize="22" styleClass="accent"/>
 
-        <Label fx:id="tituloLabel" text="Iogurtes"
+        <Label fx:id="tituloLabel" text="Norgurtes"
                maxWidth="Infinity" HBox.hgrow="ALWAYS"
                styleClass="title-4, accent"/>
 
@@ -114,6 +114,22 @@
                 </HBox>
             </graphic>
             <tooltip><Tooltip text="Encomendas de Matéria Prima"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Ordens de Produção -->
+        <Button fx:id="btnOrdensProducao" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleOrdensProducao">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2f-factory" iconSize="18"/>
+                    <Label text="Ordens de Produção" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Ordens de Produção"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
@@ -258,6 +274,22 @@
                 </HBox>
             </graphic>
             <tooltip><Tooltip text="Gestão de Produtos Finais"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Stock -->
+        <Button fx:id="btnStock" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleStock">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2p-package-variant" iconSize="18"/>
+                    <Label text="Stock" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Stock"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
     </VBox>

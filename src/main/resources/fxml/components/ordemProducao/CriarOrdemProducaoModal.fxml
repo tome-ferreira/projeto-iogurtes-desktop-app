@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.ordemProducao.CriarOrdemProducaoModalController"
+      styleClass="modal-root" prefWidth="650" prefHeight="550">
+
+    <stylesheets>
+        <String fx:value="/styles/ordemProducao.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Nova Ordem de Produção" styleClass="modal-title"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+        <VBox styleClass="modal-content" spacing="16">
+
+            <!-- Observações -->
+            <VBox styleClass="form-group" spacing="8">
+                <Label text="Observações" styleClass="form-label"/>
+                <TextArea fx:id="campoObservacoes"
+                          promptText="Notas adicionais sobre a ordem (opcional)"
+                          styleClass="form-control"
+                          wrapText="true" prefRowCount="3"/>
+            </VBox>
+
+            <!-- Produtos -->
+            <VBox spacing="8" style="-fx-padding: 8 0 8 0;" VBox.vgrow="ALWAYS">
+                <HBox styleClass="composicao-section-header" alignment="CENTER_LEFT" spacing="12">
+                    <Label text="Produtos a Produzir*" styleClass="composicao-section-title"
+                           HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="btnAdicionarProduto" text="+ Adicionar Produto"
+                            onAction="#handleAdicionarProduto"
+                            styleClass="btn-modal-submit"/>
+                </HBox>
+
+                <!-- Aviso de duplicado -->
+                <Label fx:id="lblLinhasAviso" styleClass="composicao-aviso"
+                       text="" wrapText="true" visible="false" managed="false"/>
+
+                <ScrollPane maxHeight="280" fitToWidth="true"
+                            VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: transparent;">
+                    <VBox fx:id="linhasContainer" spacing="0"/>
+                </ScrollPane>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"
+               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnCriar" text="Criar Ordem"
+                onAction="#handleCriar" styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

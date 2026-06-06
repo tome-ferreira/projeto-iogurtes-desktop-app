@@ -275,3 +275,47 @@ src/
 docs/
 └── API-CLIENT.md                             ← este ficheiro
 ```
+
+
+
+# WEB
+
+✅ API Client implementado na Web App
+Ficheiros criados
+Ficheiro	Descrição
+
+
+pom.xml
++4 dependências: Retrofit 2.11.0, converter-gson, OkHttp 4.12.0, logging-interceptor
+
+
+config.properties
+api.base.url, api.timeout.seconds, api.logging.enabled — idêntico à desktop app
+
+
+ApiConfig.java
+Lê config.properties para constantes estáticas — cópia exacta
+
+
+QueryState.java
+State machine IDLE→LOADING→SUCCESS/ERROR — cópia exacta
+
+
+RetrofitClient.java
+Singleton OkHttp + Retrofit + adaptadores Gson LocalDate/LocalDateTime — cópia exacta
+
+
+ApiQuery.java
+Executor — adaptado: usa call.execute() síncrono em vez de call.enqueue() + Platform.runLater() (que não existe em Spring Boot)
+api/services/	Directório criado e pronto para receber as interfaces Retrofit
+Como usar (idêntico à desktop app)
+java
+// 1. Criar interface Retrofit em api/services/
+// 2. Obter instância
+IMinhaApiService api = RetrofitClient.getInstance().getService(IMinhaApiService.class);
+// 3. Executar via ApiQuery
+ApiQuery.execute(api.findAll(), state -> {
+    if (state.isLoading())  { /* pedido iniciado */ }
+    if (state.isSuccess())  { var dados = state.getData(); }
+    if (state.isError())    { var msg = state.getErrorMessage(); }
+});

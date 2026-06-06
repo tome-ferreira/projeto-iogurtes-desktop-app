@@ -124,5 +124,33 @@ public final class EnumDisplayHelper {
     public static String[] estadoEncomendaMpLabels() {
         return new String[]{"Pendente", "Encomendada", "Recebida", "Cancelada"};
     }
+
+    // ── Estado Ordem Produção ────────────────────────────────────────────────
+    private static final Map<String, String> ESTADO_ORDEM_PRODUCAO = new HashMap<>();
+
+    static {
+        ESTADO_ORDEM_PRODUCAO.put("AGUARDA_APROVACAO", "Aguarda Aprovação");
+        ESTADO_ORDEM_PRODUCAO.put("EM_PRODUCAO",       "Em Produção");
+        ESTADO_ORDEM_PRODUCAO.put("CONCLUIDA",         "Concluída");
+        ESTADO_ORDEM_PRODUCAO.put("CANCELADA",         "Cancelada");
+    }
+
+    public static String estadoOrdemProducao(String valor) {
+        if (valor == null) return "—";
+        return ESTADO_ORDEM_PRODUCAO.getOrDefault(valor, valor);
+    }
+
+    public static String estadoOrdemProducaoParaApi(String label) {
+        if (label == null) return null;
+        return ESTADO_ORDEM_PRODUCAO.entrySet().stream()
+                .filter(e -> e.getValue().equals(label))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static String[] estadoOrdemProducaoLabels() {
+        return new String[]{"Aguarda Aprovação", "Em Produção", "Concluída", "Cancelada"};
+    }
 }
 

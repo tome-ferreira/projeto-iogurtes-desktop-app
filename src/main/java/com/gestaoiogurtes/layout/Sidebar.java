@@ -90,6 +90,11 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
+    private void handleOrdensProducao() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/OrdensProducao.fxml");
+    }
+
+    @FXML
     private void handleFornecedores() {
         NavigationHelper.navigateTo(app, "/fxml/paginas/Fornecedores.fxml");
     }
@@ -132,6 +137,11 @@ public class Sidebar implements AppAware {
     @FXML
     private void handleProdutosFinais() {
         NavigationHelper.navigateTo(app, "/fxml/paginas/ProdutosFinais.fxml");
+    }
+
+    @FXML
+    private void handleStock() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Stock.fxml");
     }
 
     @FXML

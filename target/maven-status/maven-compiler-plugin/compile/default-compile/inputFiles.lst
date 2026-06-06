@@ -9,6 +9,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IFornecedorTipoApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IMateriaPrimaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IMoedaApiService.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IOrdemProducaoApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\IProdutoFinalApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\ITipoMateriaPrimaApiService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\api\services\ITipoPalletApiService.java
@@ -54,6 +55,12 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\CriarMoedaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\EditarMoedaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\moeda\EliminarMoedaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\ConfirmarAprovarOrdemModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\ConfirmarCancelarOrdemModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\ConfirmarConcluirOrdemModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\CriarOrdemProducaoModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\DetalhesOrdemProducaoModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\ordemProducao\SelecionarProdutoOrdemModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\produtoFinal\AdicionarComposicaoModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\produtoFinal\ComposicaoModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\produtoFinal\CriarProdutoFinalModalController.java
@@ -96,8 +103,10 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\FornecedoresTipoController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\MateriasPrimasController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\MoedasController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\OrdensProducaoController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\PaginaLogin.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\ProdutosFinaisController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\StockController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\TiposMateriaPrimaController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\TiposPalletController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\controllers\UtilizadoresController.java
@@ -141,6 +150,12 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\CreateMoedaRequest.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\MoedaResponse.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\moeda\UpdateMoedaRequest.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\CreateOrdemProducaoRequest.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\OrdemProducaoDetalheResponse.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\OrdemProducaoLinhaItem.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\OrdemProducaoProdutoResponse.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\OrdemProducaoResponse.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\ordemProducao\ProdutoOrdemSelecao.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\PaginatedResponse.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\produtoFinal\AddMateriasComposicaoRequest.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\models\produtoFinal\ComposicaoItem.java
@@ -173,6 +188,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\FornecedorTipoService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\MateriaPrimaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\MoedaService.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\OrdemProducaoService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\ProdutoFinalService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\TipoMateriaPrimaService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\TipoPalletService.java

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<!--
+  Página de Stock.
+  Para já em branco, apenas com o título.
+-->
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gestaoiogurtes.controllers.StockController">
+
+    <left>
+        <fx:include fx:id="sidebar" source="/fxml/layout/Sidebar.fxml"/>
+    </left>
+
+    <center>
+        <VBox spacing="16">
+            <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
+            <Label text="Stock" styleClass="title-2"/>
+        </VBox>
+    </center>
+
+</BorderPane>
