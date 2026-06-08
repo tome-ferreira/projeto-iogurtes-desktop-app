@@ -190,7 +190,7 @@ public class FornecedoresController implements AppAware {
                 headerCol("Nome", 220, true),
                 headerCol("Email", 220, true),
                 headerCol("Tipo", 150, false),
-                headerCol("Ações", 320, false));
+                headerCol("Ações", 400, false));
         return row;
     }
 
@@ -269,7 +269,7 @@ public class FornecedoresController implements AppAware {
 
         var acoesBox = new HBox(6, btnDetalhes, btnEditar, btnCertificacoes, btnEliminar);
         acoesBox.setAlignment(Pos.CENTER_RIGHT);
-        acoesBox.setMinWidth(320);
+        acoesBox.setMinWidth(400);
 
         row.getChildren().addAll(nomeLabel, emailLabel, tipoBox, acoesBox);
         return row;

@@ -46,7 +46,7 @@ public class FornecedorService {
     }
 
     public void delete(String id, Consumer<QueryState<ResponseBody>> cb) {
-        ApiQuery.execute(api().softDelete(id), cb);
+        ApiQuery.execute(api().delete(id), cb);
     }
 
     // ── Tipos de Fornecedor ─────────────────────────────────────────────────

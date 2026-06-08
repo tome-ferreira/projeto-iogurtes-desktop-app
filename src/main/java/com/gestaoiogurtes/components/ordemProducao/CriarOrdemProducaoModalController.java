@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -37,6 +38,7 @@ public class CriarOrdemProducaoModalController {
     @FXML private VBox linhasContainer;
     @FXML private Label lblLinhasAviso;
     @FXML private Label lblErro;
+    @FXML private ScrollPane scrollErro;
     @FXML private Button btnCriar;
 
     private Stage dialogStage;
@@ -76,7 +78,7 @@ public class CriarOrdemProducaoModalController {
 
     @FXML
     public void initialize() {
-        lblErro.setText("");
+        mostrarErro(null);
         lblLinhasAviso.setVisible(false);
         lblLinhasAviso.setManaged(false);
         renderizarLinhas();
@@ -109,7 +111,7 @@ public class CriarOrdemProducaoModalController {
 
     @FXML
     private void handleCriar() {
-        lblErro.setText("");
+        mostrarErro(null);
 
         if (linhas.isEmpty()) {
             mostrarErro("Adicione pelo menos um produto.");
@@ -197,6 +199,11 @@ public class CriarOrdemProducaoModalController {
     }
 
     private void mostrarErro(String msg) {
-        lblErro.setText(msg != null ? msg : "Ocorreu um erro desconhecido.");
+        boolean hasError = msg != null && !msg.trim().isEmpty();
+        lblErro.setText(hasError ? msg : "");
+        if (scrollErro != null) {
+            scrollErro.setVisible(hasError);
+            scrollErro.setManaged(hasError);
+        }
     }
 }

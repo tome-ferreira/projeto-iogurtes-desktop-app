@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 public class ConfirmarAprovarOrdemModalController {
 
     @FXML private Label  lblErro;
+    @FXML private ScrollPane scrollErro;
     @FXML private Button btnConfirmar;
     @FXML private Button btnCancelar;
 
@@ -58,7 +60,7 @@ public class ConfirmarAprovarOrdemModalController {
 
     @FXML
     public void initialize() {
-        lblErro.setText("");
+        mostrarErro(null);
     }
 
     @FXML
@@ -70,7 +72,7 @@ public class ConfirmarAprovarOrdemModalController {
     private void handleConfirmar() {
         btnConfirmar.setDisable(true);
         btnCancelar.setDisable(true);
-        lblErro.setText("");
+        mostrarErro(null);
 
         service.aprovar(ordemId, state -> {
             if (state.isLoading()) {
@@ -86,8 +88,17 @@ public class ConfirmarAprovarOrdemModalController {
                 btnConfirmar.setText("Aprovar");
                 String erro = state.getErrorMessage() != null
                         ? state.getErrorMessage() : "Erro desconhecido";
-                lblErro.setText(("Erro: " + erro).replaceAll("\\R", " ").strip());
+                mostrarErro("Erro:\n" + erro);
             }
         });
+    }
+
+    private void mostrarErro(String msg) {
+        boolean hasError = msg != null && !msg.trim().isEmpty();
+        lblErro.setText(hasError ? msg : "");
+        if (scrollErro != null) {
+            scrollErro.setVisible(hasError);
+            scrollErro.setManaged(hasError);
+        }
     }
 }

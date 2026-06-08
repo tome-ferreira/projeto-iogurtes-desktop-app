@@ -58,10 +58,17 @@
         </VBox>
     </ScrollPane>
 
+    <!-- Error Area -->
+    <ScrollPane fx:id="scrollErro" fitToWidth="true"
+                style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0 24 0 24;"
+                maxHeight="120" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+                visible="false" managed="false">
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true" maxWidth="Infinity"/>
+    </ScrollPane>
+
     <!-- Footer -->
-    <HBox styleClass="modal-footer">
-        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"
-               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+    <HBox styleClass="modal-footer" alignment="CENTER_RIGHT" spacing="12">
+        <Region HBox.hgrow="ALWAYS"/>
         <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
         <Button fx:id="btnCriar" text="Criar Ordem"
                 onAction="#handleCriar" styleClass="btn-modal-submit"/>

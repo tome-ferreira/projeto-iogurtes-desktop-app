@@ -40,7 +40,7 @@ public interface IFornecedorApiService {
     Call<FornecedorResponse> update(@Path("id") String id, @Body UpdateFornecedorRequest request);
 
     @DELETE("fornecedor/{id}")
-    Call<ResponseBody> softDelete(@Path("id") String id);
+    Call<ResponseBody> delete(@Path("id") String id);
 
     // ── Tipos de Fornecedor ─────────────────────────────────────────────────
 
