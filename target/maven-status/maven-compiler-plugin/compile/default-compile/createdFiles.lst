@@ -110,6 +110,7 @@ com\gestaoiogurtes\models\produtoFinal\AddMateriasComposicaoRequest.class
 com\gestaoiogurtes\models\tipoMateriaPrima\CreateTipoMateriaPrimaRequest.class
 com\gestaoiogurtes\components\produtoFinal\AdicionarComposicaoModalController.class
 com\gestaoiogurtes\components\materiaPrima\AdicionarFornecedorMateriaPrimaModalController$2.class
+com\gestaoiogurtes\controllers\StockController$1.class
 com\gestaoiogurtes\controllers\EmpresasController.class
 com\gestaoiogurtes\components\encomendaMp\SelecionarMateriaEncomendaModalController.class
 com\gestaoiogurtes\components\fornecedorestipo\CriarFornecedorTipoModalController.class

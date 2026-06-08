@@ -285,7 +285,7 @@
                 onAction="#handleStock">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2p-package-variant" iconSize="18"/>
+                    <FontIcon iconLiteral="mdi2w-warehouse" iconSize="18"/>
                     <Label text="Stock" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>

@@ -152,5 +152,31 @@ public final class EnumDisplayHelper {
     public static String[] estadoOrdemProducaoLabels() {
         return new String[]{"Aguarda Aprovação", "Em Produção", "Concluída", "Cancelada"};
     }
+
+    // ── Estado Lote Produção ─────────────────────────────────────────────────
+    private static final Map<String, String> ESTADO_LOTE_PRODUCAO = new HashMap<>();
+
+    static {
+        ESTADO_LOTE_PRODUCAO.put("DISPONIVEL", "Disponível");
+        ESTADO_LOTE_PRODUCAO.put("GASTO",      "Gasto");
+    }
+
+    public static String estadoLoteProducao(String valor) {
+        if (valor == null) return "—";
+        return ESTADO_LOTE_PRODUCAO.getOrDefault(valor, valor);
+    }
+
+    public static String estadoLoteProducaoParaApi(String label) {
+        if (label == null) return null;
+        return ESTADO_LOTE_PRODUCAO.entrySet().stream()
+                .filter(e -> e.getValue().equals(label))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static String[] estadoLoteProducaoLabels() {
+        return new String[]{"Disponível", "Gasto"};
+    }
 }
 
