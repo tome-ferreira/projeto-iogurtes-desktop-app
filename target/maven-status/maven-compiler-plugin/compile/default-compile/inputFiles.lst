@@ -22,6 +22,8 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\CriarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EditarEmpresaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\empresas\EliminarEmpresaModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomenda\ConfirmarCancelarEncomendaClienteModalController.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomenda\ConfirmarConfirmarEncomendaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomenda\DetalhesEncomendaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\ConfirmarAprovarEncomendaModalController.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\components\encomendaMp\ConfirmarCancelarEncomendaModalController.java
@@ -199,6 +201,7 @@ C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\TipoPalletService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\services\UtilizadorService.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\AppAware.java
+C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\DynamicColorHelper.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\EnumDisplayHelper.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\MessageHelper.java
 C:\Users\tomep\PROJETOS\04_ESCOLA\LicenciaturaAno1\Projeto2\desktop_app\src\main\java\com\gestaoiogurtes\utils\NavigationHelper.java

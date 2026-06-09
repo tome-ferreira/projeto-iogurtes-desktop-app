@@ -7,6 +7,7 @@ import com.gestaoiogurtes.models.fornecedor.FornecedorResponse;
 import com.gestaoiogurtes.models.fornecedortipo.FornecedorTipoResponse;
 import com.gestaoiogurtes.services.FornecedorService;
 import com.gestaoiogurtes.utils.AppAware;
+import com.gestaoiogurtes.utils.DynamicColorHelper;
 import com.gestaoiogurtes.utils.MessageHelper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,6 +41,7 @@ public class FornecedoresController implements AppAware {
     private int totalPages = 0;
     private List<FornecedorResponse> todosItens = List.of();
     private String selectedTipoId = null;
+    private DynamicColorHelper colorHelper;
 
     private static class FornecedorTipoWrapper {
         public String id;
@@ -63,6 +65,7 @@ public class FornecedoresController implements AppAware {
 
     @FXML
     public void initialize() {
+        colorHelper = new DynamicColorHelper();
         carregarTipos();
         
         cbFiltroTipo.valueProperty().addListener((obs, old, val) -> {
@@ -231,6 +234,8 @@ public class FornecedoresController implements AppAware {
         var tipoNome = (item.tipo != null && item.tipo.nome != null) ? item.tipo.nome : "Sem Tipo";
         var tipoLabel = new Label(tipoNome);
         tipoLabel.getStyleClass().add("pill-fornecedor-tipo");
+        String cor = colorHelper.getColorForType(tipoNome);
+        tipoLabel.setStyle("-fx-background-color: " + cor + "; -fx-text-fill: white; -fx-padding: 3 8 3 8; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
         
         var tipoBox = new HBox(tipoLabel);
         tipoBox.setAlignment(Pos.CENTER_LEFT);

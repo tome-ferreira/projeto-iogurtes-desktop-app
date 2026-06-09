@@ -214,7 +214,12 @@ public class EncomendaController implements AppAware {
         btnDetalhes.getStyleClass().add("btn-linha-acao");
         btnDetalhes.setOnAction(e -> DetalhesEncomendaModalController.show(
                 encomenda, service,
-                tabelaContainer.getScene().getWindow()
+                tabelaContainer.getScene().getWindow(),
+                mensagem -> {
+                    currentPage = 0;
+                    carregarEncomendas();
+                    mostrarNotificacao(mensagem, true);
+                }
         ));
 
         var acoesBox = new HBox(6, btnDetalhes);

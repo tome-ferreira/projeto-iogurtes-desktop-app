@@ -11,6 +11,7 @@ import com.gestaoiogurtes.components.materiaPrima.FornecedoresMateriaPrimaModalC
 import com.gestaoiogurtes.models.materiaPrima.MateriaPrimaResponse;
 import com.gestaoiogurtes.services.MateriaPrimaService;
 import com.gestaoiogurtes.services.TipoMateriaPrimaService;
+import com.gestaoiogurtes.utils.DynamicColorHelper;
 import com.gestaoiogurtes.utils.MessageHelper;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -44,6 +45,7 @@ public class MateriasPrimasController implements AppAware {
 
     private MateriaPrimaService service;
     private TipoMateriaPrimaService tipoService;
+    private DynamicColorHelper colorHelper;
 
     private int currentPage = 0;
     private int pageSize = 10;
@@ -59,6 +61,7 @@ public class MateriasPrimasController implements AppAware {
     public void initialize() {
         service = new MateriaPrimaService();
         tipoService = new TipoMateriaPrimaService();
+        colorHelper = new DynamicColorHelper();
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -140,6 +143,9 @@ public class MateriasPrimasController implements AppAware {
             // Coluna Tipo
             Label lblTipo = new Label(p.tipo != null && p.tipo.nome != null ? p.tipo.nome : "Sem tipo");
             lblTipo.getStyleClass().add("pill-materia-prima-tipo");
+            String cor = colorHelper.getColorForType(lblTipo.getText());
+            lblTipo.setStyle("-fx-background-color: " + cor + "; -fx-text-fill: white; -fx-padding: 3 8 3 8; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
+            
             HBox boxTipo = new HBox(lblTipo);
             boxTipo.setAlignment(Pos.CENTER_LEFT);
             boxTipo.setMinWidth(150);
