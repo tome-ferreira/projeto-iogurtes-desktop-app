@@ -9,8 +9,10 @@ com\gestaoiogurtes\controllers\FornecedoresController$1.class
 com\gestaoiogurtes\utils\DynamicColorHelper.class
 com\gestaoiogurtes\controllers\TiposPalletController$1.class
 com\gestaoiogurtes\controllers\CertificacoesController$1.class
+com\gestaoiogurtes\controllers\DashboardAdmin$1.class
 com\gestaoiogurtes\controllers\EncomendaMpController$1.class
 com\gestaoiogurtes\controllers\EncomendaController$1.class
+com\gestaoiogurtes\controllers\DashboardAdmin.class
 com\gestaoiogurtes\components\encomenda\ConfirmarCancelarEncomendaClienteModalController.class
 com\gestaoiogurtes\controllers\UtilizadoresController$1.class
 com\gestaoiogurtes\controllers\MoedasController$1.class

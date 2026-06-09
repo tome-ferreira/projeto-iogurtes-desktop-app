@@ -72,6 +72,10 @@ public final class EnumDisplayHelper {
         return ESTADO_ENCOMENDA.getOrDefault(valor, valor);
     }
 
+    public static String getEstadoEncomendaLabel(String estado) {
+        return estadoEncomenda(estado);
+    }
+
     public static String estadoEncomendaParaApi(String label) {
         if (label == null) return null;
         return ESTADO_ENCOMENDA.entrySet().stream()
