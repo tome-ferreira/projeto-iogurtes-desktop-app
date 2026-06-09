@@ -88,8 +88,8 @@
                         <VBox spacing="12" VBox.vgrow="ALWAYS" alignment="TOP_CENTER">
                             <padding><Insets top="16"/></padding>
                             <Button text="Gerir Produtos" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToProdutosFinais"/>
-                            <Button text="Gerir utilizadores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToUtilizadores"/>
-                            <Button text="Gerir fornecedores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToFornecedores"/>
+                            <Button text="Gerir Utilizadores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToUtilizadores"/>
+                            <Button text="Gerir Fornecedores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToFornecedores"/>
                             <Button text="Gerir Matérias Primas" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToMateriasPrimas"/>
                         </VBox>
                     </VBox>

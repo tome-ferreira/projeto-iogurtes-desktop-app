@@ -85,6 +85,22 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
+        <!-- Dashboard Gestor -->
+        <Button fx:id="btnDashboardGestor" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleDashboardGestor">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2v-view-dashboard-variant" iconSize="18"/>
+                    <Label text="Dashboard Gestor" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard Gestor"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
         <!-- Empresas -->
         <Button fx:id="btnEmpresas" styleClass="sidebar-item"
                 maxWidth="Infinity"

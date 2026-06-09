@@ -161,8 +161,9 @@ public final class EnumDisplayHelper {
     private static final Map<String, String> ESTADO_LOTE_PRODUCAO = new HashMap<>();
 
     static {
-        ESTADO_LOTE_PRODUCAO.put("DISPONIVEL", "Disponível");
-        ESTADO_LOTE_PRODUCAO.put("GASTO",      "Gasto");
+        ESTADO_LOTE_PRODUCAO.put("DISPONIVEL",  "Disponível");
+        ESTADO_LOTE_PRODUCAO.put("GASTO",       "Gasto");
+        ESTADO_LOTE_PRODUCAO.put("DESPERDICIO", "Desperdício");
     }
 
     public static String estadoLoteProducao(String valor) {
@@ -180,7 +181,7 @@ public final class EnumDisplayHelper {
     }
 
     public static String[] estadoLoteProducaoLabels() {
-        return new String[]{"Disponível", "Gasto"};
+        return new String[]{"Disponível", "Gasto", "Desperdício"};
     }
 }
 

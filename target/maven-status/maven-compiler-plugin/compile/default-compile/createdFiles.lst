@@ -17,4 +17,6 @@ com\gestaoiogurtes\components\encomenda\ConfirmarCancelarEncomendaClienteModalCo
 com\gestaoiogurtes\controllers\UtilizadoresController$1.class
 com\gestaoiogurtes\controllers\MoedasController$1.class
 com\gestaoiogurtes\controllers\FornecedoresTipoController$1.class
+com\gestaoiogurtes\controllers\DashboardGestor$1.class
 com\gestaoiogurtes\components\certificacoes\CriarCertificacaoModalController$1.class
+com\gestaoiogurtes\controllers\DashboardGestor.class
