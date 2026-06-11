@@ -14,6 +14,7 @@ import com.gestaoiogurtes.utils.EnumDisplayHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.Cursor;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import com.gestaoiogurtes.services.OrdemProducaoService;
 
 import java.util.LinkedHashMap;
 
@@ -32,6 +34,7 @@ public class DashboardAdmin implements AppAware {
     private final UtilizadorService utilizadorService = new UtilizadorService();
     private final EncomendaService encomendaService = new EncomendaService();
     private final MateriaPrimaService materiaPrimaService = new MateriaPrimaService();
+    private final OrdemProducaoService ordemProducaoService = new OrdemProducaoService();
     private GestaoIogurtes app;
 
     @FXML private Sidebar sidebarController;
@@ -64,6 +67,10 @@ public class DashboardAdmin implements AppAware {
     @FXML private VBox pieChartMateriasCard;
     @FXML private PieChart pieChartMaterias;
     @FXML private ProgressIndicator loadingPieChartMaterias;
+
+    @FXML private VBox lineChartOrdensCard;
+    @FXML private LineChart<String, Number> lineChartOrdens;
+    @FXML private ProgressIndicator loadingLineChartOrdens;
 
     @FXML
     public void initialize() {
@@ -153,8 +160,12 @@ public class DashboardAdmin implements AppAware {
         pieChartMateriasCard.setOnMouseClicked(e -> handleNavigateToMateriasPrimas());
         pieChartMateriasCard.setCursor(Cursor.HAND);
         
+        lineChartOrdensCard.setOnMouseClicked(e -> handleNavigateToOrdensProducao());
+        lineChartOrdensCard.setCursor(Cursor.HAND);
+
         loadBarChart();
         loadPieChartMaterias();
+        loadLineChartOrdens();
     }
 
     private void showLoading(boolean loading) {
@@ -294,6 +305,46 @@ public class DashboardAdmin implements AppAware {
         });
     }
 
+    private void loadLineChartOrdens() {
+        loadingLineChartOrdens.setVisible(true);
+        loadingLineChartOrdens.setManaged(true);
+        lineChartOrdens.setVisible(false);
+        lineChartOrdens.setManaged(false);
+
+        ordemProducaoService.getAll(0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingLineChartOrdens.setVisible(false);
+            loadingLineChartOrdens.setManaged(false);
+
+            if (state.isSuccess()) {
+                lineChartOrdens.setVisible(true);
+                lineChartOrdens.setManaged(true);
+
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    java.util.List<com.gestaoiogurtes.models.ordemProducao.OrdemProducaoResponse> ordensConcluidas = response.content.stream()
+                            .filter(o -> "CONCLUIDA".equals(o.estado) && o.dataFim != null)
+                            .toList();
+
+                    XYChart.Series<String, Number> series = new XYChart.Series<>();
+                    java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM");
+
+                    for (int i = 4; i >= 0; i--) {
+                        java.time.LocalDate dia = java.time.LocalDate.now().minusDays(i);
+                        long count = ordensConcluidas.stream()
+                                .filter(o -> o.dataFim.toLocalDate().equals(dia))
+                                .count();
+                        series.getData().add(new XYChart.Data<>(dia.format(fmt), count));
+                    }
+                    lineChartOrdens.getData().clear();
+                    lineChartOrdens.getData().add(series);
+                }
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(), false);
+            }
+        });
+    }
+
     @FXML
     private void handleNavigateToUtilizadores() {
         if (app != null) {
@@ -319,6 +370,13 @@ public class DashboardAdmin implements AppAware {
     private void handleNavigateToFornecedores() {
         if (app != null) {
             NavigationHelper.navigateTo(app, "/fxml/paginas/Fornecedores.fxml");
+        }
+    }
+
+    @FXML
+    private void handleNavigateToOrdensProducao() {
+        if (app != null) {
+            NavigationHelper.navigateTo(app, "/fxml/paginas/OrdensProducao.fxml");
         }
     }
 

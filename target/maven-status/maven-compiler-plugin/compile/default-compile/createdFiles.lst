@@ -14,6 +14,7 @@ com\gestaoiogurtes\controllers\CertificacoesController$1.class
 com\gestaoiogurtes\controllers\DashboardAdmin$1.class
 com\gestaoiogurtes\controllers\EncomendaMpController$1.class
 com\gestaoiogurtes\controllers\EncomendaController$1.class
+com\gestaoiogurtes\controllers\DashboardFuncionarioOp.class
 com\gestaoiogurtes\controllers\DashboardAdmin.class
 com\gestaoiogurtes\components\encomenda\ConfirmarCancelarEncomendaClienteModalController.class
 com\gestaoiogurtes\controllers\UtilizadoresController$1.class

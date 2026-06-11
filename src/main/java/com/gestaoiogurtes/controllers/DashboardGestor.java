@@ -10,6 +10,10 @@ import com.gestaoiogurtes.utils.MessageHelper;
 import com.gestaoiogurtes.utils.NavigationHelper;
 import com.gestaoiogurtes.utils.SessionManager;
 import javafx.fxml.FXML;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.Cursor;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -17,6 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import com.gestaoiogurtes.services.MateriaPrimaService;
+import com.gestaoiogurtes.services.OrdemProducaoService;
+import com.gestaoiogurtes.utils.EnumDisplayHelper;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,6 +34,8 @@ public class DashboardGestor implements AppAware {
 
     private final LoteProducaoService loteProducaoService = new LoteProducaoService();
     private final EncomendaService encomendaService = new EncomendaService();
+    private final MateriaPrimaService materiaPrimaService = new MateriaPrimaService();
+    private final OrdemProducaoService ordemProducaoService = new OrdemProducaoService();
     private GestaoIogurtes app;
 
     @FXML private Sidebar sidebarController;
@@ -43,6 +53,18 @@ public class DashboardGestor implements AppAware {
     @FXML private VBox cardDesperdicio;
     @FXML private Label countDesperdicio;
     @FXML private ProgressIndicator loadingLotes3;
+
+    @FXML private VBox pieChartCard;
+    @FXML private PieChart pieChartEncomendas;
+    @FXML private ProgressIndicator loadingEncomendas;
+
+    @FXML private VBox pieChartMateriasCard;
+    @FXML private PieChart pieChartMaterias;
+    @FXML private ProgressIndicator loadingPieChartMaterias;
+
+    @FXML private VBox lineChartOrdensCard;
+    @FXML private LineChart<String, Number> lineChartOrdens;
+    @FXML private ProgressIndicator loadingLineChartOrdens;
 
     @FXML private VBox barChartCard;
     @FXML private BarChart<String, Number> barChartProdutos;
@@ -67,11 +89,23 @@ public class DashboardGestor implements AppAware {
         cardDesperdicio.setOnMouseClicked(e -> handleNavigateToStock());
         cardDesperdicio.setCursor(Cursor.HAND);
 
+        pieChartCard.setOnMouseClicked(e -> handleNavigateToEncomendas());
+        pieChartCard.setCursor(Cursor.HAND);
+
         barChartCard.setOnMouseClicked(e -> handleNavigateToEncomendas());
         barChartCard.setCursor(Cursor.HAND);
 
+        pieChartMateriasCard.setOnMouseClicked(e -> handleNavigateToMateriasPrimas());
+        pieChartMateriasCard.setCursor(Cursor.HAND);
+
+        lineChartOrdensCard.setOnMouseClicked(e -> handleNavigateToOrdens());
+        lineChartOrdensCard.setCursor(Cursor.HAND);
+
         loadLotes();
+        loadPieChartEncomendas();
         loadBarChart();
+        loadPieChartMaterias();
+        loadLineChartOrdens();
     }
 
     private void loadLotes() {
@@ -195,6 +229,115 @@ public class DashboardGestor implements AppAware {
         });
     }
 
+    private void loadPieChartEncomendas() {
+        loadingEncomendas.setVisible(true);
+        pieChartEncomendas.setVisible(false);
+
+        encomendaService.getAll(0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingEncomendas.setVisible(false);
+            if (state.isSuccess()) {
+                pieChartEncomendas.setVisible(true);
+                ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    Map<String, Long> counts = response.content.stream()
+                            .collect(Collectors.groupingBy(
+                                    e -> e.estado != null ? e.estado : "DESCONHECIDO",
+                                    Collectors.counting()
+                            ));
+
+                    String[] fixedStates = {"PENDENTE", "EXPEDIDA", "CANCELADA"};
+                    for (String estado : fixedStates) {
+                        data.add(new PieChart.Data(
+                                EnumDisplayHelper.getEstadoEncomendaLabel(estado),
+                                counts.getOrDefault(estado, 0L)
+                        ));
+                    }
+                }
+                pieChartEncomendas.setData(data);
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar encomendas: " + state.getErrorMessage(), false);
+            }
+        });
+    }
+
+    private void loadPieChartMaterias() {
+        loadingPieChartMaterias.setVisible(true);
+        loadingPieChartMaterias.setManaged(true);
+        pieChartMaterias.setVisible(false);
+        pieChartMaterias.setManaged(false);
+
+        materiaPrimaService.getAll(0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingPieChartMaterias.setVisible(false);
+            loadingPieChartMaterias.setManaged(false);
+
+            if (state.isSuccess()) {
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    pieChartMaterias.setVisible(true);
+                    pieChartMaterias.setManaged(true);
+
+                    Map<String, Long> countPorTipo = response.content.stream()
+                            .collect(Collectors.groupingBy(
+                                    mp -> (mp.tipo != null && mp.tipo.nome != null) ? mp.tipo.nome : "Desconhecido",
+                                    Collectors.counting()
+                            ));
+
+                    ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+                    countPorTipo.forEach((tipo, count) -> {
+                        pieData.add(new PieChart.Data(tipo, count));
+                    });
+                    pieChartMaterias.setData(pieData);
+                }
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar matérias primas: " + state.getErrorMessage(), false);
+            }
+        });
+    }
+
+    private void loadLineChartOrdens() {
+        loadingLineChartOrdens.setVisible(true);
+        loadingLineChartOrdens.setManaged(true);
+        lineChartOrdens.setVisible(false);
+        lineChartOrdens.setManaged(false);
+
+        ordemProducaoService.getAll(0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingLineChartOrdens.setVisible(false);
+            loadingLineChartOrdens.setManaged(false);
+
+            if (state.isSuccess()) {
+                lineChartOrdens.setVisible(true);
+                lineChartOrdens.setManaged(true);
+
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    java.util.List<com.gestaoiogurtes.models.ordemProducao.OrdemProducaoResponse> ordensConcluidas = response.content.stream()
+                            .filter(o -> "CONCLUIDA".equals(o.estado) && o.dataFim != null)
+                            .toList();
+
+                    XYChart.Series<String, Number> series = new XYChart.Series<>();
+                    java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("dd/MM");
+
+                    for (int i = 4; i >= 0; i--) {
+                        java.time.LocalDate dia = java.time.LocalDate.now().minusDays(i);
+                        long count = ordensConcluidas.stream()
+                                .filter(o -> o.dataFim.toLocalDate().equals(dia))
+                                .count();
+                        series.getData().add(new XYChart.Data<>(dia.format(fmt), count));
+                    }
+                    lineChartOrdens.getData().clear();
+                    lineChartOrdens.getData().add(series);
+                }
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(), false);
+            }
+        });
+    }
+
     @FXML
     private void handleNavigateToOrdens() {
         if (app != null) {
@@ -223,12 +366,14 @@ public class DashboardGestor implements AppAware {
         }
     }
 
+    @FXML
     private void handleNavigateToStock() {
         if (app != null) {
             NavigationHelper.navigateTo(app, "/fxml/paginas/Stock.fxml");
         }
     }
 
+    @FXML
     private void handleNavigateToEncomendas() {
         if (app != null) {
             NavigationHelper.navigateTo(app, "/fxml/paginas/Encomenda.fxml");

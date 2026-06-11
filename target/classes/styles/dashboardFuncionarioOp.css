@@ -1,5 +1,5 @@
 /* =============================================================
-   dashboardGestor.css  –  Dashboard Gestor Styles
+   dashboardFuncionarioOp.css  –  Dashboard Funcionario OP Styles
    ============================================================= */
 
 .stat-card, .dashboard-card {
@@ -26,11 +26,11 @@
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
-#barChartCard, #pieChartCard, #pieChartMateriasCard, #lineChartOrdensCard {
+#lineChartCard {
     -fx-cursor: hand;
 }
 
-#barChartCard:hover, #pieChartCard:hover, #pieChartMateriasCard:hover, #lineChartOrdensCard:hover {
+#lineChartCard:hover {
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
@@ -65,29 +65,29 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* Lotes Cards Accent Lines */
-.stat-card-gasto {
-    -fx-border-color: derive(-color-danger-muted, 0%) -color-border-default -color-border-default -color-border-default;
-    -fx-border-width: 6 1 1 1;
-}
-.stat-card-gasto .role-count {
-    -fx-text-fill: -color-danger-fg;
-}
-
-.stat-card-disponivel {
-    -fx-border-color: derive(-color-success-muted, 0%) -color-border-default -color-border-default -color-border-default;
-    -fx-border-width: 6 1 1 1;
-}
-.stat-card-disponivel .role-count {
-    -fx-text-fill: -color-success-fg;
-}
-
-.stat-card-desperdicio {
+/* Accent Lines */
+.stat-card-aguarda-aprovacao {
     -fx-border-color: derive(-color-warning-muted, 0%) -color-border-default -color-border-default -color-border-default;
     -fx-border-width: 6 1 1 1;
 }
-.stat-card-desperdicio .role-count {
+.stat-card-aguarda-aprovacao .role-count {
     -fx-text-fill: -color-warning-fg;
+}
+
+.stat-card-em-producao {
+    -fx-border-color: derive(-color-accent-muted, 0%) -color-border-default -color-border-default -color-border-default;
+    -fx-border-width: 6 1 1 1;
+}
+.stat-card-em-producao .role-count {
+    -fx-text-fill: -color-accent-fg;
+}
+
+.stat-card-desperdicio {
+    -fx-border-color: derive(-color-danger-muted, 0%) -color-border-default -color-border-default -color-border-default;
+    -fx-border-width: 6 1 1 1;
+}
+.stat-card-desperdicio .role-count {
+    -fx-text-fill: -color-danger-fg;
 }
 
 /* Spinner overrides if needed */
@@ -95,23 +95,6 @@
     -fx-pref-width: 36;
     -fx-pref-height: 36;
 }
-
-/* Encomendas PieChart Semantic Colors
-   0 = PENDENTE, 1 = EXPEDIDA, 2 = CANCELADA */
-#pieChartEncomendas .default-color0.chart-pie { -fx-pie-color: -color-warning-emphasis; }
-#pieChartEncomendas .default-color1.chart-pie { -fx-pie-color: -color-success-emphasis; }
-#pieChartEncomendas .default-color2.chart-pie { -fx-pie-color: -color-danger-emphasis; }
-
-#pieChartEncomendas .default-color0.chart-legend-item-symbol { -fx-background-color: -color-warning-emphasis; }
-#pieChartEncomendas .default-color1.chart-legend-item-symbol { -fx-background-color: -color-success-emphasis; }
-#pieChartEncomendas .default-color2.chart-legend-item-symbol { -fx-background-color: -color-danger-emphasis; }
-
-/* BarChart Styling */
-#barChartProdutos .data0.chart-bar { -fx-bar-fill: -color-accent-emphasis; }
-#barChartProdutos .data1.chart-bar { -fx-bar-fill: -color-success-emphasis; }
-#barChartProdutos .data2.chart-bar { -fx-bar-fill: -color-warning-emphasis; }
-#barChartProdutos .data3.chart-bar { -fx-bar-fill: -color-danger-emphasis; }
-#barChartProdutos .data4.chart-bar { -fx-bar-fill: #9c27b0; }
 
 /* LineChart Styling */
 #lineChartOrdens .chart-series-line {

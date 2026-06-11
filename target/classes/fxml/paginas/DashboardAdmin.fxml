@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.LineChart?>
 
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -125,6 +126,23 @@
                             <ProgressIndicator fx:id="loadingPieChartMaterias"/>
                             <PieChart fx:id="pieChartMaterias" prefHeight="240"
                                       labelsVisible="true" legendVisible="true" legendSide="RIGHT"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Line chart ordens -->
+                    <VBox fx:id="lineChartOrdensCard" styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0" onMouseClicked="#handleNavigateToOrdensProducao">
+                        <Label text="Ordens Concluídas (últimos 5 dias)" styleClass="card-title"/>
+                        <StackPane VBox.vgrow="ALWAYS">
+                            <ProgressIndicator fx:id="loadingLineChartOrdens"/>
+                            <LineChart fx:id="lineChartOrdens" prefHeight="240"
+                                       animated="false" legendVisible="false">
+                                <xAxis>
+                                    <CategoryAxis label="Dia"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Ordens Concluídas" lowerBound="0" autoRanging="true"/>
+                                </yAxis>
+                            </LineChart>
                         </StackPane>
                     </VBox>
                 </HBox>

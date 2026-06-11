@@ -73,7 +73,7 @@
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
-                    <Label text="Dashboard Admin" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
             <tooltip><Tooltip text="Dashboard Admin"/></tooltip>
@@ -86,7 +86,7 @@
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
-                    <Label text="Dashboard Gestor" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
             <tooltip><Tooltip text="Dashboard Gestor"/></tooltip>
@@ -99,10 +99,23 @@
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
-                    <Label text="Dashboard MP" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
             <tooltip><Tooltip text="Dashboard MP"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Dashboard OP -->
+        <Button fx:id="btnDashboardOp" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboardOp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard OP"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
@@ -128,7 +141,7 @@
                 maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleProdutosFinais">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2i-ice-cream" iconSize="18"/>
+                    <FontIcon iconLiteral="mdi2c-cup-water" iconSize="18"/>
                     <Label text="Produtos Finais" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
@@ -188,7 +201,7 @@
                 maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleEncomendasMp">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2s-store-outline" iconSize="18"/>
+                    <FontIcon iconLiteral="mdi2c-cart-arrow-down" iconSize="18"/>
                     <Label text="Encomendas M.P." maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>

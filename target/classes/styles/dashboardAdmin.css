@@ -26,11 +26,11 @@
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
-#pieChartCard, #barChartCard, #pieChartMateriasCard {
+#pieChartCard, #barChartCard, #pieChartMateriasCard, #lineChartOrdensCard {
     -fx-cursor: hand;
 }
 
-#pieChartCard:hover, #barChartCard:hover, #pieChartMateriasCard:hover {
+#pieChartCard:hover, #barChartCard:hover, #pieChartMateriasCard:hover, #lineChartOrdensCard:hover {
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
@@ -128,3 +128,14 @@
 #barChartProdutos .data2.chart-bar { -fx-bar-fill: -color-warning-emphasis; }
 #barChartProdutos .data3.chart-bar { -fx-bar-fill: -color-danger-emphasis; }
 #barChartProdutos .data4.chart-bar { -fx-bar-fill: #9c27b0; }
+
+/* LineChart Styling */
+#lineChartOrdens .chart-series-line {
+    -fx-stroke: -color-accent-emphasis;
+    -fx-stroke-width: 3px;
+}
+#lineChartOrdens .chart-line-symbol {
+    -fx-background-color: -color-accent-emphasis, white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}

@@ -74,6 +74,7 @@ public class Sidebar implements AppAware {
     @FXML private Button btnDashboardAdmin;
     @FXML private Button btnDashboardGestor;
     @FXML private Button btnDashboardMp;
+    @FXML private Button btnDashboardOp;
 
     // Produtos
     @FXML private Button btnStock;
@@ -128,7 +129,7 @@ public class Sidebar implements AppAware {
         hideNode(btnDashboard);
 
         // Ocultar os dashboards de outros roles por defeito
-        hideNode(btnDashboardAdmin, btnDashboardGestor, btnDashboardMp);
+        hideNode(btnDashboardAdmin, btnDashboardGestor, btnDashboardMp, btnDashboardOp);
 
         if ("ADMIN".equals(role)) {
             btnDashboardAdmin.setVisible(true);
@@ -156,7 +157,8 @@ public class Sidebar implements AppAware {
             );
 
         } else if ("FUNCIONARIO_OP".equals(role)) {
-            // Dashboard OP não existe ainda, fica oculto por defeito.
+            btnDashboardOp.setVisible(true);
+            btnDashboardOp.setManaged(true);
 
             // Vê Matérias primas, Ordens de produção, Produtos Finais e Stock.
             hideNode(
@@ -188,6 +190,11 @@ public class Sidebar implements AppAware {
     @FXML
     private void handleDashboardMp() {
         NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardFuncionarioMp.fxml");
+    }
+
+    @FXML
+    private void handleDashboardOp() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardFuncionarioOp.fxml");
     }
 
     @FXML

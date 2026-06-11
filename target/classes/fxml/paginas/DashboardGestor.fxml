@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -59,8 +61,37 @@
                     </VBox>
                 </HBox>
 
+                <HBox spacing="16" HBox.hgrow="ALWAYS">
+                    <!-- Pie chart card -->
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS"
+                          prefWidth="0" minHeight="280" fx:id="pieChartCard"
+                          onMouseClicked="#handleNavigateToEncomendas">
+                        <Label text="Encomendas por Estado" styleClass="card-title"/>
+                        <StackPane VBox.vgrow="ALWAYS">
+                            <ProgressIndicator fx:id="loadingEncomendas"/>
+                            <PieChart fx:id="pieChartEncomendas"
+                                      prefHeight="260"
+                                      labelsVisible="true"
+                                      legendVisible="true"
+                                      legendSide="RIGHT"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Quick actions card -->
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0" minHeight="280" maxWidth="400">
+                        <Label text="Ações Rápidas" styleClass="card-title"/>
+                        <VBox spacing="12" VBox.vgrow="ALWAYS" alignment="TOP_CENTER">
+                            <padding><Insets top="16"/></padding>
+                            <Button text="Gerir Produtos" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToProdutosFinais"/>
+                            <Button text="Gerir Ordens de Produção" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToOrdens"/>
+                            <Button text="Gerir Fornecedores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToFornecedores"/>
+                            <Button text="Gerir Matérias Primas" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToMateriasPrimas"/>
+                        </VBox>
+                    </VBox>
+                </HBox>
+
                 <HBox spacing="16" HBox.hgrow="ALWAYS" minHeight="280">
-                    <!-- Bar chart card: ~60% width -->
+                    <!-- Bar chart card -->
                     <VBox fx:id="barChartCard" styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0">
                         <Label text="Produtos Mais Vendidos" styleClass="card-title"/>
                         <StackPane VBox.vgrow="ALWAYS">
@@ -77,16 +108,31 @@
                         </StackPane>
                     </VBox>
 
-                    <!-- Quick actions card: ~40% width -->
-                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0" maxWidth="400">
-                        <Label text="Ações Rápidas" styleClass="card-title"/>
-                        <VBox spacing="12" VBox.vgrow="ALWAYS" alignment="TOP_CENTER">
-                            <padding><Insets top="16"/></padding>
-                            <Button text="Gerir Produtos" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToProdutosFinais"/>
-                            <Button text="Gerir Ordens de Produção" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToOrdens"/>
-                            <Button text="Gerir Fornecedores" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToFornecedores"/>
-                            <Button text="Gerir Matérias Primas" maxWidth="Infinity" styleClass="btn-acao-rapida" onAction="#handleNavigateToMateriasPrimas"/>
-                        </VBox>
+                    <!-- Pie chart matérias -->
+                    <VBox fx:id="pieChartMateriasCard" styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0" onMouseClicked="#handleNavigateToMateriasPrimas">
+                        <Label text="Matérias Primas por Tipo" styleClass="card-title"/>
+                        <StackPane VBox.vgrow="ALWAYS">
+                            <ProgressIndicator fx:id="loadingPieChartMaterias"/>
+                            <PieChart fx:id="pieChartMaterias" prefHeight="240"
+                                      labelsVisible="true" legendVisible="true" legendSide="RIGHT"/>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Line chart ordens -->
+                    <VBox fx:id="lineChartOrdensCard" styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="0" onMouseClicked="#handleNavigateToOrdens">
+                        <Label text="Ordens Concluídas (últimos 5 dias)" styleClass="card-title"/>
+                        <StackPane VBox.vgrow="ALWAYS">
+                            <ProgressIndicator fx:id="loadingLineChartOrdens"/>
+                            <LineChart fx:id="lineChartOrdens" prefHeight="240"
+                                       animated="false" legendVisible="false">
+                                <xAxis>
+                                    <CategoryAxis label="Dia"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Ordens Concluídas" lowerBound="0" autoRanging="true"/>
+                                </yAxis>
+                            </LineChart>
+                        </StackPane>
                     </VBox>
                 </HBox>
             </VBox>

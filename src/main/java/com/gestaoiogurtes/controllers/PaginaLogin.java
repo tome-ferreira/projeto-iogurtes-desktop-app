@@ -48,7 +48,16 @@ public class PaginaLogin implements AppAware {
         String role = comboRole.getValue();
         if (role != null) {
             SessionManager.getInstance().setUserRole(role);
+            switch (role) {
+                case "ADMIN" -> NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardAdmin.fxml");
+                case "GESTOR" -> NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardGestor.fxml");
+                case "FUNCIONARIO_MP" -> NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardMp.fxml");
+                case "FUNCIONARIO_OP" -> NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardFuncionarioOp.fxml");
+                case "CLIENTE" -> NavigationHelper.navigateTo(app, "/fxml/paginas/Dashboard.fxml");
+                default -> NavigationHelper.navigateTo(app, "/fxml/paginas/Dashboard.fxml");
+            }
+        } else {
+            NavigationHelper.navigateTo(app, "/fxml/paginas/Dashboard.fxml");
         }
-        NavigationHelper.navigateTo(app, "/fxml/paginas/Dashboard.fxml");
     }
 }
