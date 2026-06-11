@@ -9,6 +9,7 @@ import com.gestaoiogurtes.utils.NavigationHelper;
 import com.gestaoiogurtes.utils.SessionManager;
 import com.gestaoiogurtes.models.utilizador.UserResponse;
 import com.gestaoiogurtes.services.EncomendaService;
+import com.gestaoiogurtes.services.MateriaPrimaService;
 import com.gestaoiogurtes.utils.EnumDisplayHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +22,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+
+import java.util.LinkedHashMap;
 
 public class DashboardAdmin implements AppAware {
 
     private final UtilizadorService utilizadorService = new UtilizadorService();
     private final EncomendaService encomendaService = new EncomendaService();
+    private final MateriaPrimaService materiaPrimaService = new MateriaPrimaService();
     private GestaoIogurtes app;
 
     @FXML private Sidebar sidebarController;
@@ -50,6 +56,14 @@ public class DashboardAdmin implements AppAware {
 
     @FXML private Label countCliente;
     @FXML private ProgressIndicator loadingCliente;
+
+    @FXML private VBox barChartCard;
+    @FXML private BarChart<String, Number> barChartProdutos;
+    @FXML private ProgressIndicator loadingBarChart;
+
+    @FXML private VBox pieChartMateriasCard;
+    @FXML private PieChart pieChartMaterias;
+    @FXML private ProgressIndicator loadingPieChartMaterias;
 
     @FXML
     public void initialize() {
@@ -132,6 +146,15 @@ public class DashboardAdmin implements AppAware {
         });
 
         pieChartCard.setCursor(Cursor.HAND);
+
+        barChartCard.setOnMouseClicked(e -> handleNavigateToEncomendas());
+        barChartCard.setCursor(Cursor.HAND);
+        
+        pieChartMateriasCard.setOnMouseClicked(e -> handleNavigateToMateriasPrimas());
+        pieChartMateriasCard.setCursor(Cursor.HAND);
+        
+        loadBarChart();
+        loadPieChartMaterias();
     }
 
     private void showLoading(boolean loading) {
@@ -167,6 +190,108 @@ public class DashboardAdmin implements AppAware {
         countFuncionarioMp.setText("—");
         countFuncionarioOp.setText("—");
         countCliente.setText("—");
+    }
+
+    private void loadBarChart() {
+        loadingBarChart.setVisible(true);
+        loadingBarChart.setManaged(true);
+        barChartProdutos.setVisible(false);
+        barChartProdutos.setManaged(false);
+
+        encomendaService.getByEstado("EXPEDIDA", 0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingBarChart.setVisible(false);
+            loadingBarChart.setManaged(false);
+
+            if (state.isSuccess()) {
+                barChartProdutos.setVisible(true);
+                barChartProdutos.setManaged(true);
+
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    Map<String, Long> produtoCounts = response.content.stream()
+                            .filter(e -> e.pallets != null)
+                            .flatMap(e -> e.pallets.stream()
+                                    .map(p -> p.produtoNome != null ? p.produtoNome : "Desconhecido")
+                                    .distinct()
+                            )
+                            .collect(Collectors.groupingBy(
+                                    nome -> nome,
+                                    Collectors.counting()
+                            ));
+
+                    Map<String, Long> top5Produtos = produtoCounts.entrySet().stream()
+                            .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                            .limit(5)
+                            .collect(Collectors.toMap(
+                                    Map.Entry::getKey,
+                                    Map.Entry::getValue,
+                                    (e1, e2) -> e1,
+                                    LinkedHashMap::new
+                            ));
+
+                    XYChart.Series<String, Number> series = new XYChart.Series<>();
+                    top5Produtos.forEach((nome, count) ->
+                            series.getData().add(new XYChart.Data<>(nome, count)));
+
+                    barChartProdutos.getData().clear();
+                    barChartProdutos.getData().add(series);
+
+                    long maxCount = top5Produtos.values().stream().max(Long::compareTo).orElse(0L);
+                    javafx.scene.chart.NumberAxis yAxis = (javafx.scene.chart.NumberAxis) barChartProdutos.getYAxis();
+                    yAxis.setAutoRanging(false);
+                    yAxis.setLowerBound(0);
+                    yAxis.setUpperBound(Math.max(5, maxCount + (maxCount < 10 ? 1 : 2)));
+                    yAxis.setTickUnit(1);
+                    yAxis.setMinorTickVisible(false);
+                    yAxis.setTickLabelFormatter(new javafx.util.StringConverter<Number>() {
+                        @Override
+                        public String toString(Number object) {
+                            return object.intValue() == object.doubleValue() ? String.valueOf(object.intValue()) : "";
+                        }
+                        @Override
+                        public Number fromString(String string) { return null; }
+                    });
+                }
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar encomendas: " + state.getErrorMessage(), false);
+            }
+        });
+    }
+
+    private void loadPieChartMaterias() {
+        loadingPieChartMaterias.setVisible(true);
+        loadingPieChartMaterias.setManaged(true);
+        pieChartMaterias.setVisible(false);
+        pieChartMaterias.setManaged(false);
+
+        materiaPrimaService.getAll(0, 1000, state -> {
+            if (state.isLoading()) return;
+            loadingPieChartMaterias.setVisible(false);
+            loadingPieChartMaterias.setManaged(false);
+
+            if (state.isSuccess()) {
+                var response = state.getData();
+                if (response != null && response.content != null) {
+                    pieChartMaterias.setVisible(true);
+                    pieChartMaterias.setManaged(true);
+
+                    Map<String, Long> countPorTipo = response.content.stream()
+                            .collect(Collectors.groupingBy(
+                                    mp -> (mp.tipo != null && mp.tipo.nome != null) ? mp.tipo.nome : "Desconhecido",
+                                    Collectors.counting()
+                            ));
+
+                    ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+                    countPorTipo.forEach((tipo, count) -> {
+                        pieData.add(new PieChart.Data(tipo, count));
+                    });
+                    pieChartMaterias.setData(pieData);
+                }
+            } else if (state.isError()) {
+                MessageHelper.mostrar(rootStack, "Erro ao carregar matérias primas: " + state.getErrorMessage(), false);
+            }
+        });
     }
 
     @FXML

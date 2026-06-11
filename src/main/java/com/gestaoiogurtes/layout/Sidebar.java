@@ -61,10 +61,111 @@ public class Sidebar implements AppAware {
     @FXML private Button btnToggle;
     @FXML private Tooltip temaTooltip;
 
+    // Sections
+    @FXML private Label lblSectionDashboards;
+    @FXML private Label lblSectionProdutos;
+    @FXML private Label lblSectionEncomendas;
+    @FXML private Label lblSectionMateriasPrimas;
+    @FXML private Label lblSectionFornecedores;
+    @FXML private Label lblSectionGestao;
+
+    // Dashboards
+    @FXML private Button btnDashboard;
+    @FXML private Button btnDashboardAdmin;
+    @FXML private Button btnDashboardGestor;
+    @FXML private Button btnDashboardMp;
+
+    // Produtos
+    @FXML private Button btnStock;
+    @FXML private Button btnProdutosFinais;
+    @FXML private Button btnOrdensProducao;
+
+    // Encomendas
+    @FXML private Button btnEncomendas;
+
+    // Materias Primas
+    @FXML private Button btnMateriasPrimas;
+    @FXML private Button btnEncomendasMp;
+    @FXML private Button btnTiposMateriaPrima;
+
+    // Fornecedores
+    @FXML private Button btnFornecedores;
+    @FXML private Button btnCertificacoes;
+    @FXML private Button btnTiposFornecedor;
+
+    // Gestao
+    @FXML private Button btnUtilizadores;
+    @FXML private Button btnEmpresas;
+    @FXML private Button btnTiposPallet;
+    @FXML private Button btnMoedas;
+
     // ── AppAware ──────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         this.app = app;
+    }
+
+    // ── RBAC Visibility ───────────────────────────────────────────
+
+    @FXML
+    public void initialize() {
+        applyRoleBasedVisibility();
+    }
+
+    private void hideNode(Node... nodes) {
+        for (Node n : nodes) {
+            if (n != null) {
+                n.setVisible(false);
+                n.setManaged(false);
+            }
+        }
+    }
+
+    private void applyRoleBasedVisibility() {
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+
+        // Sempre esconder o dashboard base para todos, uma vez que cada role tem o seu próprio
+        hideNode(btnDashboard);
+
+        // Ocultar os dashboards de outros roles por defeito
+        hideNode(btnDashboardAdmin, btnDashboardGestor, btnDashboardMp);
+
+        if ("ADMIN".equals(role)) {
+            btnDashboardAdmin.setVisible(true);
+            btnDashboardAdmin.setManaged(true);
+            // Vê tudo o resto
+
+        } else if ("GESTOR".equals(role)) {
+            btnDashboardGestor.setVisible(true);
+            btnDashboardGestor.setManaged(true);
+
+            // Esconde Utilizadores e Empresas
+            hideNode(btnUtilizadores, btnEmpresas);
+
+        } else if ("FUNCIONARIO_MP".equals(role)) {
+            btnDashboardMp.setVisible(true);
+            btnDashboardMp.setManaged(true);
+
+            // Vê Fornecedores, Matérias Primas, Produtos Finais, Encomenda M.P. e Stock.
+            hideNode(
+                btnOrdensProducao,
+                lblSectionEncomendas, btnEncomendas,
+                btnTiposMateriaPrima,
+                btnCertificacoes, btnTiposFornecedor,
+                lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas
+            );
+
+        } else if ("FUNCIONARIO_OP".equals(role)) {
+            // Dashboard OP não existe ainda, fica oculto por defeito.
+
+            // Vê Matérias primas, Ordens de produção, Produtos Finais e Stock.
+            hideNode(
+                lblSectionEncomendas, btnEncomendas,
+                btnEncomendasMp, btnTiposMateriaPrima,
+                lblSectionFornecedores, btnFornecedores, btnCertificacoes, btnTiposFornecedor,
+                lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas
+            );
+        }
     }
 
     // ── FXML event handlers ───────────────────────────────────────

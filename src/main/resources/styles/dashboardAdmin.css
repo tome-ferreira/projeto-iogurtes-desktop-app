@@ -26,11 +26,11 @@
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
-#pieChartCard {
+#pieChartCard, #barChartCard, #pieChartMateriasCard {
     -fx-cursor: hand;
 }
 
-#pieChartCard:hover {
+#pieChartCard:hover, #barChartCard:hover, #pieChartMateriasCard:hover {
     -fx-background-color: derive(-color-bg-subtle, 2%);
 }
 
@@ -121,3 +121,10 @@
 #pieChartEncomendas .default-color0.chart-legend-item-symbol { -fx-background-color: -color-warning-emphasis; }
 #pieChartEncomendas .default-color1.chart-legend-item-symbol { -fx-background-color: -color-success-emphasis; }
 #pieChartEncomendas .default-color2.chart-legend-item-symbol { -fx-background-color: -color-danger-emphasis; }
+
+/* BarChart Styling */
+#barChartProdutos .data0.chart-bar { -fx-bar-fill: -color-accent-emphasis; }
+#barChartProdutos .data1.chart-bar { -fx-bar-fill: -color-success-emphasis; }
+#barChartProdutos .data2.chart-bar { -fx-bar-fill: -color-warning-emphasis; }
+#barChartProdutos .data3.chart-bar { -fx-bar-fill: -color-danger-emphasis; }
+#barChartProdutos .data4.chart-bar { -fx-bar-fill: #9c27b0; }

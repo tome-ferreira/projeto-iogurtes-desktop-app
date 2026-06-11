@@ -4,6 +4,7 @@ com\gestaoiogurtes\controllers\DashboardFuncionarioMp.class
 com\gestaoiogurtes\controllers\EmpresasController$1.class
 com\gestaoiogurtes\components\encomenda\ConfirmarConfirmarEncomendaModalController.class
 com\gestaoiogurtes\controllers\StockController$1.class
+com\gestaoiogurtes\controllers\DashboardAdmin$2.class
 com\gestaoiogurtes\components\certificacoes\EliminarCertificacaoModalController$1.class
 com\gestaoiogurtes\controllers\TiposMateriaPrimaController$1.class
 com\gestaoiogurtes\controllers\FornecedoresController$1.class
