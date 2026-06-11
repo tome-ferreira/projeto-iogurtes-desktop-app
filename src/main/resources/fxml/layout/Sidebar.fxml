@@ -101,6 +101,22 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
+        <!-- Dashboard MP -->
+        <Button fx:id="btnDashboardMp" styleClass="sidebar-item"
+                maxWidth="Infinity"
+                alignment="CENTER_LEFT"
+                contentDisplay="GRAPHIC_ONLY"
+                onAction="#handleDashboardMp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2f-flask-outline" iconSize="18"/>
+                    <Label text="Dashboard MP" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard MP"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
         <!-- Empresas -->
         <Button fx:id="btnEmpresas" styleClass="sidebar-item"
                 maxWidth="Infinity"

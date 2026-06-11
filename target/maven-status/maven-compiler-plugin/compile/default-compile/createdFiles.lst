@@ -1,5 +1,6 @@
 com\gestaoiogurtes\components\certificacoes\EditarCertificacaoModalController$1.class
 com\gestaoiogurtes\controllers\OrdensProducaoController$1.class
+com\gestaoiogurtes\controllers\DashboardFuncionarioMp.class
 com\gestaoiogurtes\controllers\EmpresasController$1.class
 com\gestaoiogurtes\components\encomenda\ConfirmarConfirmarEncomendaModalController.class
 com\gestaoiogurtes\controllers\StockController$1.class
