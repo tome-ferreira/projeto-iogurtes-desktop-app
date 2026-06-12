@@ -58,10 +58,23 @@ public class MateriasPrimasController implements AppAware {
         }
     }
 
+    @FXML
     public void initialize() {
         service = new MateriaPrimaService();
         tipoService = new TipoMateriaPrimaService();
         colorHelper = new DynamicColorHelper();
+
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if ("FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role)) {
+            if (btnNovo != null) {
+                btnNovo.setVisible(false);
+                btnNovo.setManaged(false);
+            }
+            if (fab != null) {
+                fab.setVisible(false);
+                fab.setManaged(false);
+            }
+        }
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -116,9 +129,9 @@ public class MateriasPrimasController implements AppAware {
 
         header.getChildren().addAll(
                 headerCol("NOME", 220, true),
-                headerCol("TIPO", 150, false),
-                headerCol("STOCK / MÍNIMO", 150, false),
-                headerCol("AÇÕES", 320, false)
+                headerCol("TIPO", 150, false, Pos.CENTER),
+                headerCol("STOCK / MÍNIMO", 150, false, Pos.CENTER_LEFT),
+                headerCol("AÇÕES", 320, false, Pos.CENTER_RIGHT)
         );
         tabelaContainer.getChildren().add(header);
 
@@ -137,6 +150,7 @@ public class MateriasPrimasController implements AppAware {
             Label lblNome = new Label(p.nome != null ? p.nome : "—");
             lblNome.getStyleClass().add("celula-nome-principal");
             lblNome.setMinWidth(220);
+            lblNome.setPrefWidth(220);
             lblNome.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(lblNome, Priority.ALWAYS);
             
@@ -145,14 +159,21 @@ public class MateriasPrimasController implements AppAware {
             lblTipo.getStyleClass().add("pill-materia-prima-tipo");
             String cor = colorHelper.getColorForType(lblTipo.getText());
             lblTipo.setStyle("-fx-background-color: " + cor + "; -fx-text-fill: white; -fx-padding: 3 8 3 8; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
+            lblTipo.setMaxWidth(Double.MAX_VALUE);
+            lblTipo.setAlignment(Pos.CENTER);
             
             HBox boxTipo = new HBox(lblTipo);
-            boxTipo.setAlignment(Pos.CENTER_LEFT);
+            boxTipo.setAlignment(Pos.CENTER);
             boxTipo.setMinWidth(150);
+            boxTipo.setPrefWidth(150);
+            boxTipo.setMaxWidth(150);
+            HBox.setHgrow(lblTipo, Priority.ALWAYS);
 
             // Coluna Stock / Mínimo
             VBox colStock = new VBox(2);
             colStock.setMinWidth(150);
+            colStock.setPrefWidth(150);
+            colStock.setMaxWidth(150);
             Label lblStockAtual = new Label(p.stockAtual != null ? String.valueOf(p.stockAtual) + " " + p.unidade : "—");
             lblStockAtual.getStyleClass().add("celula-dados");
             
@@ -164,6 +185,8 @@ public class MateriasPrimasController implements AppAware {
             // Coluna Ações
             HBox colAcoes = new HBox(6);
             colAcoes.setMinWidth(320);
+            colAcoes.setPrefWidth(320);
+            colAcoes.setMaxWidth(320);
             colAcoes.setAlignment(Pos.CENTER_RIGHT);
 
             Button btnDetalhes = new Button("Detalhes");
@@ -192,7 +215,17 @@ public class MateriasPrimasController implements AppAware {
                 carregarDados();
             }));
 
-            colAcoes.getChildren().addAll(btnDetalhes, btnEditar, btnFornecedores, btnEliminar);
+            String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+            boolean isFuncionario = "FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role);
+            
+            colAcoes.getChildren().add(btnDetalhes);
+            if (!isFuncionario) {
+                colAcoes.getChildren().add(btnEditar);
+            }
+            colAcoes.getChildren().add(btnFornecedores);
+            if (!isFuncionario) {
+                colAcoes.getChildren().add(btnEliminar);
+            }
 
             row.getChildren().addAll(lblNome, boxTipo, colStock, colAcoes);
             tabelaContainer.getChildren().add(row);
@@ -200,14 +233,20 @@ public class MateriasPrimasController implements AppAware {
     }
 
     private Label headerCol(String texto, double largura, boolean grow) {
+        return headerCol(texto, largura, grow, Pos.CENTER_LEFT);
+    }
+
+    private Label headerCol(String texto, double largura, boolean grow, Pos align) {
         var lbl = new Label(texto.toUpperCase());
         lbl.getStyleClass().add("tabela-header-label");
         lbl.setMinWidth(largura);
+        lbl.setPrefWidth(largura);
+        lbl.setAlignment(align);
         if (grow) {
             lbl.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(lbl, Priority.ALWAYS);
         } else {
-            lbl.setPrefWidth(largura);
+            lbl.setMaxWidth(largura);
         }
         return lbl;
     }

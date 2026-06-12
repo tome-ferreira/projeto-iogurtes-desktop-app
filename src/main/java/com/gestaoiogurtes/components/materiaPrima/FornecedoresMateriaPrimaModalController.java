@@ -70,6 +70,14 @@ public class FornecedoresMateriaPrimaModalController {
 
             ctrl.carregarFornecedores(0);
 
+            String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+            if ("FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role)) {
+                if (ctrl.btnAdicionarFornecedor != null) {
+                    ctrl.btnAdicionarFornecedor.setVisible(false);
+                    ctrl.btnAdicionarFornecedor.setManaged(false);
+                }
+            }
+
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,8 +155,12 @@ public class FornecedoresMateriaPrimaModalController {
         header.getChildren().addAll(
                 headerCol("Fornecedor", true),
                 headerCol("Preço Unitário", false),
-                headerCol("Preferencial", false),
-                headerCol("Ações", false));
+                headerCol("Preferencial", false));
+                
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if (!"FUNCIONARIO_MP".equals(role) && !"FUNCIONARIO_OP".equals(role)) {
+            header.getChildren().add(headerCol("Ações", false));
+        }
         listaContainer.getChildren().add(header);
 
         for (int i = 0; i < items.size(); i++) {
@@ -211,7 +223,11 @@ public class FornecedoresMateriaPrimaModalController {
         acoes.setMinWidth(140);
         acoes.setAlignment(Pos.CENTER_RIGHT);
 
-        row.getChildren().addAll(lblNome, lblPreco, lblPref, acoes);
+        row.getChildren().addAll(lblNome, lblPreco, lblPref);
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if (!"FUNCIONARIO_MP".equals(role) && !"FUNCIONARIO_OP".equals(role)) {
+            row.getChildren().add(acoes);
+        }
         return row;
     }
 

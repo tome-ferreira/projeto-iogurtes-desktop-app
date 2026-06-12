@@ -68,6 +68,18 @@ public class FornecedoresController implements AppAware {
         colorHelper = new DynamicColorHelper();
         carregarTipos();
         
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if ("FUNCIONARIO_MP".equals(role)) {
+            if (btnNovo != null) {
+                btnNovo.setVisible(false);
+                btnNovo.setManaged(false);
+            }
+            if (fab != null) {
+                fab.setVisible(false);
+                fab.setManaged(false);
+            }
+        }
+        
         cbFiltroTipo.valueProperty().addListener((obs, old, val) -> {
             if (val != null) {
                 selectedTipoId = val.id;
@@ -192,20 +204,26 @@ public class FornecedoresController implements AppAware {
         row.getChildren().addAll(
                 headerCol("Nome", 220, true),
                 headerCol("Email", 220, true),
-                headerCol("Tipo", 150, false),
-                headerCol("Ações", 400, false));
+                headerCol("Tipo", 150, false, Pos.CENTER),
+                headerCol("Ações", 400, false, Pos.CENTER_RIGHT));
         return row;
     }
 
     private Label headerCol(String texto, double largura, boolean grow) {
+        return headerCol(texto, largura, grow, Pos.CENTER_LEFT);
+    }
+
+    private Label headerCol(String texto, double largura, boolean grow, Pos align) {
         var lbl = new Label(texto.toUpperCase());
         lbl.getStyleClass().add("tabela-header-label");
         lbl.setMinWidth(largura);
+        lbl.setPrefWidth(largura);
+        lbl.setAlignment(align);
         if (grow) {
             lbl.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(lbl, Priority.ALWAYS);
         } else {
-            lbl.setPrefWidth(largura);
+            lbl.setMaxWidth(largura);
         }
         return lbl;
     }
@@ -220,6 +238,7 @@ public class FornecedoresController implements AppAware {
         var nomeLabel = new Label(item.nome != null ? item.nome : "—");
         nomeLabel.getStyleClass().add("celula-nome-principal");
         nomeLabel.setMinWidth(220);
+        nomeLabel.setPrefWidth(220);
         nomeLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(nomeLabel, Priority.ALWAYS);
 
@@ -227,6 +246,7 @@ public class FornecedoresController implements AppAware {
         var emailLabel = new Label(item.email != null ? item.email : "—");
         emailLabel.getStyleClass().add("celula-dados");
         emailLabel.setMinWidth(220);
+        emailLabel.setPrefWidth(220);
         emailLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(emailLabel, Priority.ALWAYS);
 
@@ -236,10 +256,15 @@ public class FornecedoresController implements AppAware {
         tipoLabel.getStyleClass().add("pill-fornecedor-tipo");
         String cor = colorHelper.getColorForType(tipoNome);
         tipoLabel.setStyle("-fx-background-color: " + cor + "; -fx-text-fill: white; -fx-padding: 3 8 3 8; -fx-background-radius: 12; -fx-font-size: 11px; -fx-font-weight: bold;");
+        tipoLabel.setMaxWidth(Double.MAX_VALUE);
+        tipoLabel.setAlignment(Pos.CENTER);
         
         var tipoBox = new HBox(tipoLabel);
-        tipoBox.setAlignment(Pos.CENTER_LEFT);
+        tipoBox.setAlignment(Pos.CENTER);
         tipoBox.setMinWidth(150);
+        tipoBox.setPrefWidth(150);
+        tipoBox.setMaxWidth(150);
+        HBox.setHgrow(tipoLabel, Priority.ALWAYS);
 
         // Botões de acção
         var btnDetalhes = new Button("Detalhes");
@@ -272,9 +297,22 @@ public class FornecedoresController implements AppAware {
                 tabelaContainer.getScene().getWindow(),
                 this::onMutacaoBemSucedida));
 
-        var acoesBox = new HBox(6, btnDetalhes, btnEditar, btnCertificacoes, btnEliminar);
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+
+        var acoesBox = new HBox(6);
+        acoesBox.getChildren().add(btnDetalhes);
+        if (!"FUNCIONARIO_MP".equals(role)) {
+            acoesBox.getChildren().add(btnEditar);
+        }
+        acoesBox.getChildren().add(btnCertificacoes);
+        if (!"FUNCIONARIO_MP".equals(role)) {
+            acoesBox.getChildren().add(btnEliminar);
+        }
+
         acoesBox.setAlignment(Pos.CENTER_RIGHT);
         acoesBox.setMinWidth(400);
+        acoesBox.setPrefWidth(400);
+        acoesBox.setMaxWidth(400);
 
         row.getChildren().addAll(nomeLabel, emailLabel, tipoBox, acoesBox);
         return row;

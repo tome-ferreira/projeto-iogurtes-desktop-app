@@ -60,6 +60,18 @@ public class ProdutosFinaisController implements AppAware {
         service = new ProdutoFinalService();
         materiaPrimaService = new MateriaPrimaService();
 
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if ("FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role)) {
+            if (btnNovo != null) {
+                btnNovo.setVisible(false);
+                btnNovo.setManaged(false);
+            }
+            if (fab != null) {
+                fab.setVisible(false);
+                fab.setManaged(false);
+            }
+        }
+
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
             cbTamanhoPagina.setValue(pageSize);
@@ -177,7 +189,13 @@ public class ProdutosFinaisController implements AppAware {
                         carregarDados();
                     }));
 
-            colAcoes.getChildren().addAll(btnDetalhes, btnEditar, btnComposicao, btnEliminar);
+            String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+            boolean isFuncionario = "FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role);
+            
+            colAcoes.getChildren().add(btnDetalhes);
+            if (!isFuncionario) {
+                colAcoes.getChildren().addAll(btnEditar, btnComposicao, btnEliminar);
+            }
 
             row.getChildren().addAll(lblSku, lblNome, colAcoes);
             tabelaContainer.getChildren().add(row);

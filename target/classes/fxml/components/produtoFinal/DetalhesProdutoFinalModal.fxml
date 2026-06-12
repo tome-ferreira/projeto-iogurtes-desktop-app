@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -41,13 +42,9 @@
                 <TextField fx:id="txtNome" editable="false" styleClass="form-control"/>
             </VBox>
 
-            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
                 <Label text="DESCRIÇÃO" styleClass="detalhe-label"/>
-                <TextField fx:id="txtDescricao" editable="false" styleClass="form-control"/>
-            </VBox>
-            <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <Label text="ABREVIAÇÃO SABOR" styleClass="detalhe-label"/>
-                <TextField fx:id="txtAbreviacaoSabor" editable="false" styleClass="form-control"/>
+                <TextArea fx:id="txtDescricao" editable="false" styleClass="form-control" prefRowCount="3" wrapText="true"/>
             </VBox>
 
             <VBox styleClass="form-group" GridPane.columnIndex="0" GridPane.rowIndex="2">
@@ -82,8 +79,8 @@
                 <TextField fx:id="txtVisivelCliente" editable="false" styleClass="form-control"/>
             </VBox>
             <VBox styleClass="form-group" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                <Label text="CRIADO EM" styleClass="detalhe-label"/>
-                <TextField fx:id="txtCreatedAt" editable="false" styleClass="form-control"/>
+                <Label text="ABREVIAÇÃO SABOR" styleClass="detalhe-label"/>
+                <TextField fx:id="txtAbreviacaoSabor" editable="false" styleClass="form-control"/>
             </VBox>
 
             <!-- Composição -->

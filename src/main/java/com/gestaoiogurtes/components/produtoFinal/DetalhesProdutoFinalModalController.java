@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -30,7 +31,7 @@ public class DetalhesProdutoFinalModalController {
 
     @FXML private TextField txtCodigoSku;
     @FXML private TextField txtNome;
-    @FXML private TextField txtDescricao;
+    @FXML private TextArea txtDescricao;
     @FXML private TextField txtAbreviacaoSabor;
     @FXML private TextField txtEstadoFisico;
     @FXML private TextField txtValidadeDias;
@@ -39,7 +40,6 @@ public class DetalhesProdutoFinalModalController {
     @FXML private TextField txtTaxaIva;
     @FXML private TextField txtQuantidadeLote;
     @FXML private TextField txtVisivelCliente;
-    @FXML private TextField txtCreatedAt;
     @FXML private VBox      composicaoContainer;
 
     private Stage dialogStage;
@@ -81,7 +81,6 @@ public class DetalhesProdutoFinalModalController {
         txtTaxaIva.setText(p.taxaIva != null ? p.taxaIva + "%" : "—");
         txtQuantidadeLote.setText(p.quantidadeLote != null ? String.valueOf(p.quantidadeLote) : "—");
         txtVisivelCliente.setText(Boolean.TRUE.equals(p.visivelCliente) ? "Sim" : "Não");
-        txtCreatedAt.setText(p.createdAt != null ? p.createdAt.toString().replace("T", " ").substring(0, 16) : "—");
 
         // Composição
         composicaoContainer.getChildren().clear();

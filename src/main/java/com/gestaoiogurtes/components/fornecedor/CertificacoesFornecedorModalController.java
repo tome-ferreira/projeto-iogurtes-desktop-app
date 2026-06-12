@@ -73,6 +73,14 @@ public class CertificacoesFornecedorModalController {
 
             ctrl.carregarCertificacoes(0);
 
+            String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+            if ("FUNCIONARIO_MP".equals(role)) {
+                if (ctrl.btnAdicionarCertificacao != null) {
+                    ctrl.btnAdicionarCertificacao.setVisible(false);
+                    ctrl.btnAdicionarCertificacao.setManaged(false);
+                }
+            }
+
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,8 +168,12 @@ public class CertificacoesFornecedorModalController {
         header.getChildren().addAll(
                 headerCol("Certificação", true),
                 headerCol("Início", false),
-                headerCol("Fim", false),
-                headerCol("Ações", false));
+                headerCol("Fim", false));
+        
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if (!"FUNCIONARIO_MP".equals(role)) {
+            header.getChildren().add(headerCol("Ações", false));
+        }
         listaContainer.getChildren().add(header);
 
         for (int i = 0; i < items.size(); i++) {
@@ -221,7 +233,12 @@ public class CertificacoesFornecedorModalController {
         acoes.setMinWidth(140);
         acoes.setAlignment(Pos.CENTER_RIGHT);
 
-        row.getChildren().addAll(lblNome, lblInicio, lblFim, acoes);
+        row.getChildren().addAll(lblNome, lblInicio, lblFim);
+        
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+        if (!"FUNCIONARIO_MP".equals(role)) {
+            row.getChildren().add(acoes);
+        }
         return row;
     }
 
