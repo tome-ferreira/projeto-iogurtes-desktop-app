@@ -1,6 +1,7 @@
 package com.gestaoiogurtes.api;
 
 import com.gestaoiogurtes.config.ApiConfig;
+import com.gestaoiogurtes.utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -8,6 +9,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -90,6 +92,21 @@ public final class RetrofitClient {
                 .connectTimeout(ApiConfig.TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(ApiConfig.TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(ApiConfig.TIMEOUT, TimeUnit.SECONDS);
+
+        // ── Interceptor de autorização JWT ────────────────────────────────────
+        // Lê o token da sessão activa em cada pedido.
+        // Se não houver token (ex: /auth/login), o pedido é enviado sem header.
+        httpClientBuilder.addInterceptor(chain -> {
+            Request original = chain.request();
+            String token = SessionManager.getInstance().getAuthToken();
+            if (token != null && !token.isBlank()) {
+                Request authenticated = original.newBuilder()
+                        .header("Authorization", "Bearer " + token)
+                        .build();
+                return chain.proceed(authenticated);
+            }
+            return chain.proceed(original);
+        });
 
         if (ApiConfig.LOGGING_ENABLED) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

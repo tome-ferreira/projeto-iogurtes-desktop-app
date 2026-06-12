@@ -38,6 +38,80 @@ Controller JavaFX
 
 ---
 
+## Autenticação
+
+### Como funciona o login
+
+O endpoint `POST /auth/login` é o único endpoint público da API (marcado como `permitAll`
+no `SecurityConfig` do backend). Não requer `Authorization` header.
+
+```
+PaginaLogin.handleLogin()
+    │
+    │  AuthService.login(email, password, onStateChange)
+    │      └── ApiQuery.execute(IAuthApiService.login(LoginRequest), cb)
+    │                └── POST http://localhost:8081/auth/login
+    │                      Body: { "email": "...", "password": "..." }
+    ▼
+LoginResponse { id, nome, email, role, token }
+    │
+    ├── SessionManager.setUserId(response.id)
+    ├── SessionManager.setUserName(response.nome)
+    ├── SessionManager.setUserEmail(response.email)
+    ├── SessionManager.setUserRole(response.role)
+    └── SessionManager.setAuthToken(response.token)
+          └── → RetrofitClient interceptor começa a enviar Authorization: Bearer <token>
+```
+
+### Como o token é armazenado
+
+O token JWT é guardado em `SessionManager.authToken` (in-memory, campo privado).
+
+```java
+SessionManager.getInstance().getAuthToken(); // lê o token activo
+SessionManager.getInstance().setAuthToken(token); // chamado automaticamente no login
+```
+
+### Como o RetrofitClient envia o token automaticamente
+
+`RetrofitClient` inclui um `OkHttp Interceptor` que é executado em **todos** os pedidos:
+
+```java
+httpClientBuilder.addInterceptor(chain -> {
+    Request original = chain.request();
+    String token = SessionManager.getInstance().getAuthToken();
+    if (token != null && !token.isBlank()) {
+        Request authenticated = original.newBuilder()
+                .header("Authorization", "Bearer " + token)
+                .build();
+        return chain.proceed(authenticated);
+    }
+    return chain.proceed(original); // sem token → pedido enviado sem header
+});
+```
+
+**Comportamento:**
+- `token != null && !token.isBlank()` → adiciona `Authorization: Bearer <token>`
+- `token == null` ou `""` → **não** adiciona o header (necessário para `/auth/login` funcionar sem token)
+
+### Como funciona para /auth/login
+
+Antes do login, `SessionManager.getAuthToken()` devolve `null` → o interceptor **não** adiciona o header
+→ o pedido `POST /auth/login` é enviado sem `Authorization` → o backend aceita porque é `permitAll`.
+
+### Tratamento de 401 / 403
+
+Actualmente **não existe tratamento global** de respostas `401 Unauthorized` ou `403 Forbidden`.
+Se o token expirar ou o utilizador não tiver permissão:
+- O `ApiQuery` captura o erro HTTP e emite `QueryState.error("Erro HTTP 401", null)` (ou o campo `message` do JSON de erro).
+- O controller apresenta a mensagem de erro ao utilizador.
+- **Não há redireccionamento automático para o login.**
+
+> ⚠️ **Gap conhecido:** Implementar tratamento global de 401 (ex: via OkHttp Interceptor que detecta
+> 401 e navega para `PaginaLogin`) está identificado como trabalho futuro.
+
+---
+
 ## QueryState — Referência Rápida
 
 ### Estados possíveis

@@ -276,6 +276,7 @@ public class Sidebar implements AppAware {
 
     @FXML
     private void handleSair() {
+        com.gestaoiogurtes.utils.SessionManager.getInstance().clearSession();
         NavigationHelper.navigateTo(app, "/fxml/paginas/PaginaLogin.fxml");
     }
 
