@@ -170,6 +170,7 @@ public class OrdensProducaoController implements AppAware {
         row.getStyleClass().add("tabela-header");
         row.setMaxWidth(Double.MAX_VALUE);
         row.getChildren().addAll(
+                headerCol("", 48, false),
                 headerCol("Utilizador", 200, true),
                 headerCol("Data de Início", 140, false),
                 headerCol("Data de Fim", 140, false),
@@ -223,7 +224,8 @@ public class OrdensProducaoController implements AppAware {
         acoesBox.setAlignment(Pos.CENTER_LEFT);
         acoesBox.setMinWidth(100);
 
-        row.getChildren().addAll(userLabel, inicioLabel, fimLabel, estadoPill, acoesBox);
+        var avatar = criarAvatar(item.userNome);
+        row.getChildren().addAll(avatar, userLabel, inicioLabel, fimLabel, estadoPill, acoesBox);
         return row;
     }
 
@@ -286,4 +288,27 @@ public class OrdensProducaoController implements AppAware {
         currentPage = 0;
         carregarOrdens();
     }
+
+    private javafx.scene.layout.StackPane criarAvatar(String nome) {
+        String iniciais = extrairIniciais(nome);
+        int cor = Math.abs((nome != null ? nome : "").hashCode()) % 4;
+
+        var texto = new javafx.scene.control.Label(iniciais);
+        texto.getStyleClass().addAll("avatar-texto", "avatar-texto-cor-" + cor);
+
+        var pane = new javafx.scene.layout.StackPane(texto);
+        pane.getStyleClass().addAll("avatar", "avatar-cor-" + cor);
+        javafx.scene.layout.HBox.setMargin(pane, new javafx.geometry.Insets(0, 12, 0, 0));
+        return pane;
+    }
+
+    private String extrairIniciais(String nome) {
+        if (nome == null || nome.isBlank()) return "?";
+        var partes = nome.trim().split("\\s+");
+        if (partes.length == 1) {
+            return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
+        }
+        return (partes[0].charAt(0) + "" + partes[partes.length - 1].charAt(0)).toUpperCase();
+    }
+
 }

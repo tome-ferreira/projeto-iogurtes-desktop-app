@@ -158,6 +158,7 @@ public class MoedasController implements AppAware {
         row.setMaxWidth(Double.MAX_VALUE);
 
         row.getChildren().addAll(
+                headerCol("", 48, false),
                 headerCol("Moeda", 220, true),
                 headerCol("Código ISO", 120, false),
                 headerCol("Símbolo", 120, false),
@@ -228,7 +229,8 @@ public class MoedasController implements AppAware {
         acoesBox.setAlignment(Pos.CENTER_RIGHT);
         acoesBox.setMinWidth(140);
 
-        row.getChildren().addAll(nomeBox, codigoLabel, simboloLabel, taxaLabel, acoesBox);
+        var avatar = criarAvatar(moeda.simbolo);
+        row.getChildren().addAll(avatar, nomeBox, codigoLabel, simboloLabel, taxaLabel, acoesBox);
         return row;
     }
 
@@ -274,4 +276,27 @@ public class MoedasController implements AppAware {
     public void onMutacaoComErro(String mensagem) {
         mostrarNotificacao(mensagem, false);
     }
+
+    private javafx.scene.layout.StackPane criarAvatar(String nome) {
+        String iniciais = extrairIniciais(nome);
+        int cor = Math.abs((nome != null ? nome : "").hashCode()) % 4;
+
+        var texto = new javafx.scene.control.Label(iniciais);
+        texto.getStyleClass().addAll("avatar-texto", "avatar-texto-cor-" + cor);
+
+        var pane = new javafx.scene.layout.StackPane(texto);
+        pane.getStyleClass().addAll("avatar", "avatar-cor-" + cor);
+        javafx.scene.layout.HBox.setMargin(pane, new javafx.geometry.Insets(0, 12, 0, 0));
+        return pane;
+    }
+
+    private String extrairIniciais(String nome) {
+        if (nome == null || nome.isBlank()) return "?";
+        var partes = nome.trim().split("\\s+");
+        if (partes.length == 1) {
+            return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
+        }
+        return (partes[0].charAt(0) + "" + partes[partes.length - 1].charAt(0)).toUpperCase();
+    }
+
 }

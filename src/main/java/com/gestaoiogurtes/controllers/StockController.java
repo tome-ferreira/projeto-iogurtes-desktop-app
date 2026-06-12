@@ -130,6 +130,7 @@ public class StockController implements AppAware {
         row.setMaxWidth(Double.MAX_VALUE);
 
         row.getChildren().addAll(
+                headerCol("", 48, false),
                 headerCol("Nº Lote", 150, true),
                 headerCol("Produto", 250, true),
                 headerCol("Stock (kg)", 120, false),
@@ -181,7 +182,8 @@ public class StockController implements AppAware {
         acoesBox.setAlignment(Pos.CENTER_RIGHT);
         acoesBox.setMinWidth(100);
 
-        row.getChildren().addAll(numeroLoteLabel, produtoLabel, stockLabel, validadeLabel, acoesBox);
+        var avatar = criarAvatar(item.produtoNome);
+        row.getChildren().addAll(avatar, numeroLoteLabel, produtoLabel, stockLabel, validadeLabel, acoesBox);
         return row;
     }
 
@@ -245,4 +247,27 @@ public class StockController implements AppAware {
             carregarItens();
         }
     }
+
+    private javafx.scene.layout.StackPane criarAvatar(String nome) {
+        String iniciais = extrairIniciais(nome);
+        int cor = Math.abs((nome != null ? nome : "").hashCode()) % 4;
+
+        var texto = new javafx.scene.control.Label(iniciais);
+        texto.getStyleClass().addAll("avatar-texto", "avatar-texto-cor-" + cor);
+
+        var pane = new javafx.scene.layout.StackPane(texto);
+        pane.getStyleClass().addAll("avatar", "avatar-cor-" + cor);
+        javafx.scene.layout.HBox.setMargin(pane, new javafx.geometry.Insets(0, 12, 0, 0));
+        return pane;
+    }
+
+    private String extrairIniciais(String nome) {
+        if (nome == null || nome.isBlank()) return "?";
+        var partes = nome.trim().split("\\s+");
+        if (partes.length == 1) {
+            return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
+        }
+        return (partes[0].charAt(0) + "" + partes[partes.length - 1].charAt(0)).toUpperCase();
+    }
+
 }
