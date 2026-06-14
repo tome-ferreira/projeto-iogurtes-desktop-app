@@ -24,20 +24,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Controller do modal de selecção de matéria prima para composição.
- * Baseado em SelecionarFornecedorTipoModalController com input de quantidade adicional.
- */
 public class SelecionarMateriaPrimaComposicaoModalController {
 
-    @FXML private Button    btnAnterior;
-    @FXML private Button    btnProximo;
-    @FXML private Label     lblPagina;
-    @FXML private VBox      listaContainer;
-    @FXML private HBox      hboxLoading;
-    @FXML private Button    btnAdicionar;
-    @FXML private TextField txtQuantidade;
-    @FXML private Label     lblQuantidadeErro;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnAdicionar;
+    @FXML
+    private TextField txtQuantidade;
+    @FXML
+    private Label lblQuantidadeErro;
 
     private Stage dialogStage;
     private MateriaPrimaService materiaPrimaService;
@@ -47,16 +51,9 @@ public class SelecionarMateriaPrimaComposicaoModalController {
     private String selectedNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    /**
-     * Abre o modal de selecção de matéria prima para composição.
-     *
-     * @param materiaPrimaService serviço de matéria prima
-     * @param owner               janela pai
-     * @param onConfirm           callback com a selecção confirmada (id, nome, quantidade)
-     */
     public static void show(
             MateriaPrimaService materiaPrimaService,
             Window owner,
@@ -187,8 +184,8 @@ public class SelecionarMateriaPrimaComposicaoModalController {
         }
 
         for (MateriaPrimaResponse mp : itens) {
-            String id   = mp.id   != null ? mp.id.toString()  : "";
-            String nome = mp.nome != null ? mp.nome            : "(sem nome)";
+            String id = mp.id != null ? mp.id.toString() : "";
+            String nome = mp.nome != null ? mp.nome : "(sem nome)";
 
             HBox linha = new HBox();
             linha.getStyleClass().add("selecionar-tipo-row");
@@ -242,7 +239,8 @@ public class SelecionarMateriaPrimaComposicaoModalController {
             try {
                 double v = Double.parseDouble(qtdStr);
                 quantidadeValida = v > 0;
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
         btnAdicionar.setDisable(!(temSeleccao && quantidadeValida));
     }

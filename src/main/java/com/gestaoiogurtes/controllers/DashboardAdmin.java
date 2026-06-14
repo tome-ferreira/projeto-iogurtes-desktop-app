@@ -37,40 +37,65 @@ public class DashboardAdmin implements AppAware {
     private final OrdemProducaoService ordemProducaoService = new OrdemProducaoService();
     private GestaoIogurtes app;
 
-    @FXML private Sidebar sidebarController;
-    @FXML private StackPane rootStack;
-    @FXML private Label greetingLabel;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private Label greetingLabel;
 
-    @FXML private PieChart pieChartEncomendas;
-    @FXML private ProgressIndicator loadingEncomendas;
-    @FXML private VBox pieChartCard;
+    @FXML
+    private PieChart pieChartEncomendas;
+    @FXML
+    private ProgressIndicator loadingEncomendas;
+    @FXML
+    private VBox pieChartCard;
 
-    @FXML private Label countAdmin;
-    @FXML private ProgressIndicator loadingAdmin;
+    @FXML
+    private Label countAdmin;
+    @FXML
+    private ProgressIndicator loadingAdmin;
 
-    @FXML private Label countGestor;
-    @FXML private ProgressIndicator loadingGestor;
+    @FXML
+    private Label countGestor;
+    @FXML
+    private ProgressIndicator loadingGestor;
 
-    @FXML private Label countFuncionarioMp;
-    @FXML private ProgressIndicator loadingFuncionarioMp;
+    @FXML
+    private Label countFuncionarioMp;
+    @FXML
+    private ProgressIndicator loadingFuncionarioMp;
 
-    @FXML private Label countFuncionarioOp;
-    @FXML private ProgressIndicator loadingFuncionarioOp;
+    @FXML
+    private Label countFuncionarioOp;
+    @FXML
+    private ProgressIndicator loadingFuncionarioOp;
 
-    @FXML private Label countCliente;
-    @FXML private ProgressIndicator loadingCliente;
+    @FXML
+    private Label countCliente;
+    @FXML
+    private ProgressIndicator loadingCliente;
 
-    @FXML private VBox barChartCard;
-    @FXML private BarChart<String, Number> barChartProdutos;
-    @FXML private ProgressIndicator loadingBarChart;
+    @FXML
+    private VBox barChartCard;
+    @FXML
+    private BarChart<String, Number> barChartProdutos;
+    @FXML
+    private ProgressIndicator loadingBarChart;
 
-    @FXML private VBox pieChartMateriasCard;
-    @FXML private PieChart pieChartMaterias;
-    @FXML private ProgressIndicator loadingPieChartMaterias;
+    @FXML
+    private VBox pieChartMateriasCard;
+    @FXML
+    private PieChart pieChartMaterias;
+    @FXML
+    private ProgressIndicator loadingPieChartMaterias;
 
-    @FXML private VBox lineChartOrdensCard;
-    @FXML private LineChart<String, Number> lineChartOrdens;
-    @FXML private ProgressIndicator loadingLineChartOrdens;
+    @FXML
+    private VBox lineChartOrdensCard;
+    @FXML
+    private LineChart<String, Number> lineChartOrdens;
+    @FXML
+    private ProgressIndicator loadingLineChartOrdens;
 
     @FXML
     public void initialize() {
@@ -80,7 +105,7 @@ public class DashboardAdmin implements AppAware {
         String nome = SessionManager.getInstance().getUserName();
         String role = SessionManager.getInstance().getUserRole();
 
-        greetingLabel.setText(saudacao + ", " + nome + " — " + role);
+        greetingLabel.setText(saudacao + ", " + nome);
 
         showLoading(true);
 
@@ -92,7 +117,8 @@ public class DashboardAdmin implements AppAware {
                     if (response != null && response.content != null) {
                         long cAdmin = 0, cGestor = 0, cFuncMp = 0, cFuncOp = 0, cCliente = 0;
                         for (UserResponse user : response.content) {
-                            if (user.role == null) continue;
+                            if (user.role == null)
+                                continue;
                             switch (user.role) {
                                 case "ADMIN" -> cAdmin++;
                                 case "GESTOR" -> cGestor++;
@@ -113,9 +139,11 @@ public class DashboardAdmin implements AppAware {
                 case ERROR -> {
                     showLoading(false);
                     setCountsToDash();
-                    MessageHelper.mostrar(rootStack, "Erro ao carregar utilizadores ativos: " + state.getErrorMessage(), false);
+                    MessageHelper.mostrar(rootStack, "Erro ao carregar utilizadores ativos: " + state.getErrorMessage(),
+                            false);
                 }
-                default -> {}
+                default -> {
+                }
             }
         });
 
@@ -123,7 +151,8 @@ public class DashboardAdmin implements AppAware {
         pieChartEncomendas.setVisible(false);
 
         encomendaService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             loadingEncomendas.setVisible(false);
             if (state.isSuccess()) {
                 pieChartEncomendas.setVisible(true);
@@ -134,16 +163,15 @@ public class DashboardAdmin implements AppAware {
                     Map<String, Long> counts = response.content.stream()
                             .collect(Collectors.groupingBy(
                                     e -> e.estado != null ? e.estado : "DESCONHECIDO",
-                                    Collectors.counting()
-                            ));
+                                    Collectors.counting()));
 
-                    // Fixed order to guarantee CSS classes (.default-color0, .default-color1, .default-color2)
-                    String[] fixedStates = {"PENDENTE", "EXPEDIDA", "CANCELADA"};
+                    // Fixed order to guarantee CSS classes (.default-color0, .default-color1,
+                    // .default-color2)
+                    String[] fixedStates = { "PENDENTE", "EXPEDIDA", "CANCELADA" };
                     for (String estado : fixedStates) {
                         data.add(new PieChart.Data(
                                 EnumDisplayHelper.getEstadoEncomendaLabel(estado),
-                                counts.getOrDefault(estado, 0L)
-                        ));
+                                counts.getOrDefault(estado, 0L)));
                     }
                 }
                 pieChartEncomendas.setData(data);
@@ -156,10 +184,10 @@ public class DashboardAdmin implements AppAware {
 
         barChartCard.setOnMouseClicked(e -> handleNavigateToEncomendas());
         barChartCard.setCursor(Cursor.HAND);
-        
+
         pieChartMateriasCard.setOnMouseClicked(e -> handleNavigateToMateriasPrimas());
         pieChartMateriasCard.setCursor(Cursor.HAND);
-        
+
         lineChartOrdensCard.setOnMouseClicked(e -> handleNavigateToOrdensProducao());
         lineChartOrdensCard.setCursor(Cursor.HAND);
 
@@ -210,7 +238,8 @@ public class DashboardAdmin implements AppAware {
         barChartProdutos.setManaged(false);
 
         encomendaService.getByEstado("EXPEDIDA", 0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             loadingBarChart.setVisible(false);
             loadingBarChart.setManaged(false);
 
@@ -224,12 +253,10 @@ public class DashboardAdmin implements AppAware {
                             .filter(e -> e.pallets != null)
                             .flatMap(e -> e.pallets.stream()
                                     .map(p -> p.produtoNome != null ? p.produtoNome : "Desconhecido")
-                                    .distinct()
-                            )
+                                    .distinct())
                             .collect(Collectors.groupingBy(
                                     nome -> nome,
-                                    Collectors.counting()
-                            ));
+                                    Collectors.counting()));
 
                     Map<String, Long> top5Produtos = produtoCounts.entrySet().stream()
                             .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
@@ -238,12 +265,10 @@ public class DashboardAdmin implements AppAware {
                                     Map.Entry::getKey,
                                     Map.Entry::getValue,
                                     (e1, e2) -> e1,
-                                    LinkedHashMap::new
-                            ));
+                                    LinkedHashMap::new));
 
                     XYChart.Series<String, Number> series = new XYChart.Series<>();
-                    top5Produtos.forEach((nome, count) ->
-                            series.getData().add(new XYChart.Data<>(nome, count)));
+                    top5Produtos.forEach((nome, count) -> series.getData().add(new XYChart.Data<>(nome, count)));
 
                     barChartProdutos.getData().clear();
                     barChartProdutos.getData().add(series);
@@ -260,8 +285,11 @@ public class DashboardAdmin implements AppAware {
                         public String toString(Number object) {
                             return object.intValue() == object.doubleValue() ? String.valueOf(object.intValue()) : "";
                         }
+
                         @Override
-                        public Number fromString(String string) { return null; }
+                        public Number fromString(String string) {
+                            return null;
+                        }
                     });
                 }
             } else if (state.isError()) {
@@ -277,7 +305,8 @@ public class DashboardAdmin implements AppAware {
         pieChartMaterias.setManaged(false);
 
         materiaPrimaService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             loadingPieChartMaterias.setVisible(false);
             loadingPieChartMaterias.setManaged(false);
 
@@ -290,8 +319,7 @@ public class DashboardAdmin implements AppAware {
                     Map<String, Long> countPorTipo = response.content.stream()
                             .collect(Collectors.groupingBy(
                                     mp -> (mp.tipo != null && mp.tipo.nome != null) ? mp.tipo.nome : "Desconhecido",
-                                    Collectors.counting()
-                            ));
+                                    Collectors.counting()));
 
                     ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
                     countPorTipo.forEach((tipo, count) -> {
@@ -312,7 +340,8 @@ public class DashboardAdmin implements AppAware {
         lineChartOrdens.setManaged(false);
 
         ordemProducaoService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             loadingLineChartOrdens.setVisible(false);
             loadingLineChartOrdens.setManaged(false);
 
@@ -322,7 +351,8 @@ public class DashboardAdmin implements AppAware {
 
                 var response = state.getData();
                 if (response != null && response.content != null) {
-                    java.util.List<com.gestaoiogurtes.models.ordemProducao.OrdemProducaoResponse> ordensConcluidas = response.content.stream()
+                    java.util.List<com.gestaoiogurtes.models.ordemProducao.OrdemProducaoResponse> ordensConcluidas = response.content
+                            .stream()
                             .filter(o -> "CONCLUIDA".equals(o.estado) && o.dataFim != null)
                             .toList();
 
@@ -340,7 +370,8 @@ public class DashboardAdmin implements AppAware {
                     lineChartOrdens.getData().add(series);
                 }
             } else if (state.isError()) {
-                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(), false);
+                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(),
+                        false);
             }
         });
     }

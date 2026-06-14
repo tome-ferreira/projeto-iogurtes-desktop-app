@@ -1,25 +1,7 @@
-/* =============================================================
-   empresas.css  –  Gestão de Empresas
-   Organização:
-     1. Variáveis locais (reutiliza as de iogurtes.css)
-     2. Layout da página
-     3. Cabeçalho da página
-     4. Barra de ferramentas (pesquisa)
-     5. Tabela customizada
-        5a. Header da tabela
-        5b. Linhas
-        5c. Avatar / iniciais
-        5d. Botões de acção por linha
-     6. Botão flutuante (FAB)
-     7. Estado vazio
-     8. Loading overlay  ← padrão reutilizável
-   ============================================================= */
 
 
-/* ── 1. Variáveis locais ─────────────────────────────────────
-   Reutiliza as mesmas variáveis definidas globalmente em
-   iogurtes.css / AtlantaFX para consistência visual.
-   ------------------------------------------------------------ */
+
+
 .root {
     -gi-radius-sm:   4px;
     -gi-radius-md:   8px;
@@ -29,16 +11,13 @@
 }
 
 
-/* ── 2. Layout da página ─────────────────────────────────────
-   ------------------------------------------------------------ */
+
 .pagina-conteudo {
     -fx-background-color: -color-bg-default;
 }
 
 
-/* ── 3. Cabeçalho da página ──────────────────────────────────
-   HBox com título + botão primário
-   ------------------------------------------------------------ */
+
 .pagina-cabecalho {
     -fx-padding: 28 32 12 32;
     -fx-alignment: CENTER_LEFT;
@@ -56,10 +35,11 @@
     -fx-opacity: 0.6;
 }
 
-/* Botão primário do cabeçalho */
+
 .btn-primario-cabecalho {
     -fx-background-color: -color-accent-emphasis;
-    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 14;
     -fx-graphic-text-gap: 6;
@@ -79,8 +59,7 @@
 }
 
 
-/* ── 4. Barra de ferramentas (pesquisa) ──────────────────────
-   ------------------------------------------------------------ */
+
 .toolbar-filtros {
     -fx-padding: 16 32 16 32;
     -fx-spacing: 10;
@@ -106,8 +85,7 @@
 }
 
 
-/* ── 5. Tabela customizada ───────────────────────────────────
-   ------------------------------------------------------------ */
+
 .tabela-card {
     -fx-background-color: -color-bg-default;
     -fx-background-radius: 10;
@@ -119,7 +97,7 @@
 }
 
 
-/* ── 5a. Header da tabela ────────────────────────────────────*/
+
 .tabela-header {
     -fx-background-color: -color-bg-subtle;
     -fx-background-radius: 10 10 0 0;
@@ -138,7 +116,7 @@
 }
 
 
-/* ── 5b. Linhas da tabela ────────────────────────────────────*/
+
 .tabela-linha {
     -fx-padding: 10 16 10 16;
     -fx-alignment: CENTER_LEFT;
@@ -157,7 +135,7 @@
     -fx-background-color: derive(-color-bg-subtle, 4%);
 }
 
-/* Célula de nome principal + subtítulo */
+
 .celula-nome-principal {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -168,16 +146,14 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* Célula genérica de dados */
+
 .celula-dados {
     -fx-font-size: 13px;
     -fx-text-fill: -color-fg-default;
 }
 
 
-/* ── 5c. Avatar / iniciais ───────────────────────────────────
-   StackPane circular com iniciais do nome da empresa
-   ------------------------------------------------------------ */
+
 .avatar {
     -fx-background-radius: 50%;
     -fx-background-color: -color-accent-muted;
@@ -196,7 +172,7 @@
     -fx-text-fill: -color-accent-fg;
 }
 
-/* Variantes de cor cíclicas */
+
 .avatar-cor-0 { -fx-background-color: derive(-color-accent-muted,  0%); }
 .avatar-cor-1 { -fx-background-color: derive(-color-success-muted, 0%); }
 .avatar-cor-2 { -fx-background-color: derive(-color-warning-muted, 0%); }
@@ -208,9 +184,9 @@
 .avatar-texto-cor-3 { -fx-text-fill: -color-danger-fg;  }
 
 
-/* ── 5d. Botões de acção por linha ───────────────────────────*/
 
-/* Botão de acção neutro */
+
+
 .btn-linha-acao {
     -fx-background-color: transparent;
     -fx-text-fill: -color-accent-fg;
@@ -225,7 +201,7 @@
     -fx-underline: true;
 }
 
-/* Botão de perigo (eliminar) */
+
 .btn-linha-danger {
     -fx-background-color: transparent;
     -fx-text-fill: -color-danger-fg;
@@ -241,8 +217,7 @@
 }
 
 
-/* ── 6. Botão flutuante (FAB) ────────────────────────────────
-   ------------------------------------------------------------ */
+
 .fab {
     -fx-background-color: -color-accent-emphasis;
     -fx-background-radius: 50%;
@@ -277,8 +252,7 @@
 }
 
 
-/* ── 7. Estado vazio ─────────────────────────────────────────
-   ------------------------------------------------------------ */
+
 .estado-vazio {
     -fx-alignment: CENTER;
     -fx-padding: 80 40 80 40;
@@ -306,21 +280,7 @@
 }
 
 
-/* ── 8. Loading overlay ──────────────────────────────────────
-   Padrão reutilizável para qualquer página CRUD.
 
-   Como usar:
-     - O StackPane raiz (fx:id="rootStack") tem dois filhos:
-         [0] conteúdo da página (tabela, FAB, etc.)
-         [1] este overlay (VBox com classe "loading-overlay")
-     - No controller, chamar setLoading(true/false) para
-       alternar visibilidade.
-
-   Classes:
-     .loading-overlay  — container semi-transparente que cobre a página
-     .loading-spinner  — ProgressIndicator central
-     .loading-label    — texto "A carregar..." abaixo do spinner
-   ------------------------------------------------------------ */
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
     -fx-alignment: CENTER;
@@ -337,7 +297,7 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* ── 9. Barra de Paginação ───────────────────────────────────*/
+
 .pagination-bar {
     -fx-padding: 16 0 0 0;
     -fx-alignment: CENTER;
@@ -378,7 +338,7 @@
     -fx-cursor: default;
 }
 
-/* ── 10. Modais / Forms ─────────────────────────────────────── */
+
 .modal-root {
     -fx-background-color: -color-bg-default;
 }
@@ -411,7 +371,7 @@
     -fx-spacing: 12;
 }
 
-/* Form fields */
+
 .form-group {
     -fx-spacing: 4;
 }
@@ -432,7 +392,7 @@
     -fx-min-height: 32px;
 }
 
-/* Botões do modal */
+
 .btn-modal-cancel {
     -fx-background-color: transparent;
     -fx-cursor: hand;
@@ -441,6 +401,7 @@
 .btn-modal-submit {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -449,6 +410,7 @@
 .btn-modal-submit-danger {
     -fx-background-color: -color-danger-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;

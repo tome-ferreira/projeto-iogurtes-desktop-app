@@ -15,21 +15,25 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/** Modal de confirmação de desativação — partilhado por todos os tipos de utilizador. */
 public class DesativarUtilizadorModalController {
 
     private UtilizadorService service;
     private UserResponse utilizador;
 
-    @FXML private Label  lblMensagem;
-    @FXML private Label  lblErro;
-    @FXML private Button btnDesativar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblMensagem;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnDesativar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(UserResponse utilizador, UtilizadorService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(UserResponse utilizador, UtilizadorService service, Window owner,
+            Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(DesativarUtilizadorModalController.class
                     .getResource("/fxml/components/utilizadores/DesativarUtilizadorModal.fxml"));
@@ -45,24 +49,31 @@ public class DesativarUtilizadorModalController {
 
             DesativarUtilizadorModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
-            ctrl.onSuccess   = onSuccess;
-            ctrl.service     = service;
+            ctrl.onSuccess = onSuccess;
+            ctrl.service = service;
             ctrl.setUtilizador(utilizador);
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUtilizador(UserResponse u) {
         this.utilizador = u;
         lblMensagem.setText(
                 "Tem a certeza que deseja desativar o utilizador \"" + u.nome + "\"?\n" +
-                "O utilizador ficará inativo e não poderá aceder ao sistema.");
+                        "O utilizador ficará inativo e não poderá aceder ao sistema.");
     }
 
-    @FXML public void initialize() {}
+    @FXML
+    public void initialize() {
+    }
 
-    @FXML private void handleCancelar() { dialogStage.close(); }
+    @FXML
+    private void handleCancelar() {
+        dialogStage.close();
+    }
 
     @FXML
     private void handleDesativar() {
@@ -75,7 +86,8 @@ public class DesativarUtilizadorModalController {
                 btnDesativar.setText("A desativar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Utilizador \"" + utilizador.nome + "\" desativado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Utilizador \"" + utilizador.nome + "\" desativado com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnDesativar.setDisable(false);
                 btnCancelar.setDisable(false);

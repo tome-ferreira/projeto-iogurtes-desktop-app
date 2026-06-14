@@ -14,26 +14,24 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
-/**
- * Modal de confirmação para remover uma certificação de um fornecedor.
- * Chama DELETE /fornecedor/certificacoes/{fornecedorCertificacaoId}.
- */
 public class EliminarCertificacaoModalController {
 
-    @FXML private Label  lblMensagem;
-    @FXML private Label  lblErro;
-    @FXML private Button btnRemover;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblMensagem;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnRemover;
+    @FXML
+    private Button btnCancelar;
 
-    private Stage            dialogStage;
+    private Stage dialogStage;
     private FornecedorService service;
-    private String           fornecedorCertificacaoId;
-    private Runnable         onSuccess;
-
-    // ── Abertura ────────────────────────────────────────────────────────────
+    private String fornecedorCertificacaoId;
+    private Runnable onSuccess;
 
     public static void show(String fornecedorCertificacaoId, String certificacaoNome,
-                            FornecedorService service, Window owner, Runnable onSuccess) {
+            FornecedorService service, Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     EliminarCertificacaoModalController.class
@@ -49,13 +47,13 @@ public class EliminarCertificacaoModalController {
             stage.setScene(new Scene(root));
 
             EliminarCertificacaoModalController ctrl = loader.getController();
-            ctrl.dialogStage              = stage;
-            ctrl.service                  = service;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
             ctrl.fornecedorCertificacaoId = fornecedorCertificacaoId;
-            ctrl.onSuccess                = onSuccess;
+            ctrl.onSuccess = onSuccess;
             ctrl.lblMensagem.setText(
                     "Tem a certeza que pretende remover a certificação \""
-                    + (certificacaoNome != null ? certificacaoNome : "desconhecida") + "\"?");
+                            + (certificacaoNome != null ? certificacaoNome : "desconhecida") + "\"?");
 
             stage.showAndWait();
         } catch (IOException e) {
@@ -63,14 +61,10 @@ public class EliminarCertificacaoModalController {
         }
     }
 
-    // ── Inicialização ───────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         lblErro.setText("");
     }
-
-    // ── Handlers ────────────────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {

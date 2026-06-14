@@ -25,17 +25,24 @@ public class TiposMateriaPrimaController implements AppAware {
 
     private final TipoMateriaPrimaService service = new TipoMateriaPrimaService();
 
-    @FXML private Sidebar sidebarController;
-    @FXML private VBox tabelaContainer;
-    @FXML private StackPane rootStack;
-    @FXML private VBox loadingOverlay;
-    @FXML private TextField campoPesquisa;
-    @FXML private Button btnNovo;
-    @FXML private Button fab;
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProxima;
-    @FXML private Label lblPagina;
-    @FXML private ComboBox<Integer> cbTamanhoPagina;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private VBox tabelaContainer;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProxima;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPagina;
 
     private int currentPage = 0;
     private int pageSize = 20;
@@ -50,7 +57,6 @@ public class TiposMateriaPrimaController implements AppAware {
 
     @FXML
     public void initialize() {
-        campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -88,21 +94,25 @@ public class TiposMateriaPrimaController implements AppAware {
                         this.totalPages = response.totalPages;
 
                         if (lblPagina != null) {
-                            lblPagina.setText("Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                            lblPagina.setText(
+                                    "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
                         }
-                        if (btnAnterior != null) btnAnterior.setDisable(response.first);
-                        if (btnProxima != null) btnProxima.setDisable(response.last);
+                        if (btnAnterior != null)
+                            btnAnterior.setDisable(response.first);
+                        if (btnProxima != null)
+                            btnProxima.setDisable(response.last);
                     } else {
                         todosItens = List.of();
                     }
-                    filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
+                    renderizarTabela();
                 }
 
                 case ERROR -> {
                     setLoading(false);
                     mostrarNotificacao("Erro ao carregar tipos de matéria prima: " + state.getErrorMessage(), false);
                 }
-                default -> {}
+                default -> {
+                }
             }
         });
     }
@@ -123,12 +133,10 @@ public class TiposMateriaPrimaController implements AppAware {
         }
     }
 
-    private void filtrarTabela(String pesquisa) {
+    private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
 
-        var filtrados = todosItens.stream()
-                .filter(e -> pesquisa.isEmpty() || (e.nome != null && e.nome.toLowerCase().contains(pesquisa)))
-                .toList();
+        var filtrados = todosItens;
 
         if (filtrados.isEmpty()) {
             tabelaContainer.getChildren().add(criarEstadoVazio());
@@ -174,7 +182,8 @@ public class TiposMateriaPrimaController implements AppAware {
     private boolean isActionButtonClicked(javafx.scene.input.MouseEvent e) {
         javafx.scene.Node target = (javafx.scene.Node) e.getTarget();
         while (target != null && target != tabelaContainer) {
-            if (target instanceof Button) return true;
+            if (target instanceof Button)
+                return true;
             target = target.getParent();
         }
         return false;
@@ -213,12 +222,14 @@ public class TiposMateriaPrimaController implements AppAware {
 
         btnEditar.setOnAction(e -> {
             e.consume();
-            EditarTipoMateriaPrimaModalController.show(tipo, service, tabelaContainer.getScene().getWindow(), this::onMutacaoBemSucedida);
+            EditarTipoMateriaPrimaModalController.show(tipo, service, tabelaContainer.getScene().getWindow(),
+                    this::onMutacaoBemSucedida);
         });
 
         btnEliminar.setOnAction(e -> {
             e.consume();
-            EliminarTipoMateriaPrimaModalController.show(tipo, service, tabelaContainer.getScene().getWindow(), this::onMutacaoBemSucedida);
+            EliminarTipoMateriaPrimaModalController.show(tipo, service, tabelaContainer.getScene().getWindow(),
+                    this::onMutacaoBemSucedida);
         });
 
         var acoesBox = new HBox(6, btnEditar, btnEliminar);
@@ -243,7 +254,8 @@ public class TiposMateriaPrimaController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
@@ -252,7 +264,7 @@ public class TiposMateriaPrimaController implements AppAware {
     }
 
     private VBox criarEstadoVazio() {
-        var icone = new FontIcon(MaterialDesignD.DOMAIN_OFF); // Can reuse domain_off or find a leaf icon
+        var icone = new FontIcon(MaterialDesignD.DOMAIN_OFF);
         icone.setIconSize(52);
         icone.getStyleClass().add("estado-vazio-icone");
 
@@ -275,9 +287,9 @@ public class TiposMateriaPrimaController implements AppAware {
             loadingOverlay.setVisible(loading);
             loadingOverlay.setManaged(loading);
         }
-        if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab != null) fab.setDisable(loading);
-    }
+        if (btnNovo != null)
+            btnNovo.setDisable(loading);
+        }
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);

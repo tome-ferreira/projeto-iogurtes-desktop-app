@@ -14,25 +14,22 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
-/**
- * Modal de confirmação de remoção de um fornecedor de matéria prima.
- * DELETE /materias-primas/fornecedores/{id}
- */
 public class EliminarFornecedorMateriaPrimaModalController {
 
-    @FXML private Label  lblMensagem;
-    @FXML private Label  lblErro;
-    @FXML private Button btnConfirmar;
+    @FXML
+    private Label lblMensagem;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnConfirmar;
 
-    private Stage               dialogStage;
+    private Stage dialogStage;
     private MateriaPrimaService service;
-    private String              fornecedorLinkId;
-    private Runnable            onSuccess;
-
-    // ── Abertura ────────────────────────────────────────────────────────────
+    private String fornecedorLinkId;
+    private Runnable onSuccess;
 
     public static void show(String fornecedorLinkId, String fornecedorNome,
-                            MateriaPrimaService service, Window owner, Runnable onSuccess) {
+            MateriaPrimaService service, Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     EliminarFornecedorMateriaPrimaModalController.class
@@ -48,13 +45,14 @@ public class EliminarFornecedorMateriaPrimaModalController {
             stage.setScene(new Scene(root));
 
             EliminarFornecedorMateriaPrimaModalController ctrl = loader.getController();
-            ctrl.dialogStage       = stage;
-            ctrl.service           = service;
-            ctrl.fornecedorLinkId  = fornecedorLinkId;
-            ctrl.onSuccess         = onSuccess;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.fornecedorLinkId = fornecedorLinkId;
+            ctrl.onSuccess = onSuccess;
 
             String nome = fornecedorNome != null ? fornecedorNome : "este fornecedor";
-            ctrl.lblMensagem.setText("Tem a certeza que pretende remover o fornecedor \"" + nome + "\" desta matéria prima?");
+            ctrl.lblMensagem
+                    .setText("Tem a certeza que pretende remover o fornecedor \"" + nome + "\" desta matéria prima?");
 
             stage.showAndWait();
         } catch (IOException e) {
@@ -62,16 +60,12 @@ public class EliminarFornecedorMateriaPrimaModalController {
         }
     }
 
-    // ── Inicialização ────────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         lblErro.setText("");
         lblErro.setVisible(false);
         lblErro.setManaged(false);
     }
-
-    // ── Handlers FXML ───────────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {
@@ -86,7 +80,7 @@ public class EliminarFornecedorMateriaPrimaModalController {
 
         service.deleteFornecedor(fornecedorLinkId, state -> {
             if (state.isLoading()) {
-                // já desactivado acima
+
             } else if (state.isSuccess()) {
                 dialogStage.close();
                 onSuccess.run();
@@ -97,8 +91,6 @@ public class EliminarFornecedorMateriaPrimaModalController {
             }
         });
     }
-
-    // ── Helper ───────────────────────────────────────────────────────────────
 
     private void mostrarErro(String msg) {
         lblErro.setText(msg);

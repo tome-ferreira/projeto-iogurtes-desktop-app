@@ -16,15 +16,14 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/**
- * Controller do modal de eliminação de Produto Final.
- * Segue o mesmo padrão do EliminarMateriaPrimaModalController.
- */
 public class EliminarProdutoFinalModalController {
 
-    @FXML private Label  lblMensagem;
-    @FXML private Label  lblErro;
-    @FXML private Button btnEliminar;
+    @FXML
+    private Label lblMensagem;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnEliminar;
 
     private Stage dialogStage;
     private ProdutoFinalService service;
@@ -70,7 +69,8 @@ public class EliminarProdutoFinalModalController {
 
     @FXML
     private void handleEliminar() {
-        if (idToEliminar == null) return;
+        if (idToEliminar == null)
+            return;
 
         btnEliminar.setDisable(true);
         btnEliminar.setText("A eliminar...");

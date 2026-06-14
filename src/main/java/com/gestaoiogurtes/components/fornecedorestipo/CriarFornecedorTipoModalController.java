@@ -19,18 +19,24 @@ public class CriarFornecedorTipoModalController {
 
     private FornecedorTipoService service;
 
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private Label lblErro;
-    @FXML private Button btnCriar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
     public static void show(FornecedorTipoService service, Window owner, Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(CriarFornecedorTipoModalController.class.getResource("/fxml/components/fornecedorestipo/CriarFornecedorTipoModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(CriarFornecedorTipoModalController.class
+                    .getResource("/fxml/components/fornecedorestipo/CriarFornecedorTipoModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -68,7 +74,7 @@ public class CriarFornecedorTipoModalController {
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML
@@ -90,8 +96,7 @@ public class CriarFornecedorTipoModalController {
 
         var request = new CreateFornecedorTipoRequest(
                 nome,
-                descricao.isEmpty() ? null : descricao
-        );
+                descricao.isEmpty() ? null : descricao);
 
         btnCriar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -102,7 +107,8 @@ public class CriarFornecedorTipoModalController {
                 btnCriar.setText("A criar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Tipo de fornecedor \"" + request.nome + "\" criado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Tipo de fornecedor \"" + request.nome + "\" criado com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnCriar.setDisable(false);
                 btnCancelar.setDisable(false);

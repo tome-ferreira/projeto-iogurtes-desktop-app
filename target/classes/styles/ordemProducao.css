@@ -1,7 +1,4 @@
-/* =============================================================
-   ordemProducao.css – Estilos do módulo de Ordens de Produção
-   Baseado no padrão encomendaMp.css
-   ============================================================= */
+
 
 .root {
     -gi-radius-sm:   4px;
@@ -34,7 +31,8 @@
 
 .btn-primario-cabecalho {
     -fx-background-color: -color-accent-emphasis;
-    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 14;
     -fx-graphic-text-gap: 6;
@@ -53,7 +51,7 @@
     -fx-opacity: 0.5;
 }
 
-/* ── Tabela ─────────────────────────────────────────────────────────────── */
+
 
 .tabela-card {
     -fx-background-color: -color-bg-default;
@@ -111,7 +109,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* ── Pills de Estado ─────────────────────────────────────────────────────── */
+
 
 .pill-estado {
     -fx-font-size: 11px;
@@ -131,7 +129,7 @@
     -fx-text-alignment: center;
 }
 
-/* Colors for OrdemProducao states */
+
 .pill-estado-aguarda-aprovacao {
     -fx-background-color: -color-warning-muted;
     -fx-text-fill: -color-warning-fg;
@@ -149,7 +147,7 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* ── Botões de acção na tabela ───────────────────────────────────────────── */
+
 
 .btn-linha-acao {
     -fx-background-color: transparent;
@@ -165,7 +163,7 @@
     -fx-underline: true;
 }
 
-/* ── Estado vazio ────────────────────────────────────────────────────────── */
+
 
 .estado-vazio {
     -fx-alignment: CENTER;
@@ -190,7 +188,7 @@
     -fx-wrap-text: true;
 }
 
-/* ── Loading ────────────────────────────────────────────────────────────── */
+
 
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
@@ -206,7 +204,7 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* ── Paginação ───────────────────────────────────────────────────────────── */
+
 
 .pagination-bar {
     -fx-padding: 16 0 0 0;
@@ -245,7 +243,7 @@
     -fx-cursor: default;
 }
 
-/* ── Modais — base ───────────────────────────────────────────────────────── */
+
 
 .modal-root {
     -fx-background-color: -color-bg-default;
@@ -275,7 +273,7 @@
     -fx-spacing: 12;
 }
 
-/* ── Formulários ─────────────────────────────────────────────────────────── */
+
 
 .form-group {
     -fx-spacing: 4;
@@ -305,6 +303,7 @@
 .btn-modal-submit {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -318,7 +317,7 @@
     -fx-scale-y: 0.97;
 }
 
-/* ── Modal Seleccionar ──────────────────────────────────────────────────── */
+
 
 .selecionar-tipo-row {
     -fx-padding: 8 12 8 12;
@@ -352,14 +351,14 @@
     -fx-background-color: -color-bg-default;
 }
 
-/* Quantidade error label */
+
 .quantidade-error {
     -fx-font-size: 12px;
     -fx-text-fill: -color-danger-fg;
     -fx-min-height: 18px;
 }
 
-/* ── Modal Criar — Composição/Linhas ────────────────────────────────────── */
+
 
 .composicao-section-header {
     -fx-padding: 4 0 8 0;
@@ -389,7 +388,7 @@
     -fx-background-radius: 4;
 }
 
-/* ── Linha da ordem no modal criar ──────────────────────────────────────── */
+
 
 .linha-row {
     -fx-padding: 8 12 8 12;
@@ -427,7 +426,7 @@
     -fx-alignment: CENTER;
 }
 
-/* ── Modal Detalhe ───────────────────────────────────────────────────────── */
+
 
 .detalhe-info-block {
     -fx-padding: 0;
@@ -488,9 +487,9 @@
 }
 
 
-/* ========================================================================= */
-/* AVATAR DE INICIAIS                                                        */
-/* ========================================================================= */
+
+
+
 
 .avatar {
     -fx-background-radius: 50%;

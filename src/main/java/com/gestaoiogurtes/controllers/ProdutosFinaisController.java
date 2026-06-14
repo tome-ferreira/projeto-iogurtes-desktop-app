@@ -22,24 +22,27 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.List;
 
-/**
- * Controller da página Produtos Finais.
- * Segue o mesmo padrão do MateriasPrimasController.
- */
 public class ProdutosFinaisController implements AppAware {
 
-    @FXML private StackPane rootStack;
-    @FXML private VBox      tabelaContainer;
-    @FXML private VBox      loadingOverlay;
-    @FXML private Button    btnNovo;
-    @FXML private Button    fab;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private VBox tabelaContainer;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProxima;
+    @FXML
+    private javafx.scene.control.ComboBox<Integer> cbTamanhoPagina;
 
-    @FXML private Label  lblPagina;
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProxima;
-    @FXML private javafx.scene.control.ComboBox<Integer> cbTamanhoPagina;
-
-    @FXML private com.gestaoiogurtes.layout.Sidebar sidebarController;
+    @FXML
+    private com.gestaoiogurtes.layout.Sidebar sidebarController;
 
     private ProdutoFinalService service;
     private MateriaPrimaService materiaPrimaService;
@@ -66,11 +69,7 @@ public class ProdutosFinaisController implements AppAware {
                 btnNovo.setVisible(false);
                 btnNovo.setManaged(false);
             }
-            if (fab != null) {
-                fab.setVisible(false);
-                fab.setManaged(false);
             }
-        }
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -102,8 +101,10 @@ public class ProdutosFinaisController implements AppAware {
                     if (lblPagina != null) {
                         lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     }
-                    if (btnAnterior != null) btnAnterior.setDisable(response.first);
-                    if (btnProxima  != null) btnProxima.setDisable(response.last);
+                    if (btnAnterior != null)
+                        btnAnterior.setDisable(response.first);
+                    if (btnProxima != null)
+                        btnProxima.setDisable(response.last);
 
                     renderizarTabela(response.content != null ? response.content : List.of());
                 }
@@ -128,8 +129,7 @@ public class ProdutosFinaisController implements AppAware {
                 headerCol("", 48, false),
                 headerCol("CÓDIGO SKU", 160, false),
                 headerCol("NOME", 220, true),
-                headerCol("AÇÕES", 300, false)
-        );
+                headerCol("AÇÕES", 300, false));
         tabelaContainer.getChildren().add(header);
 
         for (int i = 0; i < itens.size(); i++) {
@@ -156,43 +156,40 @@ public class ProdutosFinaisController implements AppAware {
             lblNome.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(lblNome, Priority.ALWAYS);
 
-            // Ações (text buttons only — never icon buttons)
+            // Ações
             HBox colAcoes = new HBox(6);
             colAcoes.setMinWidth(300);
             colAcoes.setAlignment(Pos.CENTER_RIGHT);
 
             Button btnDetalhes = new Button("Detalhes");
             btnDetalhes.getStyleClass().add("btn-linha-acao");
-            btnDetalhes.setOnAction(e ->
-                    DetalhesProdutoFinalModalController.show(p, btnDetalhes.getScene().getWindow()));
+            btnDetalhes
+                    .setOnAction(e -> DetalhesProdutoFinalModalController.show(p, btnDetalhes.getScene().getWindow()));
 
             Button btnEditar = new Button("Editar");
             btnEditar.getStyleClass().add("btn-linha-acao");
-            btnEditar.setOnAction(e ->
-                    EditarProdutoFinalModalController.show(p, service, btnEditar.getScene().getWindow(), msg -> {
+            btnEditar.setOnAction(
+                    e -> EditarProdutoFinalModalController.show(p, service, btnEditar.getScene().getWindow(), msg -> {
                         mostrarSucesso(msg);
                         carregarDados();
                     }));
 
             Button btnComposicao = new Button("Composição");
             btnComposicao.getStyleClass().add("btn-linha-acao");
-            btnComposicao.setOnAction(e ->
-                    com.gestaoiogurtes.components.produtoFinal.ComposicaoModalController.show(
-                            p.id.toString(), p.nome, service, materiaPrimaService, btnComposicao.getScene().getWindow()
-                    ));
-
+            btnComposicao.setOnAction(e -> com.gestaoiogurtes.components.produtoFinal.ComposicaoModalController.show(
+                    p.id.toString(), p.nome, service, materiaPrimaService, btnComposicao.getScene().getWindow()));
 
             Button btnEliminar = new Button("Eliminar");
             btnEliminar.getStyleClass().add("btn-linha-danger");
-            btnEliminar.setOnAction(e ->
-                    EliminarProdutoFinalModalController.show(p, service, btnEliminar.getScene().getWindow(), msg -> {
+            btnEliminar.setOnAction(e -> EliminarProdutoFinalModalController.show(p, service,
+                    btnEliminar.getScene().getWindow(), msg -> {
                         mostrarSucesso(msg);
                         carregarDados();
                     }));
 
             String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
             boolean isFuncionario = "FUNCIONARIO_MP".equals(role) || "FUNCIONARIO_OP".equals(role);
-            
+
             colAcoes.getChildren().add(btnDetalhes);
             if (!isFuncionario) {
                 colAcoes.getChildren().addAll(btnEditar, btnComposicao, btnEliminar);
@@ -266,9 +263,9 @@ public class ProdutosFinaisController implements AppAware {
             loadingOverlay.setVisible(loading);
             loadingOverlay.setManaged(loading);
         }
-        if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab     != null) fab.setDisable(loading);
-    }
+        if (btnNovo != null)
+            btnNovo.setDisable(loading);
+        }
 
     private void mostrarSucesso(String msg) {
         MessageHelper.mostrar(rootStack, msg, true);
@@ -292,7 +289,8 @@ public class ProdutosFinaisController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();

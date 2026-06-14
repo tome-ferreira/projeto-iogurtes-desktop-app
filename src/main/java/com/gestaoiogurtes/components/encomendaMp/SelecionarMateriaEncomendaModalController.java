@@ -24,36 +24,33 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Modal para seleccionar uma matéria prima ao criar uma encomenda MP.
- * Baseado em {@code SelecionarMateriaPrimaComposicaoModalController} — selecção + input de quantidade.
- *
- * <ul>
- *   <li>Carrega as matérias prima do fornecedor via {@code MateriaPrimaService.getFornecedores(materiaId)}
- *       mas, como a API agrupa por matéria (não por fornecedor), usa {@code GET /materias-primas/fornecedores}
- *       e filtra client-side pelo {@code fornecedorId} recebido.</li>
- *   <li>Mostra nome + preço unitário + símbolo de moeda por linha.</li>
- *   <li>"Adicionar" só activo quando: matéria seleccionada AND quantidade válida.</li>
- *   <li>Fechar com X: caller state inalterado.</li>
- * </ul>
- */
 public class SelecionarMateriaEncomendaModalController {
 
-    @FXML private Button    btnAnterior;
-    @FXML private Button    btnProximo;
-    @FXML private Label     lblPagina;
-    @FXML private VBox      listaContainer;
-    @FXML private HBox      hboxLoading;
-    @FXML private Button    btnAdicionar;
-    @FXML private TextField txtQuantidade;
-    @FXML private Label     lblQuantidadeErro;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnAdicionar;
+    @FXML
+    private TextField txtQuantidade;
+    @FXML
+    private Label lblQuantidadeErro;
 
-    private Stage                                     dialogStage;
-    private MateriaPrimaService                       materiaPrimaService;
-    private String                                    fornecedorId;
-    private Consumer<MateriaPrimaEncomendaSelecao>    onConfirm;
+    private Stage dialogStage;
+    private MateriaPrimaService materiaPrimaService;
+    private String fornecedorId;
+    private Consumer<MateriaPrimaEncomendaSelecao> onConfirm;
 
-    /** ID do registo MateriaPrimaFornecedor seleccionado (persiste entre páginas). */
+    /**
+     * ID do registo MateriaPrimaFornecedor seleccionado (persiste entre páginas).
+     */
     private String selectedMateriaFornecedorId;
     private String selectedNome;
     private Double selectedPrecoUnitario;
@@ -63,17 +60,9 @@ public class SelecionarMateriaEncomendaModalController {
     private String selectedMateriaId;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    /**
-     * Abre o modal de selecção de matéria prima para encomenda MP.
-     *
-     * @param materiaPrimaService serviço de matéria prima
-     * @param fornecedorId        UUID do fornecedor seleccionado
-     * @param owner               janela pai
-     * @param onConfirm           callback com a selecção confirmada
-     */
     public static void show(
             MateriaPrimaService materiaPrimaService,
             String fornecedorId,
@@ -94,10 +83,10 @@ public class SelecionarMateriaEncomendaModalController {
             stage.setScene(new Scene(root));
 
             SelecionarMateriaEncomendaModalController ctrl = loader.getController();
-            ctrl.dialogStage          = stage;
-            ctrl.materiaPrimaService  = materiaPrimaService;
-            ctrl.fornecedorId         = fornecedorId;
-            ctrl.onConfirm            = onConfirm;
+            ctrl.dialogStage = stage;
+            ctrl.materiaPrimaService = materiaPrimaService;
+            ctrl.fornecedorId = fornecedorId;
+            ctrl.onConfirm = onConfirm;
 
             ctrl.carregarPagina(0);
 
@@ -169,16 +158,12 @@ public class SelecionarMateriaEncomendaModalController {
         dialogStage.close();
     }
 
-    /**
-     * Carrega a página de registos MateriaPrimaFornecedor e filtra pelo fornecedorId recebido.
-     * A API não suporta filtro por fornecedor directamente em /materias-primas/fornecedores,
-     * por isso carregamos uma página grande e filtramos client-side.
-     */
     private void carregarPagina(int page) {
         setLoadingVisible(true);
         listaContainer.getChildren().clear();
 
-        // Carrega todos os registos matéria-fornecedor e filtra client-side pelo fornecedorId
+        // Carrega todos os registos matéria-fornecedor e filtra client-side pelo
+        // fornecedorId
         materiaPrimaService.getAllFornecedores(page, PAGE_SIZE, state -> {
             if (state.isLoading()) {
                 setLoadingVisible(true);
@@ -187,14 +172,14 @@ public class SelecionarMateriaEncomendaModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
 
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
                     btnProximo.setDisable(resposta.last);
 
-                    List<MateriaPrimaFornecedorResponse> itens =
-                            resposta.content != null ? resposta.content : List.of();
+                    List<MateriaPrimaFornecedorResponse> itens = resposta.content != null ? resposta.content
+                            : List.of();
 
                     // Filtrar pelo fornecedorId
                     List<MateriaPrimaFornecedorResponse> filtrados = itens.stream()
@@ -225,11 +210,11 @@ public class SelecionarMateriaEncomendaModalController {
         }
 
         for (MateriaPrimaFornecedorResponse mp : itens) {
-            String mfId       = mp.id             != null ? mp.id.toString()       : "";
-            String materiaId  = mp.materiaId      != null ? mp.materiaId.toString() : "";
-            String nome       = mp.materiaNome    != null ? mp.materiaNome          : "(sem nome)";
-            Double preco      = mp.precoUnitario;
-            String simbMoeda  = mp.moedaSimbolo   != null ? mp.moedaSimbolo         : "";
+            String mfId = mp.id != null ? mp.id.toString() : "";
+            String materiaId = mp.materiaId != null ? mp.materiaId.toString() : "";
+            String nome = mp.materiaNome != null ? mp.materiaNome : "(sem nome)";
+            Double preco = mp.precoUnitario;
+            String simbMoeda = mp.moedaSimbolo != null ? mp.moedaSimbolo : "";
             String precoLabel = (preco != null ? String.format("%.2f", preco) : "—") + " " + simbMoeda;
 
             HBox linha = new HBox();
@@ -254,10 +239,10 @@ public class SelecionarMateriaEncomendaModalController {
 
             Runnable seleccionar = () -> {
                 selectedMateriaFornecedorId = mfId;
-                selectedMateriaId           = materiaId;
-                selectedNome                = nome;
-                selectedPrecoUnitario       = preco;
-                selectedMoedaSimbolo        = simbMoeda;
+                selectedMateriaId = materiaId;
+                selectedNome = nome;
+                selectedPrecoUnitario = preco;
+                selectedMoedaSimbolo = simbMoeda;
                 listaContainer.getChildren().forEach(node -> {
                     if (node instanceof HBox hb) {
                         hb.getChildren().stream()
@@ -289,7 +274,8 @@ public class SelecionarMateriaEncomendaModalController {
             try {
                 double v = Double.parseDouble(qtdStr);
                 quantidadeValida = v > 0;
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
         btnAdicionar.setDisable(!(temSeleccao && quantidadeValida));
     }

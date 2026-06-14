@@ -1,6 +1,4 @@
-/* =============================================================
-   dashboardAdmin.css  –  Dashboard Admin Styles
-   ============================================================= */
+
 
 .stat-card, .dashboard-card {
     -fx-background-color: -color-bg-default;
@@ -43,6 +41,7 @@
 .btn-acao-rapida {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-padding: 10 16;
@@ -65,7 +64,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* Accent lines derived from utilizadores.css pill colors */
+
 .stat-card-admin {
     -fx-border-color: derive(-color-danger-muted, 0%) -color-border-default -color-border-default -color-border-default;
     -fx-border-width: 6 1 1 1;
@@ -106,14 +105,13 @@
     -fx-text-fill: -color-success-fg;
 }
 
-/* Spinner overrides if needed */
+
 .stat-card .loading-spinner {
     -fx-pref-width: 36;
     -fx-pref-height: 36;
 }
 
-/* Encomendas PieChart Semantic Colors
-   0 = PENDENTE, 1 = EXPEDIDA, 2 = CANCELADA */
+
 #pieChartEncomendas .default-color0.chart-pie { -fx-pie-color: -color-warning-emphasis; }
 #pieChartEncomendas .default-color1.chart-pie { -fx-pie-color: -color-success-emphasis; }
 #pieChartEncomendas .default-color2.chart-pie { -fx-pie-color: -color-danger-emphasis; }
@@ -122,14 +120,14 @@
 #pieChartEncomendas .default-color1.chart-legend-item-symbol { -fx-background-color: -color-success-emphasis; }
 #pieChartEncomendas .default-color2.chart-legend-item-symbol { -fx-background-color: -color-danger-emphasis; }
 
-/* BarChart Styling */
+
 #barChartProdutos .data0.chart-bar { -fx-bar-fill: -color-accent-emphasis; }
 #barChartProdutos .data1.chart-bar { -fx-bar-fill: -color-success-emphasis; }
 #barChartProdutos .data2.chart-bar { -fx-bar-fill: -color-warning-emphasis; }
 #barChartProdutos .data3.chart-bar { -fx-bar-fill: -color-danger-emphasis; }
 #barChartProdutos .data4.chart-bar { -fx-bar-fill: #9c27b0; }
 
-/* LineChart Styling */
+
 #lineChartOrdens .chart-series-line {
     -fx-stroke: -color-accent-emphasis;
     -fx-stroke-width: 3px;

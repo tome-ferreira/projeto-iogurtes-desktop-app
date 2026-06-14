@@ -16,27 +16,29 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/**
- * Modal de edição para Funcionários OP e MP.
- * Ambos usam o mesmo endpoint PUT /users/funcionarios/{id}
- * e o mesmo UpdateFuncionarioRequest.
- */
 public class EditarFuncionarioModalController {
 
     private UtilizadorService service;
     private UserResponse utilizador;
 
-    @FXML private TextField       txtNome;
-    @FXML private ComboBox<String> cbTurno;
-    @FXML private DatePicker      dpDataAdmissao;
-    @FXML private Label           lblErro;
-    @FXML private Button          btnGuardar;
-    @FXML private Button          btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private ComboBox<String> cbTurno;
+    @FXML
+    private DatePicker dpDataAdmissao;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(UserResponse utilizador, UtilizadorService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(UserResponse utilizador, UtilizadorService service, Window owner,
+            Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(EditarFuncionarioModalController.class
                     .getResource("/fxml/components/utilizadores/EditarFuncionarioModal.fxml"));
@@ -52,12 +54,14 @@ public class EditarFuncionarioModalController {
 
             EditarFuncionarioModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
-            ctrl.onSuccess   = onSuccess;
-            ctrl.service     = service;
+            ctrl.onSuccess = onSuccess;
+            ctrl.service = service;
             ctrl.setUtilizador(utilizador);
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUtilizador(UserResponse u) {
@@ -66,7 +70,8 @@ public class EditarFuncionarioModalController {
         if (u.dataAdmissao != null && !u.dataAdmissao.isEmpty()) {
             dpDataAdmissao.setValue(java.time.LocalDate.parse(u.dataAdmissao));
         }
-        if (u.turno != null) cbTurno.setValue(u.turno);
+        if (u.turno != null)
+            cbTurno.setValue(u.turno);
     }
 
     @FXML
@@ -74,21 +79,25 @@ public class EditarFuncionarioModalController {
         cbTurno.getItems().addAll("MANHA", "TARDE", "NOITE");
     }
 
-    @FXML private void handleCancelar() { dialogStage.close(); }
+    @FXML
+    private void handleCancelar() {
+        dialogStage.close();
+    }
 
     @FXML
     private void handleGuardar() {
         lblErro.setText("");
-        String nome  = txtNome.getText()         == null ? "" : txtNome.getText().trim();
-        String turno = cbTurno.getValue()        == null ? "" : cbTurno.getValue();
-        String data  = dpDataAdmissao.getValue() == null ? "" : dpDataAdmissao.getValue().toString();
+        String nome = txtNome.getText() == null ? "" : txtNome.getText().trim();
+        String turno = cbTurno.getValue() == null ? "" : cbTurno.getValue();
+        String data = dpDataAdmissao.getValue() == null ? "" : dpDataAdmissao.getValue().toString();
 
         if (nome.isEmpty()) {
             lblErro.setText("O nome é obrigatório (*).");
             return;
         }
 
-        var req = new UpdateFuncionarioRequest(nome, turno.isEmpty() ? null : turno, data.isEmpty() ? null : data, null);
+        var req = new UpdateFuncionarioRequest(nome, turno.isEmpty() ? null : turno, data.isEmpty() ? null : data,
+                null);
 
         btnGuardar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -98,7 +107,8 @@ public class EditarFuncionarioModalController {
                 btnGuardar.setText("A guardar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Funcionário \"" + req.nome + "\" atualizado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(
+                        ("Funcionário \"" + req.nome + "\" atualizado com sucesso.").replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnGuardar.setDisable(false);
                 btnCancelar.setDisable(false);

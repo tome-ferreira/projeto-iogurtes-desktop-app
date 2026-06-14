@@ -17,7 +17,7 @@
     </HBox>
 
     <VBox styleClass="modal-content">
-        <!-- Badge inativo — visível apenas quando isInativo=true -->
+        
         <HBox fx:id="hboxInativo" visible="false" managed="false" styleClass="modal-content" spacing="8">
             <Label fx:id="lblInativo" text="Utilizador Desativado" styleClass="badge-inativo"/>
         </HBox>

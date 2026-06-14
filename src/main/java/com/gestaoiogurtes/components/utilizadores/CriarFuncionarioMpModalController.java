@@ -15,19 +15,26 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/** Modal para criar Funcionário MP (POST /users/funcionarios/mp). */
 public class CriarFuncionarioMpModalController {
 
     private UtilizadorService service;
 
-    @FXML private TextField   txtNome;
-    @FXML private TextField   txtEmail;
-    @FXML private PasswordField txtPassword;
-    @FXML private ComboBox<String> cbTurno;
-    @FXML private DatePicker  dpDataAdmissao;
-    @FXML private Label       lblErro;
-    @FXML private Button      btnCriar;
-    @FXML private Button      btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private PasswordField txtPassword;
+    @FXML
+    private ComboBox<String> cbTurno;
+    @FXML
+    private DatePicker dpDataAdmissao;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
@@ -49,11 +56,13 @@ public class CriarFuncionarioMpModalController {
 
             CriarFuncionarioMpModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
-            ctrl.onSuccess   = onSuccess;
-            ctrl.service     = service;
+            ctrl.onSuccess = onSuccess;
+            ctrl.service = service;
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -61,16 +70,19 @@ public class CriarFuncionarioMpModalController {
         cbTurno.getItems().addAll("MANHA", "TARDE", "NOITE");
     }
 
-    @FXML private void handleCancelar() { dialogStage.close(); }
+    @FXML
+    private void handleCancelar() {
+        dialogStage.close();
+    }
 
     @FXML
     private void handleCriar() {
         lblErro.setText("");
-        String nome  = txtNome.getText()  == null ? "" : txtNome.getText().trim();
+        String nome = txtNome.getText() == null ? "" : txtNome.getText().trim();
         String email = txtEmail.getText() == null ? "" : txtEmail.getText().trim();
-        String pass  = txtPassword.getText() == null ? "" : txtPassword.getText();
+        String pass = txtPassword.getText() == null ? "" : txtPassword.getText();
         String turno = cbTurno.getValue() == null ? "" : cbTurno.getValue();
-        String data  = dpDataAdmissao.getValue() == null ? "" : dpDataAdmissao.getValue().toString();
+        String data = dpDataAdmissao.getValue() == null ? "" : dpDataAdmissao.getValue().toString();
 
         if (nome.isEmpty() || email.isEmpty() || pass.isEmpty() || turno.isEmpty()) {
             lblErro.setText("Por favor, preencha todos os campos obrigatórios (*).");
@@ -91,7 +103,8 @@ public class CriarFuncionarioMpModalController {
                 btnCriar.setText("A criar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Funcionário MP \"" + req.nome + "\" criado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(
+                        ("Funcionário MP \"" + req.nome + "\" criado com sucesso.").replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnCriar.setDisable(false);
                 btnCancelar.setDisable(false);

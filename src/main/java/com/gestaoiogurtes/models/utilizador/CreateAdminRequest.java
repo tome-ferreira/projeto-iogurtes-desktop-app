@@ -1,6 +1,5 @@
 package com.gestaoiogurtes.models.utilizador;
 
-/** Corpo do POST /users/admins */
 public class CreateAdminRequest {
     public String nome;
     public String email;

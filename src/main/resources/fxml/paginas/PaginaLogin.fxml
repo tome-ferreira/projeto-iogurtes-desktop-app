@@ -19,7 +19,7 @@
     <TextField fx:id="campoEmail" promptText="Email" maxWidth="300"/>
     <PasswordField fx:id="campoPassword" promptText="Palavra-passe" maxWidth="300"/>
 
-    <!-- Área de erro — visível apenas quando o login falha -->
+    <!-- Área de erro visível apenas quando o login falha -->
     <Label fx:id="lblErro"
            styleClass="danger"
            wrapText="true"

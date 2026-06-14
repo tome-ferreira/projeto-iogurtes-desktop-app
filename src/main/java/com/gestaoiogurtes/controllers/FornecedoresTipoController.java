@@ -28,9 +28,7 @@ public class FornecedoresTipoController implements AppAware {
     @FXML private VBox       tabelaContainer;
     @FXML private StackPane  rootStack;
     @FXML private VBox       loadingOverlay;
-    @FXML private TextField  campoPesquisa;
     @FXML private Button     btnNovo;
-    @FXML private Button     fab;
     @FXML private Button     btnAnterior;
     @FXML private Button     btnProxima;
     @FXML private Label      lblPagina;
@@ -49,7 +47,7 @@ public class FornecedoresTipoController implements AppAware {
 
     @FXML
     public void initialize() {
-        campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
+
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -98,7 +96,7 @@ public class FornecedoresTipoController implements AppAware {
                     } else {
                         todosTipos = List.of();
                     }
-                    filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
+                    renderizarTabela();
                 }
 
                 case ERROR -> {
@@ -128,14 +126,10 @@ public class FornecedoresTipoController implements AppAware {
         }
     }
 
-    private void filtrarTabela(String pesquisa) {
+    private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
 
-        var filtrados = todosTipos.stream()
-                .filter(t -> pesquisa.isEmpty()
-                        || (t.nome != null && t.nome.toLowerCase().contains(pesquisa))
-                        || (t.descricao != null && t.descricao.toLowerCase().contains(pesquisa)))
-                .toList();
+        var filtrados = todosTipos;
 
         if (filtrados.isEmpty()) {
             tabelaContainer.getChildren().add(criarEstadoVazio());
@@ -287,8 +281,7 @@ public class FornecedoresTipoController implements AppAware {
             loadingOverlay.setManaged(loading);
         }
         if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab     != null) fab.setDisable(loading);
-    }
+        }
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);

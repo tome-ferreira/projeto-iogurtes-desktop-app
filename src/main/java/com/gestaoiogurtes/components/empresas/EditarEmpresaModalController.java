@@ -21,23 +21,34 @@ public class EditarEmpresaModalController {
     private EmpresaService service;
     private EmpresaResponse empresa;
 
-    @FXML private Label lblTitulo;
-    @FXML private TextField txtNome;
-    @FXML private TextField txtNipc;
-    @FXML private TextField txtTelefone;
-    @FXML private TextField txtMorada;
-    @FXML private TextField txtCp;
-    @FXML private TextField txtCidade;
-    @FXML private Label lblErro;
-    @FXML private Button btnGuardar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblTitulo;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtNipc;
+    @FXML
+    private TextField txtTelefone;
+    @FXML
+    private TextField txtMorada;
+    @FXML
+    private TextField txtCp;
+    @FXML
+    private TextField txtCidade;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
     public static void show(EmpresaResponse empresa, EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(EditarEmpresaModalController.class.getResource("/fxml/components/empresas/EditarEmpresaModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(EditarEmpresaModalController.class
+                    .getResource("/fxml/components/empresas/EditarEmpresaModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -87,7 +98,7 @@ public class EditarEmpresaModalController {
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML
@@ -117,8 +128,7 @@ public class EditarEmpresaModalController {
                 telefone.isEmpty() ? null : telefone,
                 morada,
                 cp,
-                cidade
-        );
+                cidade);
 
         btnGuardar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -129,7 +139,8 @@ public class EditarEmpresaModalController {
                 btnGuardar.setText("A guardar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Empresa \"" + request.nomeEmpresa + "\" actualizada com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Empresa \"" + request.nomeEmpresa + "\" actualizada com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnGuardar.setDisable(false);
                 btnCancelar.setDisable(false);

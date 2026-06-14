@@ -14,37 +14,33 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-/**
- * Mapeamento Retrofit dos endpoints do produto-final-controller.
- * Paths sem "/" inicial — o Retrofit concatena à BASE_URL.
- */
 public interface IProdutoFinalApiService {
 
-    @GET("produtos-finais")
-    Call<PaginatedResponse<ProdutoFinalResponse>> findAll(
-            @Query("page") int page,
-            @Query("size") int size);
+        @GET("produtos-finais")
+        Call<PaginatedResponse<ProdutoFinalResponse>> findAll(
+                        @Query("page") int page,
+                        @Query("size") int size);
 
-    @GET("produtos-finais/{id}")
-    Call<ProdutoFinalResponse> findById(@Path("id") String id);
+        @GET("produtos-finais/{id}")
+        Call<ProdutoFinalResponse> findById(@Path("id") String id);
 
-    @POST("produtos-finais")
-    Call<ProdutoFinalResponse> create(@Body CreateProdutoFinalRequest request);
+        @POST("produtos-finais")
+        Call<ProdutoFinalResponse> create(@Body CreateProdutoFinalRequest request);
 
-    @PUT("produtos-finais/{id}")
-    Call<ProdutoFinalResponse> update(@Path("id") String id, @Body UpdateProdutoFinalRequest request);
+        @PUT("produtos-finais/{id}")
+        Call<ProdutoFinalResponse> update(@Path("id") String id, @Body UpdateProdutoFinalRequest request);
 
-    @DELETE("produtos-finais/{id}")
-    Call<ResponseBody> softDelete(@Path("id") String id);
+        @DELETE("produtos-finais/{id}")
+        Call<ResponseBody> softDelete(@Path("id") String id);
 
-    @POST("produtos-finais/{produtoId}/composicao")
-    Call<ProdutoFinalResponse> addMateriasComposicao(
-            @Path("produtoId") String produtoId,
-            @Body com.gestaoiogurtes.models.produtoFinal.AddMateriasComposicaoRequest request);
+        @POST("produtos-finais/{produtoId}/composicao")
+        Call<ProdutoFinalResponse> addMateriasComposicao(
+                        @Path("produtoId") String produtoId,
+                        @Body com.gestaoiogurtes.models.produtoFinal.AddMateriasComposicaoRequest request);
 
-    @DELETE("produtos-finais/{produtoId}/composicao/{composicaoId}")
-    Call<ResponseBody> removeComposicao(
-            @Path("produtoId") String produtoId,
-            @Path("composicaoId") String composicaoId);
+        @DELETE("produtos-finais/{produtoId}/composicao/{composicaoId}")
+        Call<ResponseBody> removeComposicao(
+                        @Path("produtoId") String produtoId,
+                        @Path("composicaoId") String composicaoId);
 
 }

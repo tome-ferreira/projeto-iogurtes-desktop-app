@@ -23,48 +23,45 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Modal de detalhe (read-only) de uma encomenda de matéria prima.
- * Apresenta todos os campos da encomenda e as suas linhas.
- * Consoante o estado, mostra botões de acção no footer que abrem modais
- * de confirmação.
- *
- * <p>O {@code onSuccess} recebe a mensagem de sucesso para ser apresentada
- * pelo controlador da página (que tem acesso ao rootStack).
- */
 public class DetalhesEncomendaMpModalController {
 
-    @FXML private Label  lblFornecedor;
-    @FXML private Label  lblEstado;
-    @FXML private Label  lblData;
-    @FXML private Label  lblEntregaPrevista;
-    @FXML private Label  lblMoeda;
-    @FXML private Label  lblTotalSemIva;
-    @FXML private Label  lblTotalComIva;
-    @FXML private Label  lblObservacoes;
-    @FXML private VBox   linhasContainer;
+    @FXML
+    private Label lblFornecedor;
+    @FXML
+    private Label lblEstado;
+    @FXML
+    private Label lblData;
+    @FXML
+    private Label lblEntregaPrevista;
+    @FXML
+    private Label lblMoeda;
+    @FXML
+    private Label lblTotalSemIva;
+    @FXML
+    private Label lblTotalComIva;
+    @FXML
+    private Label lblObservacoes;
+    @FXML
+    private VBox linhasContainer;
 
     // Footer buttons
-    @FXML private Button btnCancelarEncomenda;
-    @FXML private Button btnAprovar;
-    @FXML private Button btnRecebida;
+    @FXML
+    private Button btnCancelarEncomenda;
+    @FXML
+    private Button btnAprovar;
+    @FXML
+    private Button btnRecebida;
 
-    private Stage              dialogStage;
+    private Stage dialogStage;
     private EncomendaMpService service;
     private EncomendaMpResponse encomenda;
 
-    /**
-     * Callback invocado após qualquer transição de estado bem-sucedida.
-     * Recebe a mensagem de sucesso para apresentar na página principal.
-     */
     private Consumer<String> onSuccess;
 
-    // ── Abertura ──────────────────────────────────────────────────────────────
-
     public static void show(EncomendaMpResponse item,
-                            EncomendaMpService service,
-                            Window owner,
-                            Consumer<String> onSuccess) {
+            EncomendaMpService service,
+            Window owner,
+            Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     DetalhesEncomendaMpModalController.class
@@ -81,8 +78,8 @@ public class DetalhesEncomendaMpModalController {
 
             DetalhesEncomendaMpModalController ctrl = loader.getController();
             ctrl.dialogStage = stage;
-            ctrl.service     = service;
-            ctrl.onSuccess   = onSuccess;
+            ctrl.service = service;
+            ctrl.onSuccess = onSuccess;
             ctrl.preencherDados(item);
 
             stage.showAndWait();
@@ -92,9 +89,8 @@ public class DetalhesEncomendaMpModalController {
     }
 
     @FXML
-    public void initialize() {}
-
-    // ── Handlers footer ───────────────────────────────────────────────────────
+    public void initialize() {
+    }
 
     @FXML
     private void handleFechar() {
@@ -109,7 +105,8 @@ public class DetalhesEncomendaMpModalController {
                 dialogStage,
                 mensagem -> {
                     dialogStage.close();
-                    if (onSuccess != null) onSuccess.accept(mensagem);
+                    if (onSuccess != null)
+                        onSuccess.accept(mensagem);
                 });
     }
 
@@ -121,7 +118,8 @@ public class DetalhesEncomendaMpModalController {
                 dialogStage,
                 mensagem -> {
                     dialogStage.close();
-                    if (onSuccess != null) onSuccess.accept(mensagem);
+                    if (onSuccess != null)
+                        onSuccess.accept(mensagem);
                 });
     }
 
@@ -133,11 +131,10 @@ public class DetalhesEncomendaMpModalController {
                 dialogStage,
                 mensagem -> {
                     dialogStage.close();
-                    if (onSuccess != null) onSuccess.accept(mensagem);
+                    if (onSuccess != null)
+                        onSuccess.accept(mensagem);
                 });
     }
-
-    // ── Preenchimento de dados ────────────────────────────────────────────────
 
     private void preencherDados(EncomendaMpResponse item) {
         this.encomenda = item;
@@ -150,34 +147,27 @@ public class DetalhesEncomendaMpModalController {
         lblTotalSemIva.setText(formatarEur(item.totalPrecoEurSemIva));
         lblTotalComIva.setText(formatarEur(item.totalPrecoEurComIva));
         lblObservacoes.setText(item.observacoes != null && !item.observacoes.isBlank()
-                ? item.observacoes : "—");
+                ? item.observacoes
+                : "—");
 
         renderizarLinhas(item.linhas != null ? item.linhas : List.of());
         configurarBotoesFooter(item.estado);
     }
 
-    /**
-     * Mostra/oculta os botões de acção consoante o estado da encomenda.
-     * PENDENTE    → [Cancelar Encomenda] [Aprovar e Encomendar]
-     * ENCOMENDADA → [Cancelar Encomenda] [Marcar como Recebida]
-     * RECEBIDA / CANCELADA → sem botões de acção (só Fechar)
-     */
     private void configurarBotoesFooter(String estado) {
-        boolean pendente    = "PENDENTE".equals(estado);
+        boolean pendente = "PENDENTE".equals(estado);
         boolean encomendada = "ENCOMENDADA".equals(estado);
-        boolean comAcao     = pendente || encomendada;
+        boolean comAcao = pendente || encomendada;
 
         setButtonVisible(btnCancelarEncomenda, comAcao);
-        setButtonVisible(btnAprovar,           pendente);
-        setButtonVisible(btnRecebida,          encomendada);
+        setButtonVisible(btnAprovar, pendente);
+        setButtonVisible(btnRecebida, encomendada);
     }
 
     private void setButtonVisible(Button btn, boolean visible) {
         btn.setVisible(visible);
         btn.setManaged(visible);
     }
-
-    // ── Renderização das linhas ───────────────────────────────────────────────
 
     private void renderizarLinhas(List<EncomendaMpLinhaResponse> linhas) {
         linhasContainer.getChildren().clear();
@@ -195,9 +185,9 @@ public class DetalhesEncomendaMpModalController {
         header.setAlignment(Pos.CENTER_LEFT);
         header.getChildren().addAll(
                 detalheHeaderCol("Matéria Prima", 200, true),
-                detalheHeaderCol("Qtd.",           80, false),
-                detalheHeaderCol("Preço Unit.",    100, false),
-                detalheHeaderCol("Subtotal (€)",   100, false));
+                detalheHeaderCol("Qtd.", 80, false),
+                detalheHeaderCol("Preço Unit.", 100, false),
+                detalheHeaderCol("Subtotal (€)", 100, false));
         linhasContainer.getChildren().add(header);
 
         for (EncomendaMpLinhaResponse linha : linhas) {
@@ -212,17 +202,20 @@ public class DetalhesEncomendaMpModalController {
             HBox.setHgrow(lblNome, Priority.ALWAYS);
 
             Label lblQtd = new Label(linha.quantidade != null
-                    ? String.format("%.3f", linha.quantidade) : "—");
+                    ? String.format("%.3f", linha.quantidade)
+                    : "—");
             lblQtd.getStyleClass().add("detalhe-linha-dados");
             lblQtd.setPrefWidth(80);
 
             Label lblPreco = new Label(linha.precoUnitarioEur != null
-                    ? String.format("%.2f €", linha.precoUnitarioEur) : "—");
+                    ? String.format("%.2f €", linha.precoUnitarioEur)
+                    : "—");
             lblPreco.getStyleClass().add("detalhe-linha-dados");
             lblPreco.setPrefWidth(100);
 
             Label lblSubtotal = new Label(linha.subtotalEur != null
-                    ? String.format("%.2f €", linha.subtotalEur) : "—");
+                    ? String.format("%.2f €", linha.subtotalEur)
+                    : "—");
             lblSubtotal.getStyleClass().add("detalhe-linha-dados");
             lblSubtotal.setPrefWidth(100);
 
@@ -244,10 +237,9 @@ public class DetalhesEncomendaMpModalController {
         return lbl;
     }
 
-    // ── Utilitários ───────────────────────────────────────────────────────────
-
     private String formatarData(String dataIso) {
-        if (dataIso == null || dataIso.isBlank()) return "—";
+        if (dataIso == null || dataIso.isBlank())
+            return "—";
         return dataIso.length() >= 10 ? dataIso.substring(0, 10) : dataIso;
     }
 
@@ -256,9 +248,11 @@ public class DetalhesEncomendaMpModalController {
     }
 
     private String buildMoedaStr(EncomendaMpResponse item) {
-        if (item.moedaCodigo == null) return "—";
+        if (item.moedaCodigo == null)
+            return "—";
         String str = item.moedaCodigo;
-        if (item.moedaSimbolo != null) str += " (" + item.moedaSimbolo + ")";
+        if (item.moedaSimbolo != null)
+            str += " (" + item.moedaSimbolo + ")";
         return str;
     }
 }

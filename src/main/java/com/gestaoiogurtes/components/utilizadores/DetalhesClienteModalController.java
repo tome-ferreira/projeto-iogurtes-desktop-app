@@ -17,12 +17,18 @@ import java.io.IOException;
 
 public class DetalhesClienteModalController {
 
-    @FXML private TextField         txtNome;
-    @FXML private TextField         txtEmail;
-    @FXML private Label             lblEmpresaNome;
-    @FXML private ProgressIndicator loadingEmpresa;
-    @FXML private Label             lblInativo;
-    @FXML private HBox              hboxInativo;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private Label lblEmpresaNome;
+    @FXML
+    private ProgressIndicator loadingEmpresa;
+    @FXML
+    private Label lblInativo;
+    @FXML
+    private HBox hboxInativo;
 
     public static void show(UserResponse u, boolean inativo, Window owner, EmpresaService empresaService) {
         try {
@@ -42,14 +48,13 @@ public class DetalhesClienteModalController {
             ctrl.preencherDados(u, inativo, empresaService);
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Preenche os campos estáticos e desencadeia a resolução do nome da empresa.
-     */
     public void preencherDados(UserResponse u, boolean inativo, EmpresaService empresaService) {
-        txtNome.setText(u.nome  != null ? u.nome  : "—");
+        txtNome.setText(u.nome != null ? u.nome : "—");
         txtEmail.setText(u.email != null ? u.email : "—");
         txtNome.setEditable(false);
         txtEmail.setEditable(false);

@@ -37,7 +37,7 @@
             <Label text="A carregar..." styleClass="loading-label"/>
         </HBox>
 
-        <!-- Lista de empresas (linhas injectadas dinamicamente) -->
+        <!-- Lista de empresas  -->
         <VBox fx:id="listaContainer" styleClass="selecionar-empresa-lista" spacing="0"/>
 
     </VBox>

@@ -22,25 +22,32 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Controller do modal de detalhes do Produto Final.
- * Apresenta todos os campos de ProdutoFinalResponse em modo só de leitura.
- * Os enums são mostrados com rótulos legíveis em Português via EnumDisplayHelper.
- */
 public class DetalhesProdutoFinalModalController {
 
-    @FXML private TextField txtCodigoSku;
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private TextField txtAbreviacaoSabor;
-    @FXML private TextField txtEstadoFisico;
-    @FXML private TextField txtValidadeDias;
-    @FXML private TextField txtPrecoVenda;
-    @FXML private TextField txtPrecoPorKg;
-    @FXML private TextField txtTaxaIva;
-    @FXML private TextField txtQuantidadeLote;
-    @FXML private TextField txtVisivelCliente;
-    @FXML private VBox      composicaoContainer;
+    @FXML
+    private TextField txtCodigoSku;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private TextField txtAbreviacaoSabor;
+    @FXML
+    private TextField txtEstadoFisico;
+    @FXML
+    private TextField txtValidadeDias;
+    @FXML
+    private TextField txtPrecoVenda;
+    @FXML
+    private TextField txtPrecoPorKg;
+    @FXML
+    private TextField txtTaxaIva;
+    @FXML
+    private TextField txtQuantidadeLote;
+    @FXML
+    private TextField txtVisivelCliente;
+    @FXML
+    private VBox composicaoContainer;
 
     private Stage dialogStage;
 

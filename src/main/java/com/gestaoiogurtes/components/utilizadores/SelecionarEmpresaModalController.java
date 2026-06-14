@@ -21,54 +21,32 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Modal para seleccionar uma empresa de uma lista paginada.
- *
- * <h3>Comportamento</h3>
- * <ul>
- *   <li>Carrega 10 empresas por página via {@link EmpresaService#getAll}.</li>
- *   <li>A selecção persiste entre mudanças de página (armazenada em memória).</li>
- *   <li>O botão "Continuar" só fica activo quando uma empresa está seleccionada.</li>
- *   <li>{@code onConfirm} é chamado <strong>apenas</strong> ao clicar "Continuar"
- *       — fechar com o X não dispara o callback.</li>
- * </ul>
- */
 public class SelecionarEmpresaModalController {
 
-    /* ── Injecções FXML ────────────────────────────────────────────────── */
-    @FXML private Button           btnAnterior;
-    @FXML private Button           btnProximo;
-    @FXML private Label            lblPagina;
-    @FXML private VBox             listaContainer;
-    @FXML private HBox             hboxLoading;
-    @FXML private Button           btnContinuar;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnContinuar;
 
-    /* ── Estado do modal ───────────────────────────────────────────────── */
-    private Stage            dialogStage;
-    private EmpresaService   empresaService;
+    private Stage dialogStage;
+    private EmpresaService empresaService;
     private Consumer<EmpresaSelecao> onConfirm;
-
-    /** ID da empresa actualmente seleccionada (persiste entre páginas). */
     private String selectedId;
-    /** Nome da empresa actualmente seleccionada. */
     private String selectedNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
 
     private static final int PAGE_SIZE = 10;
 
-    /* ── Método estático de abertura ───────────────────────────────────── */
-
-    /**
-     * Abre o modal de selecção de empresa.
-     *
-     * @param empresaService  serviço para obter as empresas
-     * @param owner           janela proprietária (para centering)
-     * @param preSelectedId   UUID pré-seleccionado (pode ser {@code null})
-     * @param onConfirm       callback invocado ao clicar "Continuar"; nunca
-     *                        chamado ao fechar com o X
-     */
     public static void show(
             EmpresaService empresaService,
             Window owner,
@@ -90,9 +68,9 @@ public class SelecionarEmpresaModalController {
             stage.setScene(new Scene(root));
 
             SelecionarEmpresaModalController ctrl = loader.getController();
-            ctrl.dialogStage    = stage;
+            ctrl.dialogStage = stage;
             ctrl.empresaService = empresaService;
-            ctrl.onConfirm      = onConfirm;
+            ctrl.onConfirm = onConfirm;
 
             if (preSelectedId != null && !preSelectedId.isBlank()) {
                 ctrl.selectedId = preSelectedId;
@@ -107,15 +85,10 @@ public class SelecionarEmpresaModalController {
         }
     }
 
-    /* ── Initialização FXML ────────────────────────────────────────────── */
-
     @FXML
     public void initialize() {
-        // Continuar desactivado até haver uma selecção
         btnContinuar.setDisable(true);
     }
-
-    /* ── Handlers de navegação ─────────────────────────────────────────── */
 
     @FXML
     private void handleAnterior() {
@@ -131,8 +104,6 @@ public class SelecionarEmpresaModalController {
         }
     }
 
-    /* ── Handler do footer ─────────────────────────────────────────────── */
-
     @FXML
     private void handleContinuar() {
         if (selectedId != null && !selectedId.isBlank()) {
@@ -141,11 +112,6 @@ public class SelecionarEmpresaModalController {
         dialogStage.close();
     }
 
-    /* ── Lógica de carregamento ────────────────────────────────────────── */
-
-    /**
-     * Carrega a página solicitada e re-renderiza a lista.
-     */
     private void carregarPagina(int page) {
         setLoadingVisible(true);
         listaContainer.getChildren().clear();
@@ -158,7 +124,7 @@ public class SelecionarEmpresaModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
 
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
@@ -176,9 +142,6 @@ public class SelecionarEmpresaModalController {
         });
     }
 
-    /**
-     * Constrói uma linha por empresa e adiciona-a ao {@code listaContainer}.
-     */
     private void renderizarLista(List<EmpresaResponse> empresas) {
         listaContainer.getChildren().clear();
 
@@ -190,7 +153,7 @@ public class SelecionarEmpresaModalController {
         }
 
         for (EmpresaResponse empresa : empresas) {
-            String id   = empresa.id   != null ? empresa.id.toString() : "";
+            String id = empresa.id != null ? empresa.id.toString() : "";
             String nome = empresa.nomeEmpresa != null ? empresa.nomeEmpresa : "(sem nome)";
 
             // Construir a linha
@@ -209,7 +172,7 @@ public class SelecionarEmpresaModalController {
 
             // Actualizar selecção ao clicar na linha inteira ou no radio
             Runnable seleccionar = () -> {
-                selectedId   = id;
+                selectedId = id;
                 selectedNome = nome;
                 btnContinuar.setDisable(false);
                 // Desmarcar todos os outros radios nesta página
@@ -236,8 +199,6 @@ public class SelecionarEmpresaModalController {
             btnContinuar.setDisable(false);
         }
     }
-
-    /* ── Helpers de UI ─────────────────────────────────────────────────── */
 
     private void setLoadingVisible(boolean visible) {
         hboxLoading.setVisible(visible);

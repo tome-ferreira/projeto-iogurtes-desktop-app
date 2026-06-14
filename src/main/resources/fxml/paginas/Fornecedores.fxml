@@ -28,13 +28,13 @@
                 <String fx:value="/styles/fornecedor.css"/>
             </stylesheets>
 
-            <!-- 1. Header HBox: title left + "Criar Fornecedor" button right -->
+            <!--  Header HBox: title left + "Criar Fornecedor" button right -->
             <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
                 <Label text="Fornecedores" styleClass="pagina-titulo"
                        maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button fx:id="btnNovo" text="Criar Fornecedor"
-                        styleClass="btn-primario-cabecalho"
+                        textFill="WHITE" styleClass="btn-primario-cabecalho"
                         onAction="#handleNovo">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16"/></graphic>
                 </Button>
@@ -46,7 +46,7 @@
                 <VBox VBox.vgrow="ALWAYS">
                     <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
                     
-                    <!-- 2. Filter + Pagination HBox -->
+                    <!-- Filter + Pagination HBox -->
                     <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="12">
                         <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"/>
                         
@@ -69,7 +69,7 @@
                         </HBox>
                     </HBox>
 
-                    <!-- 3. TableView VBox.vgrow="ALWAYS" -->
+                    <!--  TableView VBox.vgrow="ALWAYS" -->
                     <VBox fx:id="tabelaContainer"
                           styleClass="tabela-card"
                           fillWidth="true"
@@ -84,20 +84,6 @@
                     <ProgressIndicator styleClass="loading-spinner"/>
                     <Label text="A carregar..." styleClass="loading-label"/>
                 </VBox>
-
-                <!-- Floating action button -->
-                <Button fx:id="fab" styleClass="fab"
-                        onAction="#handleNovo"
-                        StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" iconSize="22"
-                                  styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Novo Fornecedor"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
             </StackPane>
         </VBox>
     </center>

@@ -12,11 +12,6 @@ import okhttp3.ResponseBody;
 
 import java.util.function.Consumer;
 
-/**
- * Serviço de aplicação para Produtos Finais.
- * Delega todas as chamadas HTTP ao {@link IProdutoFinalApiService} via
- * {@link ApiQuery}, que garante {@code Platform.runLater()} internamente.
- */
 public class ProdutoFinalService {
 
     private IProdutoFinalApiService api() {
@@ -25,7 +20,7 @@ public class ProdutoFinalService {
     }
 
     public void getAll(int page, int size,
-                       Consumer<QueryState<PaginatedResponse<ProdutoFinalResponse>>> cb) {
+            Consumer<QueryState<PaginatedResponse<ProdutoFinalResponse>>> cb) {
         ApiQuery.execute(api().findAll(page, size), cb);
     }
 
@@ -34,12 +29,12 @@ public class ProdutoFinalService {
     }
 
     public void create(CreateProdutoFinalRequest req,
-                       Consumer<QueryState<ProdutoFinalResponse>> cb) {
+            Consumer<QueryState<ProdutoFinalResponse>> cb) {
         ApiQuery.execute(api().create(req), cb);
     }
 
     public void update(String id, UpdateProdutoFinalRequest req,
-                       Consumer<QueryState<ProdutoFinalResponse>> cb) {
+            Consumer<QueryState<ProdutoFinalResponse>> cb) {
         ApiQuery.execute(api().update(id, req), cb);
     }
 
@@ -47,13 +42,14 @@ public class ProdutoFinalService {
         ApiQuery.execute(api().softDelete(id), cb);
     }
 
-    public void addMateriasComposicao(String produtoId, com.gestaoiogurtes.models.produtoFinal.AddMateriasComposicaoRequest req,
-                                      Consumer<QueryState<ProdutoFinalResponse>> cb) {
+    public void addMateriasComposicao(String produtoId,
+            com.gestaoiogurtes.models.produtoFinal.AddMateriasComposicaoRequest req,
+            Consumer<QueryState<ProdutoFinalResponse>> cb) {
         ApiQuery.execute(api().addMateriasComposicao(produtoId, req), cb);
     }
 
     public void removeComposicao(String produtoId, String composicaoId,
-                                 Consumer<QueryState<ResponseBody>> cb) {
+            Consumer<QueryState<ResponseBody>> cb) {
         ApiQuery.execute(api().removeComposicao(produtoId, composicaoId), cb);
     }
 

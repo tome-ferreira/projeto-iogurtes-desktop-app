@@ -14,10 +14,10 @@ public class OrdemProducaoResponse {
     public LocalDateTime aprovadoEm;
     public String observacoes;
     public List<OrdemProducaoProdutoResponse> produtos;
-    // We can ignore consumos since it's not requested, but let's map it safely if we need or just omit it. Gson will ignore it if omitted.
     public Boolean isActive;
     public LocalDateTime createdAt;
     public LocalDateTime updatedAt;
 
-    public OrdemProducaoResponse() {}
+    public OrdemProducaoResponse() {
+    }
 }

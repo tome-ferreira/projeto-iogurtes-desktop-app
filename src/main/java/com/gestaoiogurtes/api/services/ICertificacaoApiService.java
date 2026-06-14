@@ -11,16 +11,12 @@ import retrofit2.http.*;
 
 import java.util.List;
 
-/**
- * Interface Retrofit para os endpoints do recurso Certificacao.
- */
 public interface ICertificacaoApiService {
 
     @GET("certificacoes/active")
     Call<PaginatedResponse<CertificacaoResponse>> findAllActive(
             @Query("page") int page,
-            @Query("size") int size
-    );
+            @Query("size") int size);
 
     @GET("certificacoes/{id}")
     Call<CertificacaoResponse> findById(@Path("id") String id);

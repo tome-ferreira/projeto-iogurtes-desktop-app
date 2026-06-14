@@ -20,15 +20,19 @@ public class DetalhesFornecedorTipoModalController {
 
     private FornecedorTipoResponse tipo;
 
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private Button btnFechar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private Button btnFechar;
 
     private Stage dialogStage;
 
     public static void show(FornecedorTipoResponse tipo, Window owner) {
         try {
-            FXMLLoader loader = new FXMLLoader(DetalhesFornecedorTipoModalController.class.getResource("/fxml/components/fornecedorestipo/DetalhesFornecedorTipoModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(DetalhesFornecedorTipoModalController.class
+                    .getResource("/fxml/components/fornecedorestipo/DetalhesFornecedorTipoModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -59,14 +63,14 @@ public class DetalhesFornecedorTipoModalController {
         this.tipo = tipo;
         txtNome.setText(tipo.nome != null ? tipo.nome : "");
         txtDescricao.setText(tipo.descricao != null ? tipo.descricao : "");
-        
+
         txtNome.setEditable(false);
         txtDescricao.setEditable(false);
     }
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML

@@ -23,30 +23,31 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Modal para editar um fornecedor associado a uma matéria prima.
- * PUT /materias-primas/fornecedores/{id}
- */
 public class EditarFornecedorMateriaPrimaModalController {
 
-    @FXML private Label                   lblFornecedor;
-    @FXML private ComboBox<MoedaResponse> cbMoeda;
-    @FXML private TextField               txtPrecoUnitario;
-    @FXML private TextField               txtPrazo;
-    @FXML private CheckBox                chkPreferencial;
-    @FXML private Label                   lblErro;
-    @FXML private Button                  btnGuardar;
+    @FXML
+    private Label lblFornecedor;
+    @FXML
+    private ComboBox<MoedaResponse> cbMoeda;
+    @FXML
+    private TextField txtPrecoUnitario;
+    @FXML
+    private TextField txtPrazo;
+    @FXML
+    private CheckBox chkPreferencial;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
 
-    private Stage               dialogStage;
+    private Stage dialogStage;
     private MateriaPrimaService service;
-    private MoedaService        moedaService;
-    private Runnable            onSuccess;
-    private String              fornecedorLinkId;
-
-    // ── Abertura ────────────────────────────────────────────────────────────
+    private MoedaService moedaService;
+    private Runnable onSuccess;
+    private String fornecedorLinkId;
 
     public static void show(MateriaPrimaFornecedorResponse item, MateriaPrimaService service,
-                            Window owner, Runnable onSuccess) {
+            Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     EditarFornecedorMateriaPrimaModalController.class
@@ -62,10 +63,10 @@ public class EditarFornecedorMateriaPrimaModalController {
             stage.setScene(new Scene(root));
 
             EditarFornecedorMateriaPrimaModalController ctrl = loader.getController();
-            ctrl.dialogStage      = stage;
-            ctrl.service          = service;
-            ctrl.moedaService     = new MoedaService();
-            ctrl.onSuccess        = onSuccess;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.moedaService = new MoedaService();
+            ctrl.onSuccess = onSuccess;
             ctrl.fornecedorLinkId = item.id != null ? item.id.toString() : null;
 
             ctrl.carregarMoedas(item);
@@ -75,8 +76,6 @@ public class EditarFornecedorMateriaPrimaModalController {
             e.printStackTrace();
         }
     }
-
-    // ── Inicialização ────────────────────────────────────────────────────────
 
     @FXML
     public void initialize() {
@@ -97,8 +96,6 @@ public class EditarFornecedorMateriaPrimaModalController {
             }
         });
     }
-
-    // ── Handlers FXML ───────────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {
@@ -121,7 +118,8 @@ public class EditarFornecedorMateriaPrimaModalController {
         double preco;
         try {
             preco = Double.parseDouble(precoStr.replace(',', '.'));
-            if (preco < 0.01) throw new NumberFormatException();
+            if (preco < 0.01)
+                throw new NumberFormatException();
         } catch (NumberFormatException e) {
             mostrarErro("Preço unitário inválido (mínimo 0.01).");
             return;
@@ -132,7 +130,8 @@ public class EditarFornecedorMateriaPrimaModalController {
         if (!prazoStr.isEmpty()) {
             try {
                 prazo = Integer.parseInt(prazoStr);
-                if (prazo < 1) throw new NumberFormatException();
+                if (prazo < 1)
+                    throw new NumberFormatException();
             } catch (NumberFormatException e) {
                 mostrarErro("Prazo de entrega inválido (mínimo 1 dia).");
                 return;
@@ -140,17 +139,17 @@ public class EditarFornecedorMateriaPrimaModalController {
         }
 
         var req = new UpdateFornecedorMateriaPrimaRequest();
-        req.moedaId                  = cbMoeda.getValue().id;
-        req.precoUnitario            = preco;
+        req.moedaId = cbMoeda.getValue().id;
+        req.precoUnitario = preco;
         req.prazoEstimadoEntregaDias = prazo;
-        req.preferencial             = chkPreferencial.isSelected();
+        req.preferencial = chkPreferencial.isSelected();
 
         btnGuardar.setDisable(true);
         btnGuardar.setText("A guardar...");
 
         service.updateFornecedor(fornecedorLinkId, req, state -> {
             if (state.isLoading()) {
-                // já desactivado acima
+                // já desativado acima
             } else if (state.isSuccess()) {
                 dialogStage.close();
                 onSuccess.run();
@@ -162,13 +161,12 @@ public class EditarFornecedorMateriaPrimaModalController {
         });
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-
     private void carregarMoedas(MateriaPrimaFornecedorResponse item) {
         moedaService.getAll(0, 100, state -> {
             if (state.isSuccess() && state.getData() != null) {
                 List<MoedaResponse> moedas = state.getData().content != null
-                        ? state.getData().content : List.of();
+                        ? state.getData().content
+                        : List.of();
                 cbMoeda.getItems().setAll(moedas);
 
                 // Pré-preencher campos

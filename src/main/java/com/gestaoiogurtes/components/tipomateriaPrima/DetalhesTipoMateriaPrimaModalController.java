@@ -18,18 +18,25 @@ import java.time.format.DateTimeFormatter;
 
 public class DetalhesTipoMateriaPrimaModalController {
 
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private TextField txtTaxaIva;
-    @FXML private TextField txtCriadoEm;
-    @FXML private TextField txtAtivo;
-    @FXML private Button btnFechar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private TextField txtTaxaIva;
+    @FXML
+    private TextField txtCriadoEm;
+    @FXML
+    private TextField txtAtivo;
+    @FXML
+    private Button btnFechar;
 
     private Stage dialogStage;
 
     public static void show(TipoMateriaPrimaResponse tipoMateriaPrima, Window owner) {
         try {
-            FXMLLoader loader = new FXMLLoader(DetalhesTipoMateriaPrimaModalController.class.getResource("/fxml/components/tipomateriaPrima/DetalhesTipoMateriaPrimaModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(DetalhesTipoMateriaPrimaModalController.class
+                    .getResource("/fxml/components/tipomateriaPrima/DetalhesTipoMateriaPrimaModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -60,7 +67,7 @@ public class DetalhesTipoMateriaPrimaModalController {
         txtNome.setText(t.nome != null ? t.nome : "—");
         txtDescricao.setText(t.descricao != null ? t.descricao : "—");
         txtTaxaIva.setText(t.iva != null ? t.iva + "%" : "—");
-        
+
         if (t.isActive != null) {
             txtAtivo.setText(t.isActive ? "Sim" : "Não");
         } else {
@@ -82,7 +89,7 @@ public class DetalhesTipoMateriaPrimaModalController {
 
     @FXML
     public void initialize() {
-        // Initialization if needed
+
     }
 
     @FXML

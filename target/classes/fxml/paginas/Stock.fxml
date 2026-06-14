@@ -27,7 +27,7 @@
                 <String fx:value="/styles/stock.css"/>
             </stylesheets>
 
-            <!-- Header HBox: title "Stock" left (no create button) -->
+            <!-- Header HBox: title "Stock" -->
             <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
                 <Label text="Stock" styleClass="pagina-titulo" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>

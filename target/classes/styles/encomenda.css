@@ -1,6 +1,4 @@
-/* =============================================================
-   encomenda.css – Estilos baseados em empresas.css / fornecedor.css
-   ============================================================= */
+
 
 .root {
     -gi-radius-sm:   4px;
@@ -110,7 +108,7 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* Botões de Ação na Tabela */
+
 .btn-linha-acao {
     -fx-background-color: transparent;
     -fx-text-fill: -color-accent-fg;
@@ -148,7 +146,7 @@
     -fx-wrap-text: true;
 }
 
-/* Loading Overlay */
+
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
     -fx-alignment: CENTER;
@@ -163,7 +161,7 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* Paginação */
+
 .pagination-bar {
     -fx-padding: 16 0 0 0;
     -fx-alignment: CENTER;
@@ -201,7 +199,7 @@
     -fx-cursor: default;
 }
 
-/* Modais / Forms */
+
 .modal-root {
     -fx-background-color: -color-bg-default;
 }
@@ -257,9 +255,9 @@
 }
 
 
-/* ========================================================================= */
-/* AVATAR DE INICIAIS                                                        */
-/* ========================================================================= */
+
+
+
 
 .avatar {
     -fx-background-radius: 50%;

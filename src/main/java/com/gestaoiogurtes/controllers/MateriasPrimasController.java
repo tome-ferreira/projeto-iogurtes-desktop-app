@@ -34,8 +34,6 @@ public class MateriasPrimasController implements AppAware {
     @FXML private VBox tabelaContainer;
     @FXML private VBox loadingOverlay;
     @FXML private Button btnNovo;
-    @FXML private Button fab;
-    
     @FXML private Label lblPagina;
     @FXML private Button btnAnterior;
     @FXML private Button btnProxima;
@@ -70,11 +68,7 @@ public class MateriasPrimasController implements AppAware {
                 btnNovo.setVisible(false);
                 btnNovo.setManaged(false);
             }
-            if (fab != null) {
-                fab.setVisible(false);
-                fab.setManaged(false);
             }
-        }
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -301,8 +295,7 @@ public class MateriasPrimasController implements AppAware {
             loadingOverlay.setManaged(loading);
         }
         if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab != null) fab.setDisable(loading);
-    }
+        }
 
     private void mostrarSucesso(String msg) {
         MessageHelper.mostrar(rootStack, msg, true);

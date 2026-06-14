@@ -1,23 +1,5 @@
 package com.gestaoiogurtes.models.empresa;
 
-/**
- * Corpo do pedido POST /empresas (criação de uma nova empresa).
- *
- * <p>
- * Campos JSON (CreateEmpresaRequest):
- * </p>
- * 
- * <pre>
- * {
- *   "nomeEmpresa":  "string",
- *   "nipc":         "string",
- *   "telefone":     "string",
- *   "morada":       "string",
- *   "codigoPostal": "string",
- *   "cidade":       "string"
- * }
- * </pre>
- */
 public class CreateEmpresaRequest {
 
     public String nomeEmpresa;

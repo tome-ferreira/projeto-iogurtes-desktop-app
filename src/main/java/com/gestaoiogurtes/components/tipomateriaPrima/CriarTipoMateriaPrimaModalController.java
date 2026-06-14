@@ -19,19 +19,26 @@ public class CriarTipoMateriaPrimaModalController {
 
     private TipoMateriaPrimaService service;
 
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private TextField txtTaxaIva;
-    @FXML private Label lblErro;
-    @FXML private Button btnCriar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private TextField txtTaxaIva;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
     public static void show(TipoMateriaPrimaService service, Window owner, Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(CriarTipoMateriaPrimaModalController.class.getResource("/fxml/components/tipomateriaPrima/CriarTipoMateriaPrimaModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(CriarTipoMateriaPrimaModalController.class
+                    .getResource("/fxml/components/tipomateriaPrima/CriarTipoMateriaPrimaModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -69,7 +76,7 @@ public class CriarTipoMateriaPrimaModalController {
 
     @FXML
     public void initialize() {
-        // Validation logic or formatters could go here
+
     }
 
     @FXML
@@ -106,8 +113,7 @@ public class CriarTipoMateriaPrimaModalController {
         var request = new CreateTipoMateriaPrimaRequest(
                 nome,
                 descricao,
-                taxaIva
-        );
+                taxaIva);
 
         btnCriar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -118,7 +124,8 @@ public class CriarTipoMateriaPrimaModalController {
                 btnCriar.setText("A criar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Tipo de Matéria Prima \"" + request.nome + "\" criado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Tipo de Matéria Prima \"" + request.nome + "\" criado com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnCriar.setDisable(false);
                 btnCancelar.setDisable(false);

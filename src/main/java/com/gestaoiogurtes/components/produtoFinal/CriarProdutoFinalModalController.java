@@ -33,26 +33,36 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-/**
- * Controller do modal de criação de Produto Final.
- * Inclui secção de composição com lista dinâmica de matérias primas.
- */
 public class CriarProdutoFinalModalController {
 
-    @FXML private TextField  txtNome;
-    @FXML private TextField  txtDescricao;
-    @FXML private TextField  txtAbreviacaoSabor;
-    @FXML private ComboBox<String> cbEstadoFisico;
-    @FXML private TextField  txtValidadeDias;
-    @FXML private TextField  txtPrecoVenda;
-    @FXML private TextField  txtPrecoPorKg;
-    @FXML private TextField  txtTaxaIva;
-    @FXML private TextField  txtQuantidadeLote;
-    @FXML private CheckBox   chkVisivelCliente;
-    @FXML private VBox       composicaoContainer;
-    @FXML private Label      lblComposicaoAviso;
-    @FXML private Label      lblErro;
-    @FXML private Button     btnCriar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtDescricao;
+    @FXML
+    private TextField txtAbreviacaoSabor;
+    @FXML
+    private ComboBox<String> cbEstadoFisico;
+    @FXML
+    private TextField txtValidadeDias;
+    @FXML
+    private TextField txtPrecoVenda;
+    @FXML
+    private TextField txtPrecoPorKg;
+    @FXML
+    private TextField txtTaxaIva;
+    @FXML
+    private TextField txtQuantidadeLote;
+    @FXML
+    private CheckBox chkVisivelCliente;
+    @FXML
+    private VBox composicaoContainer;
+    @FXML
+    private Label lblComposicaoAviso;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
 
     private Stage dialogStage;
     private ProdutoFinalService service;
@@ -60,8 +70,7 @@ public class CriarProdutoFinalModalController {
     private Consumer<String> onSuccess;
 
     /** ObservableList de itens de composição adicionados pelo utilizador */
-    private final ObservableList<MateriaPrimaComposicaoSelecao> composicaoItems =
-            FXCollections.observableArrayList();
+    private final ObservableList<MateriaPrimaComposicaoSelecao> composicaoItems = FXCollections.observableArrayList();
 
     public static void show(
             ProdutoFinalService service,
@@ -123,15 +132,14 @@ public class CriarProdutoFinalModalController {
                     lblComposicaoAviso.setManaged(false);
                     composicaoItems.add(selecao);
                     renderizarComposicao();
-                }
-        );
+                });
     }
 
     @FXML
     private void handleCriar() {
         lblErro.setText("");
 
-        // ── Validação dos campos obrigatórios ──────────────────────────────
+        // Validação dos campos obrigatórios
         String nome = txtNome.getText() != null ? txtNome.getText().trim() : "";
         String abrev = txtAbreviacaoSabor.getText() != null ? txtAbreviacaoSabor.getText().trim() : "";
         String estadoLabel = cbEstadoFisico.getValue();
@@ -159,7 +167,6 @@ public class CriarProdutoFinalModalController {
             return;
         }
 
-        // ── Parse dos campos numéricos ─────────────────────────────────────
         Double taxaIva;
         try {
             taxaIva = Double.parseDouble(taxaIvaStr);
@@ -230,7 +237,6 @@ public class CriarProdutoFinalModalController {
             }
         }
 
-        // ── Construir a composição ─────────────────────────────────────────
         List<ComposicaoItem> composicao = new ArrayList<>();
         for (MateriaPrimaComposicaoSelecao sel : composicaoItems) {
             ComposicaoItem item = new ComposicaoItem(
@@ -239,21 +245,19 @@ public class CriarProdutoFinalModalController {
             composicao.add(item);
         }
 
-        // ── Construir o request ────────────────────────────────────────────
         CreateProdutoFinalRequest request = new CreateProdutoFinalRequest();
-        request.nome           = nome;
-        request.descricao      = txtDescricao.getText() != null ? txtDescricao.getText().trim() : null;
+        request.nome = nome;
+        request.descricao = txtDescricao.getText() != null ? txtDescricao.getText().trim() : null;
         request.abreviacaoSabor = abrev;
-        request.estadoFisico   = EnumDisplayHelper.estadoFisicoParaApi(estadoLabel);
-        request.validadeDias   = validadeDias;
-        request.precoVenda     = precoVenda;
-        request.precoPorKg     = precoPorKg;
-        request.taxaIva        = taxaIva;
+        request.estadoFisico = EnumDisplayHelper.estadoFisicoParaApi(estadoLabel);
+        request.validadeDias = validadeDias;
+        request.precoVenda = precoVenda;
+        request.precoPorKg = precoPorKg;
+        request.taxaIva = taxaIva;
         request.visivelCliente = chkVisivelCliente.isSelected();
         request.quantidadeLote = quantidadeLote;
-        request.composicao     = composicao;
+        request.composicao = composicao;
 
-        // ── Enviar ────────────────────────────────────────────────────────
         btnCriar.setDisable(true);
         btnCriar.setText("A criar...");
 
@@ -275,8 +279,6 @@ public class CriarProdutoFinalModalController {
     private void handleCancelar() {
         dialogStage.close();
     }
-
-    // ── Renderização da lista de composição ────────────────────────────────
 
     private void renderizarComposicao() {
         composicaoContainer.getChildren().clear();

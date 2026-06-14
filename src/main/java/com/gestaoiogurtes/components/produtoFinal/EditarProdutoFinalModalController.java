@@ -21,25 +21,32 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/**
- * Controller do modal de edição de Produto Final.
- * Pré-preenche todos os campos com os dados existentes.
- * NÃO inclui secção de composição (PUT não aceita composicao).
- */
 public class EditarProdutoFinalModalController {
 
-    @FXML private TextField  txtNome;
-    @FXML private TextField  txtDescricao;
-    @FXML private TextField  txtAbreviacaoSabor;
-    @FXML private ComboBox<String> cbEstadoFisico;
-    @FXML private TextField  txtValidadeDias;
-    @FXML private TextField  txtPrecoVenda;
-    @FXML private TextField  txtPrecoPorKg;
-    @FXML private TextField  txtTaxaIva;
-    @FXML private TextField  txtQuantidadeLote;
-    @FXML private CheckBox   chkVisivelCliente;
-    @FXML private Label      lblErro;
-    @FXML private Button     btnGuardar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtDescricao;
+    @FXML
+    private TextField txtAbreviacaoSabor;
+    @FXML
+    private ComboBox<String> cbEstadoFisico;
+    @FXML
+    private TextField txtValidadeDias;
+    @FXML
+    private TextField txtPrecoVenda;
+    @FXML
+    private TextField txtPrecoPorKg;
+    @FXML
+    private TextField txtTaxaIva;
+    @FXML
+    private TextField txtQuantidadeLote;
+    @FXML
+    private CheckBox chkVisivelCliente;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
 
     private Stage dialogStage;
     private ProdutoFinalService service;
@@ -204,14 +211,14 @@ public class EditarProdutoFinalModalController {
         }
 
         UpdateProdutoFinalRequest request = new UpdateProdutoFinalRequest();
-        request.nome           = nome;
-        request.descricao      = txtDescricao.getText() != null ? txtDescricao.getText().trim() : null;
+        request.nome = nome;
+        request.descricao = txtDescricao.getText() != null ? txtDescricao.getText().trim() : null;
         request.abreviacaoSabor = abrev;
-        request.estadoFisico   = EnumDisplayHelper.estadoFisicoParaApi(estadoLabel);
-        request.validadeDias   = validadeDias;
-        request.precoVenda     = precoVenda;
-        request.precoPorKg     = precoPorKg;
-        request.taxaIva        = taxaIva;
+        request.estadoFisico = EnumDisplayHelper.estadoFisicoParaApi(estadoLabel);
+        request.validadeDias = validadeDias;
+        request.precoVenda = precoVenda;
+        request.precoPorKg = precoPorKg;
+        request.taxaIva = taxaIva;
         request.visivelCliente = chkVisivelCliente.isSelected();
         request.quantidadeLote = quantidadeLote;
 

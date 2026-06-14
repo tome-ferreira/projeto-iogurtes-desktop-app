@@ -21,29 +21,32 @@ import java.util.List;
 
 public class TiposPalletController implements AppAware {
 
-    // ── Serviço ───────────────────────────────────────────────────────────────
     private final TipoPalletService service = new TipoPalletService();
 
-    // ── FXML references ───────────────────────────────────────────────────────
-    @FXML private Sidebar sidebarController;
-    @FXML private VBox tabelaContainer;
-    @FXML private StackPane rootStack;
-    @FXML private VBox loadingOverlay;
-    @FXML private TextField campoPesquisa;
-    @FXML private Button btnNovo;
-    @FXML private Button fab;
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProxima;
-    @FXML private Label lblPagina;
-    @FXML private ComboBox<Integer> cbTamanhoPagina;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private VBox tabelaContainer;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProxima;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPagina;
 
-    // ── Estado local ──────────────────────────────────────────────────────────
     private int currentPage = 0;
     private int pageSize = 10;
     private int totalPages = 0;
     private List<TipoPalletResponse> todosTipos = List.of();
 
-    // ── AppAware ──────────────────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         if (sidebarController != null) {
@@ -51,14 +54,8 @@ public class TiposPalletController implements AppAware {
         }
     }
 
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
-        if (campoPesquisa != null) {
-            campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
-        }
-
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
             cbTamanhoPagina.setValue(pageSize);
@@ -73,8 +70,6 @@ public class TiposPalletController implements AppAware {
 
         carregarTiposPallet();
     }
-
-    // ── FXML handlers ─────────────────────────────────────────────────────────
 
     @FXML
     private void handleNovo() {
@@ -100,8 +95,6 @@ public class TiposPalletController implements AppAware {
         }
     }
 
-    // ── Carregamento de dados ─────────────────────────────────────────────────
-
     private void carregarTiposPallet() {
         service.getAll(currentPage, pageSize, state -> {
             switch (state.getStatus()) {
@@ -115,14 +108,17 @@ public class TiposPalletController implements AppAware {
                         this.totalPages = response.totalPages;
 
                         if (lblPagina != null) {
-                            lblPagina.setText("Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
+                            lblPagina.setText(
+                                    "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
                         }
-                        if (btnAnterior != null) btnAnterior.setDisable(response.first);
-                        if (btnProxima != null) btnProxima.setDisable(response.last);
+                        if (btnAnterior != null)
+                            btnAnterior.setDisable(response.first);
+                        if (btnProxima != null)
+                            btnProxima.setDisable(response.last);
                     } else {
                         todosTipos = List.of();
                     }
-                    filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
+                    renderizarTabela();
                 }
 
                 case ERROR -> {
@@ -130,21 +126,16 @@ public class TiposPalletController implements AppAware {
                     mostrarNotificacao("Erro ao carregar tipos de pallet: " + state.getErrorMessage(), false);
                 }
 
-                default -> {} // IDLE — ignorar
+                default -> {
+                } // IDLE — ignorar
             }
         });
     }
 
-    // ── Filtros ───────────────────────────────────────────────────────────────
-
-    private void filtrarTabela(String pesquisa) {
+    private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
 
-        var filtrados = todosTipos.stream()
-                .filter(t -> pesquisa.isEmpty()
-                        || (t.nome != null && t.nome.toLowerCase().contains(pesquisa))
-                        || (t.capacidadeKg != null && t.capacidadeKg.toString().contains(pesquisa)))
-                .toList();
+        var filtrados = todosTipos;
 
         if (filtrados.isEmpty()) {
             tabelaContainer.getChildren().add(criarEstadoVazio());
@@ -161,8 +152,6 @@ public class TiposPalletController implements AppAware {
             tabelaContainer.getChildren().add(linha);
         }
     }
-
-    // ── Header da tabela ──────────────────────────────────────────────────────
 
     private HBox criarLinhaHeader() {
         var row = new HBox();
@@ -189,8 +178,6 @@ public class TiposPalletController implements AppAware {
         }
         return lbl;
     }
-
-    // ── Linhas de dados ───────────────────────────────────────────────────────
 
     private HBox criarLinhaTabela(TipoPalletResponse tipo, int index) {
         var row = new HBox();
@@ -242,8 +229,6 @@ public class TiposPalletController implements AppAware {
         return row;
     }
 
-    // ── Avatar ────────────────────────────────────────────────────────────────
-
     private StackPane criarAvatar(String nome, int index) {
         String iniciais = extrairIniciais(nome);
         int cor = index % 4;
@@ -258,15 +243,14 @@ public class TiposPalletController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
         }
         return (partes[0].charAt(0) + "" + partes[partes.length - 1].charAt(0)).toUpperCase();
     }
-
-    // ── Estado vazio ──────────────────────────────────────────────────────────
 
     private VBox criarEstadoVazio() {
         var icone = new FontIcon(MaterialDesignP.PACKAGE_VARIANT_CLOSED);
@@ -287,24 +271,18 @@ public class TiposPalletController implements AppAware {
         return caixa;
     }
 
-    // ── Loading overlay ───────────────────────────────────────────────────────
-
     private void setLoading(boolean loading) {
         if (loadingOverlay != null) {
             loadingOverlay.setVisible(loading);
             loadingOverlay.setManaged(loading);
         }
-        if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab != null) fab.setDisable(loading);
-    }
-
-    // ── Mensagens de feedback ─────────────────────────────────────────────────
+        if (btnNovo != null)
+            btnNovo.setDisable(loading);
+        }
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);
     }
-
-    // ── Callbacks após mutação ────────────────────────────────────────────────
 
     public void onMutacaoBemSucedida(String mensagem) {
         mostrarNotificacao(mensagem, true);

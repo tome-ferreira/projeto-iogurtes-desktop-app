@@ -15,20 +15,6 @@
 <?import java.lang.String?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<!--
-  Empresas.fxml — Página de gestão de empresas.
-
-  Estrutura do StackPane central (padrão de loading overlay):
-    ┌─ VBox (conteúdo da página) ─────────────────────────────────┐
-    │  ┌─ StackPane (rootStack) ─────────────────────────────────┐│
-    │  │   [0] VBox (tabela + FAB)                                ││
-    │  │   [1] VBox (loadingOverlay) — visível apenas em LOADING  ││
-    │  └─────────────────────────────────────────────────────────┘│
-    └──────────────────────────────────────────────────────────────┘
-
-  O loadingOverlay é toggleado via EmpresasController.setLoading(boolean).
-  Nunca usar inline styles — todos os estilos estão em empresas.css.
--->
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.gestaoiogurtes.controllers.EmpresasController">
@@ -49,7 +35,7 @@
                        maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button fx:id="btnNovo" text="Nova empresa"
-                        styleClass="btn-primario-cabecalho"
+                        textFill="WHITE" styleClass="btn-primario-cabecalho"
                         onAction="#handleNovo">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16"/></graphic>
                 </Button>
@@ -58,28 +44,12 @@
             <Separator styleClass="pagina-separador"/>
 
             <!-- ── Toolbar de filtros ────────────────────────────── -->
-            <HBox styleClass="toolbar-filtros">
-                <HBox fx:id="campoPesquisaWrapper" spacing="8"
-                      alignment="CENTER_LEFT"
-                      styleClass="campo-pesquisa-wrapper">
-                    <FontIcon iconLiteral="mdi2m-magnify" iconSize="15"
-                              styleClass="icone-pesquisa"/>
-                    <TextField fx:id="campoPesquisa"
-                               promptText="Procurar por nome, NIPC ou cidade..."
-                               styleClass="campo-pesquisa"/>
-                </HBox>
-                <Region HBox.hgrow="ALWAYS"/>
-            </HBox>
 
             <!-- ── Tabela + FAB + Loading overlay ───────────────── -->
-            <!--
-              rootStack é o StackPane raiz. Os filhos são:
-                [0] wrapper da tabela (sempre visível)
-                [1] loadingOverlay   (visível apenas durante LOADING)
-            -->
+        
             <StackPane fx:id="rootStack" VBox.vgrow="ALWAYS">
 
-                <!-- [0] Wrapper da tabela e paginação -->
+                <!--  Wrapper da tabela e paginação -->
                 <VBox VBox.vgrow="ALWAYS">
                     <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
                     <!-- Barra de paginação -->
@@ -105,9 +75,7 @@
                     
                 </VBox>
 
-                <!-- [1] Loading overlay — ocupa todo o StackPane durante o pedido HTTP
-                     Gerido por EmpresasController.setLoading(boolean).
-                     Padrão reutilizável: copiar este bloco para qualquer página CRUD. -->
+       
                 <VBox fx:id="loadingOverlay"
                       styleClass="loading-overlay"
                       alignment="CENTER"
@@ -115,20 +83,6 @@
                     <ProgressIndicator styleClass="loading-spinner"/>
                     <Label text="A carregar..." styleClass="loading-label"/>
                 </VBox>
-
-                <!-- Floating action button -->
-                <Button fx:id="fab" styleClass="fab"
-                        onAction="#handleNovo"
-                        StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" iconSize="22"
-                                  styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Nova empresa"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
 
             </StackPane>
         </VBox>

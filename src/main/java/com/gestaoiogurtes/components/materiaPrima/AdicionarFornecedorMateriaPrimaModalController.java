@@ -23,34 +23,36 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Modal para adicionar um fornecedor a uma matéria prima.
- * POST /materias-primas/{materiaId}/fornecedores
- */
 public class AdicionarFornecedorMateriaPrimaModalController {
 
-    @FXML private Label                 lblFornecedorNome;
-    @FXML private Button                btnSelecionarFornecedor;
-    @FXML private ComboBox<MoedaResponse> cbMoeda;
-    @FXML private TextField             txtPrecoUnitario;
-    @FXML private TextField             txtPrazo;
-    @FXML private CheckBox              chkPreferencial;
-    @FXML private Label                 lblErro;
-    @FXML private Button                btnAdicionar;
+    @FXML
+    private Label lblFornecedorNome;
+    @FXML
+    private Button btnSelecionarFornecedor;
+    @FXML
+    private ComboBox<MoedaResponse> cbMoeda;
+    @FXML
+    private TextField txtPrecoUnitario;
+    @FXML
+    private TextField txtPrazo;
+    @FXML
+    private CheckBox chkPreferencial;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnAdicionar;
 
-    private Stage               dialogStage;
+    private Stage dialogStage;
     private MateriaPrimaService service;
-    private FornecedorService   fornecedorService;
-    private MoedaService        moedaService;
-    private String              materiaId;
-    private Runnable            onSuccess;
+    private FornecedorService fornecedorService;
+    private MoedaService moedaService;
+    private String materiaId;
+    private Runnable onSuccess;
 
     private String selectedFornecedorId;
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(String materiaId, MateriaPrimaService service,
-                            Window owner, Runnable onSuccess) {
+            Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     AdicionarFornecedorMateriaPrimaModalController.class
@@ -66,12 +68,12 @@ public class AdicionarFornecedorMateriaPrimaModalController {
             stage.setScene(new Scene(root));
 
             AdicionarFornecedorMateriaPrimaModalController ctrl = loader.getController();
-            ctrl.dialogStage        = stage;
-            ctrl.service            = service;
-            ctrl.fornecedorService  = new FornecedorService();
-            ctrl.moedaService       = new MoedaService();
-            ctrl.materiaId          = materiaId;
-            ctrl.onSuccess          = onSuccess;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.fornecedorService = new FornecedorService();
+            ctrl.moedaService = new MoedaService();
+            ctrl.materiaId = materiaId;
+            ctrl.onSuccess = onSuccess;
 
             ctrl.carregarMoedas();
 
@@ -80,8 +82,6 @@ public class AdicionarFornecedorMateriaPrimaModalController {
             e.printStackTrace();
         }
     }
-
-    // ── Inicialização ────────────────────────────────────────────────────────
 
     @FXML
     public void initialize() {
@@ -103,8 +103,6 @@ public class AdicionarFornecedorMateriaPrimaModalController {
             }
         });
     }
-
-    // ── Handlers FXML ───────────────────────────────────────────────────────
 
     @FXML
     private void handleSelecionarFornecedor() {
@@ -143,7 +141,8 @@ public class AdicionarFornecedorMateriaPrimaModalController {
         double preco;
         try {
             preco = Double.parseDouble(precoStr.replace(',', '.'));
-            if (preco < 0.01) throw new NumberFormatException();
+            if (preco < 0.01)
+                throw new NumberFormatException();
         } catch (NumberFormatException e) {
             mostrarErro("Preço unitário inválido (mínimo 0.01).");
             return;
@@ -154,7 +153,8 @@ public class AdicionarFornecedorMateriaPrimaModalController {
         if (!prazoStr.isEmpty()) {
             try {
                 prazo = Integer.parseInt(prazoStr);
-                if (prazo < 1) throw new NumberFormatException();
+                if (prazo < 1)
+                    throw new NumberFormatException();
             } catch (NumberFormatException e) {
                 mostrarErro("Prazo de entrega inválido (mínimo 1 dia).");
                 return;
@@ -162,11 +162,11 @@ public class AdicionarFornecedorMateriaPrimaModalController {
         }
 
         var req = new AddFornecedorMateriaPrimaRequest();
-        req.fornecedorId              = java.util.UUID.fromString(selectedFornecedorId);
-        req.moedaId                   = cbMoeda.getValue().id;
-        req.precoUnitario             = preco;
-        req.prazoEstimadoEntregaDias  = prazo;
-        req.preferencial              = chkPreferencial.isSelected();
+        req.fornecedorId = java.util.UUID.fromString(selectedFornecedorId);
+        req.moedaId = cbMoeda.getValue().id;
+        req.precoUnitario = preco;
+        req.prazoEstimadoEntregaDias = prazo;
+        req.preferencial = chkPreferencial.isSelected();
 
         btnAdicionar.setDisable(true);
         btnAdicionar.setText("A adicionar...");
@@ -185,13 +185,12 @@ public class AdicionarFornecedorMateriaPrimaModalController {
         });
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-
     private void carregarMoedas() {
         moedaService.getAll(0, 100, state -> {
             if (state.isSuccess() && state.getData() != null) {
                 List<MoedaResponse> moedas = state.getData().content != null
-                        ? state.getData().content : List.of();
+                        ? state.getData().content
+                        : List.of();
                 cbMoeda.getItems().setAll(moedas);
             }
         });

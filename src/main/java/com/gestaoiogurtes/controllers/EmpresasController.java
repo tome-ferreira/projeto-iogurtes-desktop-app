@@ -20,36 +20,10 @@ import javafx.fxml.FXML;
 
 import java.util.List;
 
-/**
- * Controller para Empresas.fxml.
- *
- * <p>
- * <strong>Padrão de carregamento de dados:</strong>
- * </p>
- * <ol>
- * <li>Toda a chamada HTTP é feita via {@link RealEmpresaService} +
- * {@code ApiQuery.execute()} (já encapsulado no serviço).</li>
- * <li>No estado {@code LOADING}: o overlay de loading é mostrado e os botões
- * de acção são desactivados.</li>
- * <li>No estado {@code SUCCESS}: o overlay é escondido, a tabela é
- * actualizada.</li>
- * <li>No estado {@code ERROR}: o overlay é escondido, uma notificação de erro
- * é apresentada no topo direito.</li>
- * </ol>
- *
- * <p>
- * <strong>Regra fundamental:</strong> {@code Platform.runLater()} nunca é
- * chamado aqui.
- * O {@link com.gestaoiogurtes.api.ApiQuery} já garante que os callbacks chegam
- * na JavaFX Application Thread.
- * </p>
- */
 public class EmpresasController implements AppAware {
 
-    // ── Serviço ───────────────────────────────────────────────────────────────
     private final EmpresaService service = new EmpresaService();
 
-    // ── FXML references ───────────────────────────────────────────────────────
     @FXML
     private Sidebar sidebarController;
     @FXML
@@ -59,11 +33,7 @@ public class EmpresasController implements AppAware {
     @FXML
     private VBox loadingOverlay;
     @FXML
-    private TextField campoPesquisa;
-    @FXML
     private Button btnNovo;
-    @FXML
-    private Button fab;
     @FXML
     private Button btnAnterior;
     @FXML
@@ -73,25 +43,18 @@ public class EmpresasController implements AppAware {
     @FXML
     private ComboBox<Integer> cbTamanhoPagina;
 
-    // ── Estado local ──────────────────────────────────────────────────────────
     private int currentPage = 0;
     private int pageSize = 20;
     private int totalPages = 0;
-
-    /** Cache da última lista recebida da API, usada pelos filtros. */
     private List<EmpresaResponse> todasEmpresas = List.of();
 
-    // ── AppAware ──────────────────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         sidebarController.setApp(app);
     }
 
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
-        campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -108,8 +71,6 @@ public class EmpresasController implements AppAware {
         carregarEmpresas();
     }
 
-    // ── FXML handlers ─────────────────────────────────────────────────────────
-
     @FXML
     private void handleNovo() {
         CriarEmpresaModalController.show(
@@ -118,12 +79,6 @@ public class EmpresasController implements AppAware {
                 this::onMutacaoBemSucedida);
     }
 
-    // ── Carregamento de dados ─────────────────────────────────────────────────
-
-    /**
-     * Dispara o pedido GET /empresas via ApiQuery com paginação.
-     * Aplica loading overlay durante o pedido e actualiza a tabela no sucesso.
-     */
     private void carregarEmpresas() {
         service.getAll(currentPage, pageSize, state -> {
             switch (state.getStatus()) {
@@ -135,11 +90,8 @@ public class EmpresasController implements AppAware {
                     if (response != null) {
                         todasEmpresas = response.content != null ? response.content : List.of();
                         this.totalPages = response.totalPages;
-                        // Removemos a sobreposição do currentPage pelo response.currentPage
-                        // porque se a API não mapear perfeitamente esta variável fica a 0 
-                        // e quebra a navegação (fix para o bug reportado).
 
-                        // Actualizar UI de paginação
+                        // Atualizar UI de paginação
                         if (lblPagina != null) {
                             lblPagina.setText(
                                     "Página " + (this.currentPage + 1) + " de " + Math.max(1, this.totalPages));
@@ -151,7 +103,7 @@ public class EmpresasController implements AppAware {
                     } else {
                         todasEmpresas = List.of();
                     }
-                    filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
+                    renderizarTabela();
                 }
 
                 case ERROR -> {
@@ -181,17 +133,10 @@ public class EmpresasController implements AppAware {
         }
     }
 
-    // ── Filtros ───────────────────────────────────────────────────────────────
-
-    private void filtrarTabela(String pesquisa) {
+    private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
 
-        var filtrados = todasEmpresas.stream()
-                .filter(e -> pesquisa.isEmpty()
-                        || e.nomeEmpresa.toLowerCase().contains(pesquisa)
-                        || e.nipc.toLowerCase().contains(pesquisa)
-                        || e.cidade.toLowerCase().contains(pesquisa))
-                .toList();
+        var filtrados = todasEmpresas;
 
         if (filtrados.isEmpty()) {
             tabelaContainer.getChildren().add(criarEstadoVazio());
@@ -208,8 +153,6 @@ public class EmpresasController implements AppAware {
             tabelaContainer.getChildren().add(linha);
         }
     }
-
-    // ── Header da tabela ──────────────────────────────────────────────────────
 
     private HBox criarLinhaHeader() {
         var row = new HBox();
@@ -239,8 +182,6 @@ public class EmpresasController implements AppAware {
         return lbl;
     }
 
-    // ── Linhas de dados ───────────────────────────────────────────────────────
-
     private HBox criarLinhaTabela(EmpresaResponse empresa, int index) {
         var row = new HBox();
         row.getStyleClass().add("tabela-linha");
@@ -262,7 +203,7 @@ public class EmpresasController implements AppAware {
         nomeBox.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(nomeBox, Priority.ALWAYS);
 
-        // NIPC (coluna separada)
+        // NIPC
         var nipcLabel = new Label(empresa.nipc);
         nipcLabel.getStyleClass().add("celula-dados");
         nipcLabel.setMinWidth(120);
@@ -301,8 +242,6 @@ public class EmpresasController implements AppAware {
         return row;
     }
 
-    // ── Avatar ────────────────────────────────────────────────────────────────
-
     private StackPane criarAvatar(String nome, int index) {
         String iniciais = extrairIniciais(nome);
         int cor = index % 4;
@@ -326,8 +265,6 @@ public class EmpresasController implements AppAware {
         return (partes[0].charAt(0) + "" + partes[partes.length - 1].charAt(0)).toUpperCase();
     }
 
-    // ── Estado vazio ──────────────────────────────────────────────────────────
-
     private VBox criarEstadoVazio() {
         var icone = new FontIcon(MaterialDesignD.DOMAIN_OFF);
         icone.setIconSize(52);
@@ -347,20 +284,6 @@ public class EmpresasController implements AppAware {
         return caixa;
     }
 
-    // ── Loading overlay ───────────────────────────────────────────────────────
-
-    /**
-     * Mostra ou esconde o overlay de loading e desactiva/activa os botões de acção.
-     *
-     * <p>
-     * Padrão reutilizável: em cada controller CRUD, mantém um {@code VBox}
-     * com styleClass {@code loading-overlay} como segundo filho do
-     * {@code StackPane}
-     * raiz. Basta chamar {@code setLoading(true/false)} em LOADING/SUCCESS/ERROR.
-     * </p>
-     *
-     * @param loading {@code true} para mostrar; {@code false} para esconder
-     */
     private void setLoading(boolean loading) {
         if (loadingOverlay != null) {
             loadingOverlay.setVisible(loading);
@@ -368,40 +291,17 @@ public class EmpresasController implements AppAware {
         }
         if (btnNovo != null)
             btnNovo.setDisable(loading);
-        if (fab != null)
-            fab.setDisable(loading);
-    }
+        }
 
-    // ── Mensagens de feedback ─────────────────────────────────────────────────
-
-    /**
-     * Apresenta uma mensagem AtlantaFX no topo direito do rootStack.
-     * Delega para {@link MessageHelper#mostrar}.
-     *
-     * @param mensagem texto da mensagem
-     * @param sucesso  {@code true} → estilo sucesso; {@code false} → estilo erro
-     */
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);
     }
 
-    // ── Callback após mutação (criar / editar / eliminar) ─────────────────────
-
-    /**
-     * Chamado pelos modais após uma operação bem-sucedida.
-     *
-     * @param mensagem mensagem de sucesso a apresentar ao utilizador
-     */
     public void onMutacaoBemSucedida(String mensagem) {
         mostrarNotificacao(mensagem, true);
         carregarEmpresas();
     }
 
-    /**
-     * Chamado pelos modais após uma operação com erro.
-     *
-     * @param mensagem mensagem de erro a apresentar ao utilizador
-     */
     public void onMutacaoComErro(String mensagem) {
         mostrarNotificacao(mensagem, false);
     }

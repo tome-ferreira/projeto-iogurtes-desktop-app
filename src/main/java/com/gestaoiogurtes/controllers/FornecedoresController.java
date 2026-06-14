@@ -29,7 +29,6 @@ public class FornecedoresController implements AppAware {
     @FXML private StackPane rootStack;
     @FXML private VBox loadingOverlay;
     @FXML private Button btnNovo;
-    @FXML private Button fab;
     @FXML private ComboBox<FornecedorTipoWrapper> cbFiltroTipo;
     @FXML private Label lblPagina;
     @FXML private Button btnAnterior;
@@ -74,11 +73,7 @@ public class FornecedoresController implements AppAware {
                 btnNovo.setVisible(false);
                 btnNovo.setManaged(false);
             }
-            if (fab != null) {
-                fab.setVisible(false);
-                fab.setManaged(false);
             }
-        }
         
         cbFiltroTipo.valueProperty().addListener((obs, old, val) -> {
             if (val != null) {
@@ -345,7 +340,6 @@ public class FornecedoresController implements AppAware {
             loadingOverlay.setManaged(loading);
         }
         if (btnNovo != null) btnNovo.setDisable(loading);
-        if (fab != null) fab.setDisable(loading);
         if (cbFiltroTipo != null) cbFiltroTipo.setDisable(loading);
     }
 

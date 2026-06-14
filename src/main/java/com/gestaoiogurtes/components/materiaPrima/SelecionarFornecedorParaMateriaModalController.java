@@ -21,36 +21,36 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Modal paginado para seleccionar um Fornecedor a associar a uma matéria prima.
- * Baseia-se no padrão SelecionarEmpresaModalController (CRUD-REFERENCE.md §6).
- */
 public class SelecionarFornecedorParaMateriaModalController {
 
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProximo;
-    @FXML private Label  lblPagina;
-    @FXML private VBox   listaContainer;
-    @FXML private HBox   hboxLoading;
-    @FXML private Button btnContinuar;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnContinuar;
 
-    private Stage                              dialogStage;
-    private FornecedorService                  fornecedorService;
+    private Stage dialogStage;
+    private FornecedorService fornecedorService;
     private Consumer<FornecedorMateriaPrimaSelecao> onConfirm;
-    private String                             preSelectedId;
+    private String preSelectedId;
 
     private String selectedId;
     private String selectedNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(FornecedorService fornecedorService, Window owner,
-                            String preSelectedId,
-                            Consumer<FornecedorMateriaPrimaSelecao> onConfirm) {
+            String preSelectedId,
+            Consumer<FornecedorMateriaPrimaSelecao> onConfirm) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     SelecionarFornecedorParaMateriaModalController.class
@@ -66,11 +66,11 @@ public class SelecionarFornecedorParaMateriaModalController {
             stage.setScene(new Scene(root));
 
             SelecionarFornecedorParaMateriaModalController ctrl = loader.getController();
-            ctrl.dialogStage        = stage;
-            ctrl.fornecedorService  = fornecedorService;
-            ctrl.onConfirm          = onConfirm;
-            ctrl.preSelectedId      = preSelectedId;
-            ctrl.selectedId         = preSelectedId;
+            ctrl.dialogStage = stage;
+            ctrl.fornecedorService = fornecedorService;
+            ctrl.onConfirm = onConfirm;
+            ctrl.preSelectedId = preSelectedId;
+            ctrl.selectedId = preSelectedId;
 
             ctrl.carregarPagina(0);
 
@@ -80,26 +80,22 @@ public class SelecionarFornecedorParaMateriaModalController {
         }
     }
 
-    // ── Inicialização ───────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         btnContinuar.setDisable(true);
     }
 
-    // ── Paginação ────────────────────────────────────────────────────────────
-
     @FXML
     private void handleAnterior() {
-        if (currentPage > 0) carregarPagina(currentPage - 1);
+        if (currentPage > 0)
+            carregarPagina(currentPage - 1);
     }
 
     @FXML
     private void handleProximo() {
-        if (currentPage < totalPages - 1) carregarPagina(currentPage + 1);
+        if (currentPage < totalPages - 1)
+            carregarPagina(currentPage + 1);
     }
-
-    // ── Acções do footer ─────────────────────────────────────────────────────
 
     @FXML
     private void handleContinuar() {
@@ -108,8 +104,6 @@ public class SelecionarFornecedorParaMateriaModalController {
             dialogStage.close();
         }
     }
-
-    // ── Carregamento ──────────────────────────────────────────────────────────
 
     private void carregarPagina(int page) {
         setLoadingVisible(true);
@@ -123,7 +117,7 @@ public class SelecionarFornecedorParaMateriaModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
                     btnProximo.setDisable(resposta.last);
@@ -149,7 +143,7 @@ public class SelecionarFornecedorParaMateriaModalController {
         }
 
         for (FornecedorResponse f : fornecedores) {
-            String id   = f.id   != null ? f.id.toString() : "";
+            String id = f.id != null ? f.id.toString() : "";
             String nome = f.nome != null ? f.nome : "(sem nome)";
 
             var linha = new HBox();
@@ -165,7 +159,7 @@ public class SelecionarFornecedorParaMateriaModalController {
             linha.getChildren().addAll(radio, lblNome);
 
             Runnable selecionar = () -> {
-                selectedId   = id;
+                selectedId = id;
                 selectedNome = nome;
                 btnContinuar.setDisable(false);
                 // Desmarcar todos os outros radio buttons
@@ -191,8 +185,6 @@ public class SelecionarFornecedorParaMateriaModalController {
             btnContinuar.setDisable(false);
         }
     }
-
-    // ── Helper de loading ────────────────────────────────────────────────────
 
     private void setLoadingVisible(boolean visible) {
         hboxLoading.setVisible(visible);

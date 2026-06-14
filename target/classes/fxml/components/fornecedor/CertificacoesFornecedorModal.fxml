@@ -45,10 +45,7 @@
         </Button>
     </HBox>
 
-    <!--
-        Área de conteúdo: ScrollPane com altura máxima fixa → a lista nunca
-        cresce além de 340 px e não empurra header/footer para fora do modal.
-    -->
+ 
     <StackPane VBox.vgrow="ALWAYS">
 
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER"

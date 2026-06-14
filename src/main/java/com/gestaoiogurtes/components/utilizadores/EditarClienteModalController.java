@@ -20,23 +20,26 @@ import java.util.function.Consumer;
 public class EditarClienteModalController {
 
     private UtilizadorService service;
-    private EmpresaService    empresaService;
-    private UserResponse      utilizador;
+    private EmpresaService empresaService;
+    private UserResponse utilizador;
 
-    @FXML private TextField txtNome;
-    @FXML private Label     lblEmpresaNome;
-    @FXML private Button    btnSelecionarEmpresa;
-    @FXML private Label     lblErro;
-    @FXML private Button    btnGuardar;
-    @FXML private Button    btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private Label lblEmpresaNome;
+    @FXML
+    private Button btnSelecionarEmpresa;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
-    private Stage            dialogStage;
+    private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    /** UUID da empresa actualmente seleccionada. */
     private String selectedEmpresaId;
-
-    /* ── Abertura do modal ──────────────────────────────────────────────── */
 
     public static void show(
             UserResponse utilizador,
@@ -58,17 +61,17 @@ public class EditarClienteModalController {
             stage.setScene(new Scene(root));
 
             EditarClienteModalController ctrl = loader.getController();
-            ctrl.dialogStage    = stage;
-            ctrl.onSuccess      = onSuccess;
-            ctrl.service        = service;
+            ctrl.dialogStage = stage;
+            ctrl.onSuccess = onSuccess;
+            ctrl.service = service;
             ctrl.empresaService = empresaService;
             ctrl.setUtilizador(utilizador);
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    /* ── Pré-preenchimento ──────────────────────────────────────────────── */
 
     private void setUtilizador(UserResponse u) {
         this.utilizador = u;
@@ -97,33 +100,28 @@ public class EditarClienteModalController {
         }
     }
 
-    /* ── Inicialização ──────────────────────────────────────────────────── */
+    @FXML
+    public void initialize() {
+    }
 
-    @FXML public void initialize() {}
+    @FXML
+    private void handleCancelar() {
+        dialogStage.close();
+    }
 
-    /* ── Handlers ───────────────────────────────────────────────────────── */
-
-    @FXML private void handleCancelar() { dialogStage.close(); }
-
-    /**
-     * Abre o {@link SelecionarEmpresaModalController} com a empresa actual
-     * como pré-selecção. Se o utilizador fechar com X, a selecção existente
-     * não é alterada.
-     */
     @FXML
     private void handleSelecionarEmpresa() {
         SelecionarEmpresaModalController.show(
                 empresaService,
                 dialogStage,
-                selectedEmpresaId,  // pré-selecção da empresa actual
+                selectedEmpresaId, // pré-selecção da empresa actual
                 selecao -> {
                     selectedEmpresaId = selecao.id;
                     lblEmpresaNome.setText(selecao.nome);
                     lblEmpresaNome.setVisible(true);
                     lblEmpresaNome.setManaged(true);
                     btnSelecionarEmpresa.setText("Alterar Empresa");
-                }
-        );
+                });
     }
 
     @FXML
@@ -138,8 +136,7 @@ public class EditarClienteModalController {
 
         var req = new UpdateClienteRequest(
                 nome,
-                (selectedEmpresaId == null || selectedEmpresaId.isBlank()) ? null : selectedEmpresaId
-        );
+                (selectedEmpresaId == null || selectedEmpresaId.isBlank()) ? null : selectedEmpresaId);
 
         btnGuardar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -149,7 +146,8 @@ public class EditarClienteModalController {
                 btnGuardar.setText("A guardar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Cliente \"" + req.nome + "\" atualizado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(
+                        ("Cliente \"" + req.nome + "\" atualizado com sucesso.").replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnGuardar.setDisable(false);
                 btnCancelar.setDisable(false);

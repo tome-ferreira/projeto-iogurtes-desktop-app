@@ -38,11 +38,7 @@
             <Label text="A carregar..." styleClass="loading-label"/>
         </HBox>
 
-        <!--
-            Lista com ScrollPane de altura máxima fixa (220 px ≈ ~5 linhas).
-            Impede que a lista cresça para fora do modal, mantendo as datas
-            e o footer sempre visíveis.
-        -->
+     
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
                     maxHeight="220" prefHeight="220"
                     styleClass="cert-scroll">

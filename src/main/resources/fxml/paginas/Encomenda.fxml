@@ -28,7 +28,7 @@
                 <String fx:value="/styles/encomenda.css"/>
             </stylesheets>
 
-            <!-- 1. Header HBox -->
+            <!--  Header HBox -->
             <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
                 <Label text="Encomendas de Clientes" styleClass="pagina-titulo"
                        maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
@@ -40,7 +40,7 @@
                 <VBox VBox.vgrow="ALWAYS">
                     <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
                     
-                    <!-- 2. Filter + Pagination HBox -->
+                    <!--  Filter + Pagination HBox -->
                     <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="12">
                         <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"/>
                         
@@ -63,7 +63,7 @@
                         </HBox>
                     </HBox>
 
-                    <!-- 3. TableView VBox.vgrow="ALWAYS" -->
+                    <!-- TableView VBox.vgrow="ALWAYS" -->
                     <VBox fx:id="tabelaContainer"
                           styleClass="tabela-card"
                           fillWidth="true"

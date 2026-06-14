@@ -32,7 +32,7 @@
             </VBox>
         </HBox>
 
-        <!-- Empresa: nome resolvido via API, com estado de loading -->
+        
         <VBox styleClass="form-group">
             <Label text="Empresa" styleClass="form-label"/>
             <HBox alignment="CENTER_LEFT" spacing="8">

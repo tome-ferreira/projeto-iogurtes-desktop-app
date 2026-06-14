@@ -33,7 +33,7 @@
                     <Label text="Produtos Finais" styleClass="pagina-titulo"/>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="btnNovo" text="Criar Produto Final" onAction="#handleNovo" styleClass="btn-primario-cabecalho">
+                <Button fx:id="btnNovo" text="Criar Produto Final" onAction="#handleNovo" textFill="WHITE" styleClass="btn-primario-cabecalho">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16" iconColor="white"/></graphic>
                 </Button>
             </HBox>
@@ -74,16 +74,6 @@
                     <Label text="A carregar produtos finais..." styleClass="loading-label"/>
                 </VBox>
 
-                <!-- FAB (Floating Action Button) -->
-                <Button fx:id="fab" styleClass="fab" onAction="#handleNovo" StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Novo produto final"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
             </StackPane>
         </VBox>
     </center>

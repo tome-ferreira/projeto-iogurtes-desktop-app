@@ -52,7 +52,7 @@
         <VBox styleClass="quantidade-section" spacing="4" style="-fx-padding: 12 0 24 0;">
             <Label text="Quantidade por Unidade de Produto" styleClass="form-label"/>
             <TextField fx:id="txtQuantidade" promptText="ex: 0.25" styleClass="form-control"/>
-            <!-- Erro inline da quantidade — espaço reservado, sempre presente -->
+
             <Label fx:id="lblQuantidadeErro" styleClass="quantidade-error" text="" wrapText="true"/>
         </VBox>
 

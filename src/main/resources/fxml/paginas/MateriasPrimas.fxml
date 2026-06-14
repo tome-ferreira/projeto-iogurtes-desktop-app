@@ -36,7 +36,7 @@
                     <Label text="Matérias Primas" styleClass="pagina-titulo"/>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="btnNovo" text="Criar Matéria Prima" onAction="#handleNovo" styleClass="btn-primario-cabecalho">
+                <Button fx:id="btnNovo" text="Criar Matéria Prima" onAction="#handleNovo" textFill="WHITE" styleClass="btn-primario-cabecalho">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16" iconColor="white"/></graphic>
                 </Button>
             </HBox>
@@ -79,16 +79,7 @@
                     <Label text="A carregar matérias primas..." styleClass="loading-label"/>
                 </VBox>
 
-                <!-- FAB (Floating Action Button) -->
-                <Button fx:id="fab" styleClass="fab" onAction="#handleNovo" StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Nova matéria prima"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
+                <!-- FAB -->
             </StackPane>
         </VBox>
     </center>

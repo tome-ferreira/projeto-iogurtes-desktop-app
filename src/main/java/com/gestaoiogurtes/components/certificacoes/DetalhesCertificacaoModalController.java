@@ -19,15 +19,19 @@ public class DetalhesCertificacaoModalController {
 
     private CertificacaoResponse certificacao;
 
-    @FXML private TextField txtNome;
-    @FXML private TextArea txtDescricao;
-    @FXML private Button btnFechar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private Button btnFechar;
 
     private Stage dialogStage;
 
     public static void show(CertificacaoResponse certificacao, Window owner) {
         try {
-            FXMLLoader loader = new FXMLLoader(DetalhesCertificacaoModalController.class.getResource("/fxml/components/certificacoes/DetalhesCertificacaoModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(DetalhesCertificacaoModalController.class
+                    .getResource("/fxml/components/certificacoes/DetalhesCertificacaoModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -58,14 +62,14 @@ public class DetalhesCertificacaoModalController {
         this.certificacao = certificacao;
         txtNome.setText(certificacao.nome != null ? certificacao.nome : "");
         txtDescricao.setText(certificacao.descricao != null ? certificacao.descricao : "");
-        
+
         txtNome.setEditable(false);
         txtDescricao.setEditable(false);
     }
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML

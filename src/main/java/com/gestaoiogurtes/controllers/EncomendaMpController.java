@@ -20,51 +20,44 @@ import javafx.fxml.FXML;
 
 import java.util.List;
 
-/**
- * Controller da página principal de Encomendas de Matéria Prima.
- * Segue exactamente o padrão de {@code FornecedoresController}.
- *
- * <p>Funcionalidades:
- * <ul>
- *   <li>Listagem paginada (10 por página por padrão)</li>
- *   <li>Filtro por estado via ComboBox</li>
- *   <li>Botão FAB + botão de cabeçalho para criar nova encomenda</li>
- * </ul>
- */
 public class EncomendaMpController implements AppAware {
 
-    // ── Serviços ────────────────────────────────────────────────────────────
-    private final EncomendaMpService  service             = new EncomendaMpService();
-    private final FornecedorService   fornecedorService   = new FornecedorService();
+    private final EncomendaMpService service = new EncomendaMpService();
+    private final FornecedorService fornecedorService = new FornecedorService();
     private final MateriaPrimaService materiaPrimaService = new MateriaPrimaService();
 
-    // ── FXML ─────────────────────────────────────────────────────────────────
-    @FXML private Sidebar        sidebarController;
-    @FXML private VBox           tabelaContainer;
-    @FXML private StackPane      rootStack;
-    @FXML private VBox           loadingOverlay;
-    @FXML private Button         btnNovo;
-    @FXML private Button         fab;
-    @FXML private ComboBox<String> cbFiltroEstado;
-    @FXML private Label          lblPagina;
-    @FXML private Button         btnAnterior;
-    @FXML private Button         btnProxima;
-    @FXML private ComboBox<Integer> cbTamanhoPagina;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private VBox tabelaContainer;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private ComboBox<String> cbFiltroEstado;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProxima;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPagina;
 
-    // ── Estado ────────────────────────────────────────────────────────────────
-    private int                        currentPage  = 0;
-    private int                        pageSize     = 10;
-    private int                        totalPages   = 0;
-    private List<EncomendaMpResponse>  todosItens   = List.of();
-    private String                     selectedEstado = null;
+    private int currentPage = 0;
+    private int pageSize = 10;
+    private int totalPages = 0;
+    private List<EncomendaMpResponse> todosItens = List.of();
+    private String selectedEstado = null;
 
-    // ── AppAware ──────────────────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         sidebarController.setApp(app);
     }
 
-    // ── Inicialização ─────────────────────────────────────────────────────────
     @FXML
     public void initialize() {
         // Filtro de estado
@@ -98,8 +91,6 @@ public class EncomendaMpController implements AppAware {
         carregarEncomendas();
     }
 
-    // ── Acções ────────────────────────────────────────────────────────────────
-
     @FXML
     private void handleNovo() {
         CriarEncomendaMpModalController.show(
@@ -126,8 +117,6 @@ public class EncomendaMpController implements AppAware {
         }
     }
 
-    // ── Carregamento de dados ─────────────────────────────────────────────────
-
     private void carregarEncomendas() {
         if (selectedEstado == null || selectedEstado.isBlank()) {
             service.getAll(currentPage, pageSize, state -> handleState(state));
@@ -136,7 +125,8 @@ public class EncomendaMpController implements AppAware {
         }
     }
 
-    private void handleState(com.gestaoiogurtes.api.QueryState<com.gestaoiogurtes.models.PaginatedResponse<EncomendaMpResponse>> state) {
+    private void handleState(
+            com.gestaoiogurtes.api.QueryState<com.gestaoiogurtes.models.PaginatedResponse<EncomendaMpResponse>> state) {
         switch (state.getStatus()) {
             case LOADING -> setLoading(true);
             case SUCCESS -> {
@@ -148,8 +138,10 @@ public class EncomendaMpController implements AppAware {
                     if (lblPagina != null) {
                         lblPagina.setText("Página " + (currentPage + 1) + " de " + Math.max(1, totalPages));
                     }
-                    if (btnAnterior != null) btnAnterior.setDisable(response.first);
-                    if (btnProxima  != null) btnProxima.setDisable(response.last);
+                    if (btnAnterior != null)
+                        btnAnterior.setDisable(response.first);
+                    if (btnProxima != null)
+                        btnProxima.setDisable(response.last);
                 } else {
                     todosItens = List.of();
                 }
@@ -159,11 +151,10 @@ public class EncomendaMpController implements AppAware {
                 setLoading(false);
                 mostrarNotificacao("Erro ao carregar encomendas: " + state.getErrorMessage(), false);
             }
-            default -> {}
+            default -> {
+            }
         }
     }
-
-    // ── Renderização da tabela ────────────────────────────────────────────────
 
     private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
@@ -190,12 +181,12 @@ public class EncomendaMpController implements AppAware {
         row.setMaxWidth(Double.MAX_VALUE);
         row.getChildren().addAll(
                 headerCol("", 48, false),
-                headerCol("Fornecedor",   200, true),
-                headerCol("Data",         130, false),
+                headerCol("Fornecedor", 200, true),
+                headerCol("Data", 130, false),
                 headerCol("Entrega Prev.", 120, false),
-                headerCol("Estado",       120, false),
-                headerCol("Total (€)",    120, false),
-                headerCol("Ações",        120, false));
+                headerCol("Estado", 120, false),
+                headerCol("Total (€)", 120, false),
+                headerCol("Ações", 120, false));
         return row;
     }
 
@@ -261,7 +252,7 @@ public class EncomendaMpController implements AppAware {
         acoesBox.setMinWidth(120);
 
         var avatar = criarAvatar(item.fornecedorNome);
-        row.getChildren().addAll(avatar, 
+        row.getChildren().addAll(avatar,
                 fornecedorLabel, dataLabel, dataEntregaLabel,
                 estadoPill, totalLabel, acoesBox);
         return row;
@@ -286,8 +277,6 @@ public class EncomendaMpController implements AppAware {
         return caixa;
     }
 
-    // ── Detalhe da encomenda ──────────────────────────────────────────────────
-
     private void mostrarDetalhes(EncomendaMpResponse item) {
         com.gestaoiogurtes.components.encomendaMp.DetalhesEncomendaMpModalController.show(
                 item,
@@ -299,17 +288,16 @@ public class EncomendaMpController implements AppAware {
                 });
     }
 
-    // ── Utilitários ───────────────────────────────────────────────────────────
-
     private String formatarData(String dataIso) {
-        if (dataIso == null || dataIso.isBlank()) return "—";
-        // dataEncomenda é date-time (ISO 8601): pegar só os 10 primeiros caracteres
+        if (dataIso == null || dataIso.isBlank())
+            return "—";
+
         return dataIso.length() >= 10 ? dataIso.substring(0, 10) : dataIso;
     }
 
-    /** Converte estado API em classe CSS válida (sem espaços, minúsculas). */
     private String estadoApiParaCss(String estado) {
-        if (estado == null) return "desconhecido";
+        if (estado == null)
+            return "desconhecido";
         return estado.toLowerCase().replace("_", "-");
     }
 
@@ -318,9 +306,10 @@ public class EncomendaMpController implements AppAware {
             loadingOverlay.setVisible(loading);
             loadingOverlay.setManaged(loading);
         }
-        if (btnNovo  != null) btnNovo.setDisable(loading);
-        if (fab      != null) fab.setDisable(loading);
-        if (cbFiltroEstado != null) cbFiltroEstado.setDisable(loading);
+        if (btnNovo != null)
+            btnNovo.setDisable(loading);
+        if (cbFiltroEstado != null)
+            cbFiltroEstado.setDisable(loading);
     }
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
@@ -350,7 +339,8 @@ public class EncomendaMpController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();

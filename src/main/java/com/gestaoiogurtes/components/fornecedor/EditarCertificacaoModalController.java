@@ -18,30 +18,28 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Modal para editar as datas de uma certificação de fornecedor.
- * Chama PUT /fornecedor/certificacoes/{fornecedorCertificacaoId}.
- */
 public class EditarCertificacaoModalController {
 
-    @FXML private DatePicker dpDataInicio;
-    @FXML private DatePicker dpDataFim;
-    @FXML private Label      lblErro;
-    @FXML private Button     btnGuardar;
+    @FXML
+    private DatePicker dpDataInicio;
+    @FXML
+    private DatePicker dpDataFim;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnGuardar;
 
-    private Stage            dialogStage;
+    private Stage dialogStage;
     private FornecedorService service;
-    private String           fornecedorCertificacaoId;
-    private Runnable         onSuccess;
+    private String fornecedorCertificacaoId;
+    private Runnable onSuccess;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(String fornecedorCertificacaoId,
-                            String dataInicio, String dataFim,
-                            FornecedorService service,
-                            Window owner, Runnable onSuccess) {
+            String dataInicio, String dataFim,
+            FornecedorService service,
+            Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     EditarCertificacaoModalController.class
@@ -57,10 +55,10 @@ public class EditarCertificacaoModalController {
             stage.setScene(new Scene(root));
 
             EditarCertificacaoModalController ctrl = loader.getController();
-            ctrl.dialogStage              = stage;
-            ctrl.service                  = service;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
             ctrl.fornecedorCertificacaoId = fornecedorCertificacaoId;
-            ctrl.onSuccess                = onSuccess;
+            ctrl.onSuccess = onSuccess;
             ctrl.preencherDatas(dataInicio, dataFim);
 
             stage.showAndWait();
@@ -69,25 +67,25 @@ public class EditarCertificacaoModalController {
         }
     }
 
-    // ── Inicialização ───────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         lblErro.setText("");
     }
 
-    // ── Pré-preenchimento ───────────────────────────────────────────────────
-
     private void preencherDatas(String dataInicio, String dataFim) {
         if (dataInicio != null && !dataInicio.isBlank()) {
-            try { dpDataInicio.setValue(LocalDate.parse(dataInicio, FMT)); } catch (Exception ignored) {}
+            try {
+                dpDataInicio.setValue(LocalDate.parse(dataInicio, FMT));
+            } catch (Exception ignored) {
+            }
         }
         if (dataFim != null && !dataFim.isBlank()) {
-            try { dpDataFim.setValue(LocalDate.parse(dataFim, FMT)); } catch (Exception ignored) {}
+            try {
+                dpDataFim.setValue(LocalDate.parse(dataFim, FMT));
+            } catch (Exception ignored) {
+            }
         }
     }
-
-    // ── Handlers ────────────────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {
@@ -99,7 +97,7 @@ public class EditarCertificacaoModalController {
         lblErro.setText("");
 
         LocalDate inicio = dpDataInicio.getValue();
-        LocalDate fim    = dpDataFim.getValue();
+        LocalDate fim = dpDataFim.getValue();
 
         if (inicio == null || fim == null) {
             lblErro.setText("Preencha ambas as datas.");
@@ -123,7 +121,8 @@ public class EditarCertificacaoModalController {
             } else if (state.isError()) {
                 btnGuardar.setDisable(false);
                 btnGuardar.setText("Guardar");
-                lblErro.setText("Erro: " + (state.getErrorMessage() != null ? state.getErrorMessage() : "desconhecido"));
+                lblErro.setText(
+                        "Erro: " + (state.getErrorMessage() != null ? state.getErrorMessage() : "desconhecido"));
             }
         });
     }

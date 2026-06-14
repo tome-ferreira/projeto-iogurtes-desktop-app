@@ -15,30 +15,24 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-/**
- * Modal de confirmação para marcar uma encomenda de matéria prima como recebida.
- * Chama PATCH /encomendas-mp/{id}/recebida.
- *
- * <p>O {@code onSuccess} recebe a mensagem de sucesso a apresentar na página
- * principal, via {@code EncomendaMpController.onMutacaoBemSucedida}.
- */
 public class ConfirmarRecebidaEncomendaModalController {
 
-    @FXML private Label  lblErro;
-    @FXML private Button btnConfirmar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnConfirmar;
+    @FXML
+    private Button btnCancelar;
 
-    private Stage              dialogStage;
+    private Stage dialogStage;
     private EncomendaMpService service;
-    private String             encomendaId;
-    private Consumer<String>   onSuccess;
-
-    // ── Abertura ────────────────────────────────────────────────────────────
+    private String encomendaId;
+    private Consumer<String> onSuccess;
 
     public static void show(String encomendaId,
-                            EncomendaMpService service,
-                            Window owner,
-                            Consumer<String> onSuccess) {
+            EncomendaMpService service,
+            Window owner,
+            Consumer<String> onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     ConfirmarRecebidaEncomendaModalController.class
@@ -54,10 +48,10 @@ public class ConfirmarRecebidaEncomendaModalController {
             stage.setScene(new Scene(root));
 
             ConfirmarRecebidaEncomendaModalController ctrl = loader.getController();
-            ctrl.dialogStage  = stage;
-            ctrl.service      = service;
-            ctrl.encomendaId  = encomendaId;
-            ctrl.onSuccess    = onSuccess;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.encomendaId = encomendaId;
+            ctrl.onSuccess = onSuccess;
 
             stage.showAndWait();
         } catch (IOException e) {
@@ -65,14 +59,10 @@ public class ConfirmarRecebidaEncomendaModalController {
         }
     }
 
-    // ── Inicialização ────────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         lblErro.setText("");
     }
-
-    // ── Handlers ────────────────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {
@@ -98,7 +88,8 @@ public class ConfirmarRecebidaEncomendaModalController {
                 btnCancelar.setDisable(false);
                 btnConfirmar.setText("Marcar como Recebida");
                 String erro = state.getErrorMessage() != null
-                        ? state.getErrorMessage() : "Erro desconhecido";
+                        ? state.getErrorMessage()
+                        : "Erro desconhecido";
                 lblErro.setText(("Erro: " + erro).replaceAll("\\R", " ").strip());
             }
         });

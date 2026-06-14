@@ -33,7 +33,8 @@ public class FornecedorService {
         ApiQuery.execute(api().findById(id), cb);
     }
 
-    public void getByTipo(String tipoId, int page, int size, Consumer<QueryState<PaginatedResponse<FornecedorResponse>>> cb) {
+    public void getByTipo(String tipoId, int page, int size,
+            Consumer<QueryState<PaginatedResponse<FornecedorResponse>>> cb) {
         ApiQuery.execute(api().findAllByTipo(tipoId, page, size), cb);
     }
 
@@ -57,15 +58,18 @@ public class FornecedorService {
 
     // ── Certificações de Fornecedor ─────────────────────────────────────────
 
-    public void getAllCertificacoes(int page, int size, Consumer<QueryState<PaginatedResponse<FornecedorCertificacaoResponse>>> cb) {
+    public void getAllCertificacoes(int page, int size,
+            Consumer<QueryState<PaginatedResponse<FornecedorCertificacaoResponse>>> cb) {
         ApiQuery.execute(api().findAllCertificacoes(page, size), cb);
     }
 
-    public void addCertificacao(String fornecedorId, AddCertificacaoRequest req, Consumer<QueryState<FornecedorCertificacaoResponse>> cb) {
+    public void addCertificacao(String fornecedorId, AddCertificacaoRequest req,
+            Consumer<QueryState<FornecedorCertificacaoResponse>> cb) {
         ApiQuery.execute(api().addCertificacao(fornecedorId, req), cb);
     }
 
-    public void updateCertificacao(String fornecedorCertificacaoId, UpdateCertificacaoRequest req, Consumer<QueryState<FornecedorCertificacaoResponse>> cb) {
+    public void updateCertificacao(String fornecedorCertificacaoId, UpdateCertificacaoRequest req,
+            Consumer<QueryState<FornecedorCertificacaoResponse>> cb) {
         ApiQuery.execute(api().updateCertificacao(fornecedorCertificacaoId, req), cb);
     }
 
@@ -75,7 +79,8 @@ public class FornecedorService {
 
     // ── Certificações (catálogo) ────────────────────────────────────────────
 
-    public void getAllCertificacoesDisponiveis(int page, int size, Consumer<QueryState<PaginatedResponse<CertificacaoResponse>>> cb) {
+    public void getAllCertificacoesDisponiveis(int page, int size,
+            Consumer<QueryState<PaginatedResponse<CertificacaoResponse>>> cb) {
         ApiQuery.execute(api().findAllCertificacoesDisponiveis(page, size), cb);
     }
 }

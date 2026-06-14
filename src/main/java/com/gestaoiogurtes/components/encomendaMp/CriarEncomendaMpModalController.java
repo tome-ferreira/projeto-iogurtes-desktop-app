@@ -35,47 +35,36 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-/**
- * Controller do modal de criação de encomenda de matéria prima.
- *
- * <p>Layout: TabPane com duas abas:
- * <ul>
- *   <li><b>Tab 1 — Encomenda:</b> selecção de fornecedor + campo observações</li>
- *   <li><b>Tab 2 — Matérias Primas:</b> lista dinâmica de linhas (desactivada até fornecedor seleccionado)</li>
- * </ul>
- * Footer fora do TabPane (sempre visível): label de erro + botões Cancelar / Criar Encomenda.
- */
 public class CriarEncomendaMpModalController {
 
-    // ── FXML — Tab 1 (Encomenda) ─────────────────────────────────────────────
-    @FXML private Label    lblFornecedorNome;
-    @FXML private Button   btnSelecionarFornecedor;
-    @FXML private TextArea campoObservacoes;
-
-    // ── FXML — Tab 2 (Matérias Primas) ───────────────────────────────────────
-    @FXML private Tab    tabMateriasPrimas;
-    @FXML private Button btnAdicionarMateria;
-    @FXML private VBox   linhasContainer;
-    @FXML private Label  lblLinhasAviso;
-
-    // ── FXML — Footer ─────────────────────────────────────────────────────────
-    @FXML private Label  lblErro;
-    @FXML private Button btnCriar;
-
-    // ── Estado ────────────────────────────────────────────────────────────────
-    private Stage             dialogStage;
-    private EncomendaMpService  service;
-    private FornecedorService   fornecedorService;
+    @FXML
+    private Label lblFornecedorNome;
+    @FXML
+    private Button btnSelecionarFornecedor;
+    @FXML
+    private TextArea campoObservacoes;
+    @FXML
+    private Tab tabMateriasPrimas;
+    @FXML
+    private Button btnAdicionarMateria;
+    @FXML
+    private VBox linhasContainer;
+    @FXML
+    private Label lblLinhasAviso;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    private Stage dialogStage;
+    private EncomendaMpService service;
+    private FornecedorService fornecedorService;
     private MateriaPrimaService materiaPrimaService;
-    private Consumer<String>    onSuccess;
+    private Consumer<String> onSuccess;
 
     private String selectedFornecedorId;
 
     /** ObservableList das linhas de matéria prima adicionadas. */
-    private final ObservableList<MateriaPrimaEncomendaSelecao> linhas =
-            FXCollections.observableArrayList();
-
-    // ── Método estático de abertura ───────────────────────────────────────────
+    private final ObservableList<MateriaPrimaEncomendaSelecao> linhas = FXCollections.observableArrayList();
 
     public static void show(
             EncomendaMpService service,
@@ -98,19 +87,17 @@ public class CriarEncomendaMpModalController {
             stage.setScene(new Scene(root));
 
             CriarEncomendaMpModalController ctrl = loader.getController();
-            ctrl.dialogStage         = stage;
-            ctrl.service             = service;
-            ctrl.fornecedorService   = fornecedorService;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.fornecedorService = fornecedorService;
             ctrl.materiaPrimaService = materiaPrimaService;
-            ctrl.onSuccess           = onSuccess;
+            ctrl.onSuccess = onSuccess;
 
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    // ── Inicialização ─────────────────────────────────────────────────────────
 
     @FXML
     public void initialize() {
@@ -123,8 +110,6 @@ public class CriarEncomendaMpModalController {
         lblLinhasAviso.setManaged(false);
         renderizarLinhas();
     }
-
-    // ── Handlers — Tab 1 ─────────────────────────────────────────────────────
 
     @FXML
     private void handleSelecionarFornecedor() {
@@ -147,15 +132,13 @@ public class CriarEncomendaMpModalController {
                         tabMateriasPrimas.setDisable(false);
                         btnAdicionarMateria.setDisable(false);
                     });
-                }
-        );
+                });
     }
-
-    // ── Handlers — Tab 2 ─────────────────────────────────────────────────────
 
     @FXML
     private void handleAdicionarMateria() {
-        if (selectedFornecedorId == null || selectedFornecedorId.isBlank()) return;
+        if (selectedFornecedorId == null || selectedFornecedorId.isBlank())
+            return;
 
         SelecionarMateriaEncomendaModalController.show(
                 materiaPrimaService,
@@ -178,11 +161,8 @@ public class CriarEncomendaMpModalController {
                         linhas.add(selecao);
                         renderizarLinhas();
                     });
-                }
-        );
+                });
     }
-
-    // ── Handlers — Footer ─────────────────────────────────────────────────────
 
     @FXML
     private void handleCriar() {
@@ -214,7 +194,8 @@ public class CriarEncomendaMpModalController {
 
         // Campo observações — opcional
         String obs = campoObservacoes != null && campoObservacoes.getText() != null
-                ? campoObservacoes.getText().trim() : "";
+                ? campoObservacoes.getText().trim()
+                : "";
         if (!obs.isEmpty()) {
             request.observacoes = obs;
         }
@@ -240,8 +221,6 @@ public class CriarEncomendaMpModalController {
     private void handleCancelar() {
         dialogStage.close();
     }
-
-    // ── Renderização da lista de linhas ───────────────────────────────────────
 
     private void renderizarLinhas() {
         linhasContainer.getChildren().clear();
@@ -270,7 +249,7 @@ public class CriarEncomendaMpModalController {
 
             Label lblPreco = new Label(
                     (item.precoUnitario != null ? String.format("%.2f", item.precoUnitario) : "—")
-                    + " " + (item.moedaSimbolo != null ? item.moedaSimbolo : ""));
+                            + " " + (item.moedaSimbolo != null ? item.moedaSimbolo : ""));
             lblPreco.getStyleClass().add("linha-row-preco");
 
             Region spacer1 = new Region();

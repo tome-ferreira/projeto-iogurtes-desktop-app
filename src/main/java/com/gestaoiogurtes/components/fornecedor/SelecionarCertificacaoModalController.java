@@ -23,40 +23,43 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Modal para seleccionar uma certificação e adicionar ao fornecedor.
- * Baseado directamente em SelecionarEmpresaModalController.
- */
 public class SelecionarCertificacaoModalController {
 
-    @FXML private Button    btnAnterior;
-    @FXML private Button    btnProximo;
-    @FXML private Label     lblPagina;
-    @FXML private VBox      listaContainer;
-    @FXML private HBox      hboxLoading;
-    @FXML private Button    btnAdicionar;
-    @FXML private DatePicker dpDataInicio;
-    @FXML private DatePicker dpDataFim;
-    @FXML private Label     lblErro;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnAdicionar;
+    @FXML
+    private DatePicker dpDataInicio;
+    @FXML
+    private DatePicker dpDataFim;
+    @FXML
+    private Label lblErro;
 
-    private Stage            dialogStage;
+    private Stage dialogStage;
     private FornecedorService service;
-    private String           fornecedorId;
-    private Runnable         onSuccess;
+    private String fornecedorId;
+    private Runnable onSuccess;
 
     private String selectedId;
     private String selectedNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(String fornecedorId, FornecedorService service,
-                            Window owner, Runnable onSuccess) {
+            Window owner, Runnable onSuccess) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     SelecionarCertificacaoModalController.class
@@ -72,10 +75,10 @@ public class SelecionarCertificacaoModalController {
             stage.setScene(new Scene(root));
 
             SelecionarCertificacaoModalController ctrl = loader.getController();
-            ctrl.dialogStage  = stage;
-            ctrl.service      = service;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
             ctrl.fornecedorId = fornecedorId;
-            ctrl.onSuccess    = onSuccess;
+            ctrl.onSuccess = onSuccess;
 
             ctrl.carregarPagina(0);
 
@@ -85,33 +88,28 @@ public class SelecionarCertificacaoModalController {
         }
     }
 
-    // ── Inicialização ───────────────────────────────────────────────────────
-
     @FXML
     public void initialize() {
         btnAdicionar.setDisable(true);
         lblErro.setText("");
 
         // Recalcular estado do botão sempre que qualquer data mudar.
-        // Assim se o utilizador seleccionar a certificação primeiro e só depois
-        // preencher as datas, o botão activa-se correctamente.
-        dpDataInicio.valueProperty().addListener((obs, o, n) -> actualizarBotaoAdicionar());
-        dpDataFim.valueProperty().addListener((obs, o, n)    -> actualizarBotaoAdicionar());
-    }
 
-    // ── Handlers de paginação ───────────────────────────────────────────────
+        dpDataInicio.valueProperty().addListener((obs, o, n) -> actualizarBotaoAdicionar());
+        dpDataFim.valueProperty().addListener((obs, o, n) -> actualizarBotaoAdicionar());
+    }
 
     @FXML
     private void handleAnterior() {
-        if (currentPage > 0) carregarPagina(currentPage - 1);
+        if (currentPage > 0)
+            carregarPagina(currentPage - 1);
     }
 
     @FXML
     private void handleProximo() {
-        if (currentPage < totalPages - 1) carregarPagina(currentPage + 1);
+        if (currentPage < totalPages - 1)
+            carregarPagina(currentPage + 1);
     }
-
-    // ── Handlers do footer ──────────────────────────────────────────────────
 
     @FXML
     private void handleCancelar() {
@@ -128,7 +126,7 @@ public class SelecionarCertificacaoModalController {
             return;
         }
         LocalDate inicio = dpDataInicio.getValue();
-        LocalDate fim    = dpDataFim.getValue();
+        LocalDate fim = dpDataFim.getValue();
         if (inicio == null || fim == null) {
             lblErro.setText("Preencha ambas as datas.");
             return;
@@ -144,19 +142,18 @@ public class SelecionarCertificacaoModalController {
         var req = new AddCertificacaoRequest(selectedId, inicio.format(FMT), fim.format(FMT));
         service.addCertificacao(fornecedorId, req, state -> {
             if (state.isLoading()) {
-                // já desactivado acima
+                // já desativado acima
             } else if (state.isSuccess()) {
                 dialogStage.close();
                 onSuccess.run();
             } else if (state.isError()) {
                 btnAdicionar.setDisable(false);
                 btnAdicionar.setText("Adicionar");
-                lblErro.setText("Erro: " + (state.getErrorMessage() != null ? state.getErrorMessage() : "desconhecido"));
+                lblErro.setText(
+                        "Erro: " + (state.getErrorMessage() != null ? state.getErrorMessage() : "desconhecido"));
             }
         });
     }
-
-    // ── Carregamento da lista ───────────────────────────────────────────────
 
     private void carregarPagina(int page) {
         setLoadingVisible(true);
@@ -170,7 +167,7 @@ public class SelecionarCertificacaoModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
                     btnProximo.setDisable(resposta.last);
@@ -196,7 +193,7 @@ public class SelecionarCertificacaoModalController {
         }
 
         for (CertificacaoResponse cert : certs) {
-            String id   = cert.id   != null ? cert.id.toString() : "";
+            String id = cert.id != null ? cert.id.toString() : "";
             String nome = cert.nome != null ? cert.nome : "(sem nome)";
 
             var linha = new HBox();
@@ -212,7 +209,7 @@ public class SelecionarCertificacaoModalController {
             linha.getChildren().addAll(radio, lblNome);
 
             Runnable seleccionar = () -> {
-                selectedId   = id;
+                selectedId = id;
                 selectedNome = nome;
                 actualizarBotaoAdicionar();
                 listaContainer.getChildren().forEach(node -> {
@@ -245,8 +242,6 @@ public class SelecionarCertificacaoModalController {
         boolean datasOk = ini != null && fim != null && fim.isAfter(ini);
         btnAdicionar.setDisable(!(selOk && datasOk));
     }
-
-    // ── Helper de loading ────────────────────────────────────────────────────
 
     private void setLoadingVisible(boolean visible) {
         hboxLoading.setVisible(visible);

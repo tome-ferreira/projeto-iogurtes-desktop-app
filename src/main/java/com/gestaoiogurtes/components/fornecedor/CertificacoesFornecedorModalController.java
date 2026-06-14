@@ -20,36 +20,34 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Mini-CRUD de certificações de um fornecedor.
- *
- * <p>Abre-se via {@link #show(String, String, FornecedorService, Window)}.
- * Filtra cliente-side porque a API GET /fornecedores-certificacoes não suporta
- * filtro por fornecedorId. Ver TODO em IFornecedorApiService.
- */
 public class CertificacoesFornecedorModalController {
 
-    @FXML private Label lblTitulo;
-    @FXML private Label lblPagina;
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProximo;
-    @FXML private VBox   listaContainer;
-    @FXML private VBox   loadingOverlay;
-    @FXML private Button btnAdicionarCertificacao;
+    @FXML
+    private Label lblTitulo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnAdicionarCertificacao;
 
-    private Stage            dialogStage;
+    private Stage dialogStage;
     private FornecedorService service;
-    private String           fornecedorId;
-    private String           fornecedorNome;
+    private String fornecedorId;
+    private String fornecedorNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(String fornecedorId, String fornecedorNome,
-                            FornecedorService service, Window owner) {
+            FornecedorService service, Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     CertificacoesFornecedorModalController.class
@@ -65,9 +63,9 @@ public class CertificacoesFornecedorModalController {
             stage.setScene(new Scene(root));
 
             CertificacoesFornecedorModalController ctrl = loader.getController();
-            ctrl.dialogStage    = stage;
-            ctrl.service        = service;
-            ctrl.fornecedorId   = fornecedorId;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.fornecedorId = fornecedorId;
             ctrl.fornecedorNome = fornecedorNome;
             ctrl.lblTitulo.setText("Certificações de " + fornecedorNome);
 
@@ -87,8 +85,6 @@ public class CertificacoesFornecedorModalController {
         }
     }
 
-    // ── Handlers FXML ───────────────────────────────────────────────────────
-
     @FXML
     private void handleAdicionarCertificacao() {
         SelecionarCertificacaoModalController.show(
@@ -98,12 +94,14 @@ public class CertificacoesFornecedorModalController {
 
     @FXML
     private void handleAnterior() {
-        if (currentPage > 0) carregarCertificacoes(currentPage - 1);
+        if (currentPage > 0)
+            carregarCertificacoes(currentPage - 1);
     }
 
     @FXML
     private void handleProximo() {
-        if (currentPage < totalPages - 1) carregarCertificacoes(currentPage + 1);
+        if (currentPage < totalPages - 1)
+            carregarCertificacoes(currentPage + 1);
     }
 
     @FXML
@@ -111,16 +109,9 @@ public class CertificacoesFornecedorModalController {
         dialogStage.close();
     }
 
-    // ── Carregamento ────────────────────────────────────────────────────────
-
     void carregarCertificacoes(int page) {
         setLoading(true);
 
-        /*
-         * TODO: A API não suporta filtro por fornecedorId no endpoint
-         * GET /fornecedores-certificacoes. Quando suportar, passar
-         * fornecedorId como query param e remover o filtro client-side abaixo.
-         */
         service.getAllCertificacoes(page, PAGE_SIZE, state -> {
             if (state.isLoading()) {
                 setLoading(true);
@@ -129,12 +120,13 @@ public class CertificacoesFornecedorModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     // Filtrar client-side pelo fornecedorNome (a API não devolve o fornecedorId)
-                    var todos = (resposta.content != null ? resposta.content : List.<FornecedorCertificacaoResponse>of())
+                    var todos = (resposta.content != null ? resposta.content
+                            : List.<FornecedorCertificacaoResponse>of())
                             .stream()
                             .filter(c -> fornecedorNome != null && fornecedorNome.equals(c.nomeFornecedor))
                             .toList();
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
                     btnProximo.setDisable(resposta.last);
@@ -149,8 +141,6 @@ public class CertificacoesFornecedorModalController {
             }
         });
     }
-
-    // ── Renderização ────────────────────────────────────────────────────────
 
     private void renderizarLista(List<FornecedorCertificacaoResponse> items) {
         listaContainer.getChildren().clear();
@@ -169,7 +159,7 @@ public class CertificacoesFornecedorModalController {
                 headerCol("Certificação", true),
                 headerCol("Início", false),
                 headerCol("Fim", false));
-        
+
         String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
         if (!"FUNCIONARIO_MP".equals(role)) {
             header.getChildren().add(headerCol("Ações", false));
@@ -178,8 +168,9 @@ public class CertificacoesFornecedorModalController {
 
         for (int i = 0; i < items.size(); i++) {
             var item = items.get(i);
-            var row  = criarLinha(item);
-            if (i == items.size() - 1) row.getStyleClass().add("tabela-linha-ultima");
+            var row = criarLinha(item);
+            if (i == items.size() - 1)
+                row.getStyleClass().add("tabela-linha-ultima");
             listaContainer.getChildren().add(row);
         }
     }
@@ -214,7 +205,7 @@ public class CertificacoesFornecedorModalController {
         lblFim.getStyleClass().add("celula-dados");
         lblFim.setMinWidth(110);
 
-        var btnEditar   = new Button("Editar");
+        var btnEditar = new Button("Editar");
         var btnEliminar = new Button("Eliminar");
         btnEditar.getStyleClass().add("btn-linha-acao");
         btnEliminar.getStyleClass().addAll("btn-linha-acao", "btn-linha-danger");
@@ -234,15 +225,13 @@ public class CertificacoesFornecedorModalController {
         acoes.setAlignment(Pos.CENTER_RIGHT);
 
         row.getChildren().addAll(lblNome, lblInicio, lblFim);
-        
+
         String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
         if (!"FUNCIONARIO_MP".equals(role)) {
             row.getChildren().add(acoes);
         }
         return row;
     }
-
-    // ── Helpers de UI ───────────────────────────────────────────────────────
 
     private void setLoading(boolean loading) {
         loadingOverlay.setVisible(loading);

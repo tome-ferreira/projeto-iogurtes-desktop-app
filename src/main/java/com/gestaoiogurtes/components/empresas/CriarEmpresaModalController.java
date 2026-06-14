@@ -19,22 +19,32 @@ public class CriarEmpresaModalController {
 
     private EmpresaService service;
 
-    @FXML private TextField txtNome;
-    @FXML private TextField txtNipc;
-    @FXML private TextField txtTelefone;
-    @FXML private TextField txtMorada;
-    @FXML private TextField txtCp;
-    @FXML private TextField txtCidade;
-    @FXML private Label lblErro;
-    @FXML private Button btnCriar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtNipc;
+    @FXML
+    private TextField txtTelefone;
+    @FXML
+    private TextField txtMorada;
+    @FXML
+    private TextField txtCp;
+    @FXML
+    private TextField txtCidade;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
     public static void show(EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(CriarEmpresaModalController.class.getResource("/fxml/components/empresas/CriarEmpresaModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    CriarEmpresaModalController.class.getResource("/fxml/components/empresas/CriarEmpresaModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -72,7 +82,7 @@ public class CriarEmpresaModalController {
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML
@@ -102,8 +112,7 @@ public class CriarEmpresaModalController {
                 telefone.isEmpty() ? null : telefone,
                 morada,
                 cp,
-                cidade
-        );
+                cidade);
 
         btnCriar.setDisable(true);
         btnCancelar.setDisable(true);
@@ -114,7 +123,8 @@ public class CriarEmpresaModalController {
                 btnCriar.setText("A criar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Empresa \"" + request.nomeEmpresa + "\" criada com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(
+                        ("Empresa \"" + request.nomeEmpresa + "\" criada com sucesso.").replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnCriar.setDisable(false);
                 btnCancelar.setDisable(false);

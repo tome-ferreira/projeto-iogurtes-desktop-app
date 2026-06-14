@@ -21,43 +21,32 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Modal para seleccionar um fornecedor ao criar uma encomenda de matéria prima.
- * Baseado em {@code SelecionarEmpresaModalController} — mesma estrutura e comportamento.
- * <ul>
- *   <li>Carrega 10 fornecedores por página via {@link FornecedorService#getAll}.</li>
- *   <li>A selecção persiste entre páginas.</li>
- *   <li>O botão "Continuar" só fica activo quando um fornecedor está seleccionado.</li>
- *   <li>{@code onConfirm} é chamado <strong>apenas</strong> ao clicar "Continuar".</li>
- * </ul>
- */
 public class SelecionarFornecedorEncomendaModalController {
 
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProximo;
-    @FXML private Label  lblPagina;
-    @FXML private VBox   listaContainer;
-    @FXML private HBox   hboxLoading;
-    @FXML private Button btnContinuar;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private HBox hboxLoading;
+    @FXML
+    private Button btnContinuar;
 
-    private Stage                               dialogStage;
-    private FornecedorService                   fornecedorService;
+    private Stage dialogStage;
+    private FornecedorService fornecedorService;
     private Consumer<FornecedorEncomendaSelecao> onConfirm;
 
     private String selectedId;
     private String selectedNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    /**
-     * Abre o modal de selecção de fornecedor para encomenda MP.
-     *
-     * @param fornecedorService serviço para obter fornecedores
-     * @param owner             janela proprietária
-     * @param onConfirm         callback invocado ao clicar "Continuar"; nunca chamado ao fechar com X
-     */
     public static void show(
             FornecedorService fornecedorService,
             Window owner,
@@ -77,9 +66,9 @@ public class SelecionarFornecedorEncomendaModalController {
             stage.setScene(new Scene(root));
 
             SelecionarFornecedorEncomendaModalController ctrl = loader.getController();
-            ctrl.dialogStage      = stage;
+            ctrl.dialogStage = stage;
             ctrl.fornecedorService = fornecedorService;
-            ctrl.onConfirm        = onConfirm;
+            ctrl.onConfirm = onConfirm;
 
             ctrl.carregarPagina(0);
 
@@ -128,7 +117,7 @@ public class SelecionarFornecedorEncomendaModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
 
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
@@ -156,8 +145,8 @@ public class SelecionarFornecedorEncomendaModalController {
         }
 
         for (FornecedorResponse f : fornecedores) {
-            String id   = f.id   != null ? f.id.toString()   : "";
-            String nome = f.nome != null ? f.nome              : "(sem nome)";
+            String id = f.id != null ? f.id.toString() : "";
+            String nome = f.nome != null ? f.nome : "(sem nome)";
 
             HBox linha = new HBox();
             linha.getStyleClass().add("selecionar-tipo-row");
@@ -172,7 +161,7 @@ public class SelecionarFornecedorEncomendaModalController {
             linha.getChildren().addAll(radio, lblNome);
 
             Runnable seleccionar = () -> {
-                selectedId   = id;
+                selectedId = id;
                 selectedNome = nome;
                 btnContinuar.setDisable(false);
                 listaContainer.getChildren().forEach(node -> {

@@ -20,17 +20,22 @@ public class EliminarEmpresaModalController {
     private EmpresaService service;
     private EmpresaResponse empresa;
 
-    @FXML private Label lblAviso;
-    @FXML private Label lblErro;
-    @FXML private Button btnEliminar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblAviso;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
     public static void show(EmpresaResponse empresa, EmpresaService service, Window owner, Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(EliminarEmpresaModalController.class.getResource("/fxml/components/empresas/EliminarEmpresaModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(EliminarEmpresaModalController.class
+                    .getResource("/fxml/components/empresas/EliminarEmpresaModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -76,7 +81,7 @@ public class EliminarEmpresaModalController {
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML
@@ -96,7 +101,8 @@ public class EliminarEmpresaModalController {
                 btnEliminar.setText("A eliminar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Empresa \"" + empresa.nomeEmpresa + "\" eliminada com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Empresa \"" + empresa.nomeEmpresa + "\" eliminada com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnEliminar.setDisable(false);
                 btnCancelar.setDisable(false);

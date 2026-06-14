@@ -1,25 +1,7 @@
-/* =============================================================
-   utilizadores.css  –  Gestão de Utilizadores
-   Organização:
-     1. Variáveis locais
-     2. Layout da página
-     3. Cabeçalho
-     4. Barra de ferramentas (pesquisa)
-     5. TabPane
-     6. Tabela customizada
-        6a. Header
-        6b. Linhas
-        6c. Role pills
-        6d. Botões de acção por linha
-     7. Estado vazio
-     8. Loading overlay  ← padrão reutilizável
-     9. Barra de paginação
-    10. Modais / Forms
-    11. Badge inativo
-   ============================================================= */
 
 
-/* ── 1. Variáveis locais ───────────────────────────────────── */
+
+
 .root {
     -gi-radius-sm:   4px;
     -gi-radius-md:   8px;
@@ -28,13 +10,13 @@
 }
 
 
-/* ── 2. Layout da página ──────────────────────────────────── */
+
 .pagina-conteudo {
     -fx-background-color: -color-bg-default;
 }
 
 
-/* ── 3. Cabeçalho ─────────────────────────────────────────── */
+
 .pagina-cabecalho {
     -fx-padding: 28 32 12 32;
     -fx-alignment: CENTER_LEFT;
@@ -54,7 +36,8 @@
 
 .btn-primario-cabecalho {
     -fx-background-color: -color-accent-emphasis;
-    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 14;
     -fx-graphic-text-gap: 6;
@@ -73,8 +56,16 @@
     -fx-opacity: 0.5;
 }
 
+.btn-primario-cabecalho > .label {
+    -fx-text-fill: white;
+}
 
-/* ── 4. Barra de ferramentas (pesquisa) ───────────────────── */
+.btn-primario-cabecalho > .arrow-button > .arrow,
+.btn-primario-cabecalho > .arrow {
+    -fx-background-color: white;
+}
+
+
 .toolbar-filtros {
     -fx-padding: 16 32 16 32;
     -fx-spacing: 10;
@@ -114,14 +105,14 @@
 }
 
 
-/* ── 5. TabPane ───────────────────────────────────────────── */
+
 .utilizadores-tabpane {
     -fx-background-color: transparent;
     -fx-tab-min-height: 36px;
 }
 
 
-/* ── 6. Tabela customizada ────────────────────────────────── */
+
 .tabela-card {
     -fx-background-color: -color-bg-default;
     -fx-background-radius: 10;
@@ -133,7 +124,7 @@
 }
 
 
-/* ── 6a. Header ──────────────────────────────────────────── */
+
 .tabela-header {
     -fx-background-color: -color-bg-subtle;
     -fx-background-radius: 10 10 0 0;
@@ -152,7 +143,7 @@
 }
 
 
-/* ── 6b. Linhas ──────────────────────────────────────────── */
+
 .tabela-linha {
     -fx-padding: 10 16 10 16;
     -fx-alignment: CENTER_LEFT;
@@ -183,7 +174,7 @@
 }
 
 
-/* ── 6c. Role pills ──────────────────────────────────────── */
+
 .role-pill {
     -fx-background-radius: 20;
     -fx-padding: 3 10 3 10;
@@ -193,7 +184,7 @@
     -fx-text-alignment: CENTER;
 }
 
-/* Cada role tem uma cor distinta usando variáveis CSS */
+
 .pill-admin {
     -fx-background-color: derive(-color-danger-muted, 0%);
     -fx-text-fill: -color-danger-fg;
@@ -225,7 +216,7 @@
 }
 
 
-/* ── 6d. Botões de acção por linha ───────────────────────── */
+
 .btn-linha-acao {
     -fx-background-color: transparent;
     -fx-text-fill: -color-accent-fg;
@@ -255,7 +246,7 @@
 }
 
 
-/* ── 7. Estado vazio ─────────────────────────────────────── */
+
 .estado-vazio {
     -fx-alignment: CENTER;
     -fx-padding: 80 40 80 40;
@@ -283,7 +274,7 @@
 }
 
 
-/* ── 8. Loading overlay ──────────────────────────────────── */
+
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
     -fx-alignment: CENTER;
@@ -301,7 +292,7 @@
 }
 
 
-/* ── 9. Barra de paginação ───────────────────────────────── */
+
 .pagination-bar {
     -fx-padding: 16 0 0 0;
     -fx-alignment: CENTER;
@@ -343,7 +334,7 @@
 }
 
 
-/* ── 10. Modais / Forms ──────────────────────────────────── */
+
 .modal-root {
     -fx-background-color: -color-bg-default;
 }
@@ -405,6 +396,7 @@
 .btn-modal-submit {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -413,6 +405,7 @@
 .btn-modal-submit-danger {
     -fx-background-color: -color-danger-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -420,7 +413,7 @@
 }
 
 
-/* ── 11. Badge inativo ───────────────────────────────────── */
+
 .badge-inativo {
     -fx-background-color: derive(-color-danger-muted, 0%);
     -fx-text-fill: -color-danger-fg;
@@ -431,9 +424,9 @@
 }
 
 
-/* ── 12. SelecionarEmpresaModal ───────────────────────────── */
 
-/* Botão que abre o picker (Selecionar / Alterar Empresa) */
+
+
 .btn-selecionar-empresa {
     -fx-background-color: -color-bg-inset;
     -fx-text-fill: -color-accent-fg;
@@ -456,7 +449,7 @@
     -fx-scale-y: 0.97;
 }
 
-/* Label do nome da empresa seleccionada em Criar/Editar */
+
 .empresa-selecionada-nome {
     -fx-font-size: 13px;
     -fx-font-weight: bold;
@@ -467,21 +460,21 @@
     -fx-wrap-text: true;
 }
 
-/* Controles de paginação dentro do modal de selecção */
+
 .selecionar-empresa-pagination {
     -fx-padding: 0 0 4 0;
     -fx-alignment: CENTER;
     -fx-spacing: 8;
 }
 
-/* Loading inline no modal de selecção */
+
 .selecionar-empresa-loading {
     -fx-padding: 12 0 12 0;
     -fx-alignment: CENTER;
     -fx-spacing: 8;
 }
 
-/* Container da lista de empresas */
+
 .selecionar-empresa-lista {
     -fx-background-color: -color-bg-default;
     -fx-border-color: -color-border-default;
@@ -492,7 +485,7 @@
     -fx-min-height: 180;
 }
 
-/* Cada linha da lista */
+
 .selecionar-empresa-row {
     -fx-padding: 10 14 10 14;
     -fx-alignment: CENTER_LEFT;
@@ -505,18 +498,18 @@
     -fx-background-color: derive(-color-bg-subtle, 4%);
 }
 
-/* RadioButton dentro de cada linha */
+
 .selecionar-empresa-radio {
     -fx-cursor: hand;
 }
 
-/* Label do nome dentro de cada linha */
+
 .selecionar-empresa-nome {
     -fx-font-size: 13px;
     -fx-text-fill: -color-fg-default;
 }
 
-/* Mensagem de lista vazia ou erro */
+
 .selecionar-empresa-vazio,
 .selecionar-empresa-erro {
     -fx-padding: 24 14 24 14;
@@ -526,7 +519,7 @@
 }
 
 
-/* ── 13. Detalhes — nome da empresa ─────────────────────── */
+
 .detalhes-empresa-nome {
     -fx-font-size: 13px;
     -fx-text-fill: -color-fg-default;
@@ -534,9 +527,9 @@
 }
 
 
-/* ========================================================================= */
-/* AVATAR DE INICIAIS                                                        */
-/* ========================================================================= */
+
+
+
 
 .avatar {
     -fx-background-radius: 50%;

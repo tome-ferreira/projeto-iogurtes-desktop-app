@@ -1,8 +1,4 @@
-/* =============================================================
-   encomendaMp.css – Estilos do módulo de Encomendas de Matéria Prima
-   Baseado em fornecedor.css; usa exclusivamente variáveis AtlantaFX.
-   Sem estilos inline — todos os estilos aqui definidos.
-   ============================================================= */
+
 
 .root {
     -gi-radius-sm:   4px;
@@ -12,7 +8,7 @@
     -gi-shadow-fab:  dropshadow(gaussian, rgba(0,0,0,0.22), 16, 0, 0, 4);
 }
 
-/* ── Página ─────────────────────────────────────────────────────────────── */
+
 
 .pagina-conteudo {
     -fx-background-color: -color-bg-default;
@@ -35,11 +31,12 @@
     -fx-opacity: 0.6;
 }
 
-/* ── Botão primário cabeçalho ────────────────────────────────────────────── */
+
 
 .btn-primario-cabecalho {
     -fx-background-color: -color-accent-emphasis;
-    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 14;
     -fx-graphic-text-gap: 6;
@@ -58,7 +55,7 @@
     -fx-opacity: 0.5;
 }
 
-/* ── Tabela ─────────────────────────────────────────────────────────────── */
+
 
 .tabela-card {
     -fx-background-color: -color-bg-default;
@@ -116,7 +113,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* ── Pills de Estado ─────────────────────────────────────────────────────── */
+
 
 .pill-estado {
     -fx-font-size: 11px;
@@ -147,7 +144,7 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* ── Botões de acção na tabela ───────────────────────────────────────────── */
+
 
 .btn-linha-acao {
     -fx-background-color: transparent;
@@ -163,7 +160,7 @@
     -fx-underline: true;
 }
 
-/* ── FAB ────────────────────────────────────────────────────────────────── */
+
 
 .fab {
     -fx-background-color: -color-accent-emphasis;
@@ -198,7 +195,7 @@
     -fx-icon-size: 22;
 }
 
-/* ── Estado vazio ────────────────────────────────────────────────────────── */
+
 
 .estado-vazio {
     -fx-alignment: CENTER;
@@ -223,7 +220,7 @@
     -fx-wrap-text: true;
 }
 
-/* ── Loading ────────────────────────────────────────────────────────────── */
+
 
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
@@ -239,7 +236,7 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* ── Paginação ───────────────────────────────────────────────────────────── */
+
 
 .pagination-bar {
     -fx-padding: 16 0 0 0;
@@ -278,7 +275,7 @@
     -fx-cursor: default;
 }
 
-/* ── Modais — base ───────────────────────────────────────────────────────── */
+
 
 .modal-root {
     -fx-background-color: -color-bg-default;
@@ -308,7 +305,7 @@
     -fx-spacing: 12;
 }
 
-/* ── Formulários ─────────────────────────────────────────────────────────── */
+
 
 .form-group {
     -fx-spacing: 4;
@@ -338,6 +335,7 @@
 .btn-modal-submit {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -354,6 +352,7 @@
 .btn-modal-submit-danger {
     -fx-background-color: -color-danger-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -370,7 +369,7 @@
     -fx-opacity: 0.5;
 }
 
-/* ── Modal Seleccionar Tipo / Empresa reutilizados ───────────────────────── */
+
 
 .selecionar-tipo-row {
     -fx-padding: 8 12 8 12;
@@ -404,21 +403,21 @@
     -fx-background-color: -color-bg-default;
 }
 
-/* Preço na linha de matéria prima */
+
 .selecionar-materia-preco {
     -fx-font-size: 12px;
     -fx-text-fill: -color-fg-muted;
     -fx-font-style: italic;
 }
 
-/* Quantidade error label */
+
 .quantidade-error {
     -fx-font-size: 12px;
     -fx-text-fill: -color-danger-fg;
     -fx-min-height: 18px;
 }
 
-/* ── Modal Criar — Fornecedor selector ──────────────────────────────────── */
+
 
 .tipo-selecionado-nome {
     -fx-font-size: 14px;
@@ -440,7 +439,7 @@
     -fx-background-color: derive(-color-bg-subtle, -5%);
 }
 
-/* ── Modal Criar — Composição/Linhas ────────────────────────────────────── */
+
 
 .composicao-section-header {
     -fx-padding: 4 0 8 0;
@@ -470,7 +469,7 @@
     -fx-background-radius: 4;
 }
 
-/* ── Linha da encomenda no modal criar ──────────────────────────────────── */
+
 
 .linha-row {
     -fx-padding: 8 12 8 12;
@@ -515,7 +514,7 @@
     -fx-alignment: CENTER;
 }
 
-/* ── Modal Detalhe ───────────────────────────────────────────────────────── */
+
 
 .detalhe-info-block {
     -fx-padding: 0;
@@ -575,7 +574,7 @@
     -fx-alignment: CENTER;
 }
 
-/* ── Modais de Confirmação ───────────────────────────────────────────────── */
+
 
 .confirmar-icone-sucesso {
     -fx-icon-size: 48;
@@ -604,9 +603,9 @@
 }
 
 
-/* ========================================================================= */
-/* AVATAR DE INICIAIS                                                        */
-/* ========================================================================= */
+
+
+
 
 .avatar {
     -fx-background-radius: 50%;

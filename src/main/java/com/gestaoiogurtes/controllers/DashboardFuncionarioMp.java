@@ -28,25 +28,40 @@ public class DashboardFuncionarioMp implements AppAware {
     private final MateriaPrimaService materiaPrimaService = new MateriaPrimaService();
     private GestaoIogurtes app;
 
-    @FXML private Sidebar sidebarController;
-    @FXML private StackPane rootStack;
-    @FXML private Label greetingLabel;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private Label greetingLabel;
 
-    @FXML private VBox cardPendentes;
-    @FXML private Label countPendentes;
-    @FXML private ProgressIndicator loadingPendentes;
+    @FXML
+    private VBox cardPendentes;
+    @FXML
+    private Label countPendentes;
+    @FXML
+    private ProgressIndicator loadingPendentes;
 
-    @FXML private VBox cardEmTransito;
-    @FXML private Label countEmTransito;
-    @FXML private ProgressIndicator loadingEmTransito;
+    @FXML
+    private VBox cardEmTransito;
+    @FXML
+    private Label countEmTransito;
+    @FXML
+    private ProgressIndicator loadingEmTransito;
 
-    @FXML private VBox cardAlertas;
-    @FXML private Label countAlertas;
-    @FXML private ProgressIndicator loadingAlertas;
+    @FXML
+    private VBox cardAlertas;
+    @FXML
+    private Label countAlertas;
+    @FXML
+    private ProgressIndicator loadingAlertas;
 
-    @FXML private VBox pieChartCard;
-    @FXML private PieChart pieChartMaterias;
-    @FXML private ProgressIndicator loadingPieChart;
+    @FXML
+    private VBox pieChartCard;
+    @FXML
+    private PieChart pieChartMaterias;
+    @FXML
+    private ProgressIndicator loadingPieChart;
 
     @FXML
     public void initialize() {
@@ -56,7 +71,7 @@ public class DashboardFuncionarioMp implements AppAware {
         String nome = SessionManager.getInstance().getUserName();
         String role = SessionManager.getInstance().getUserRole();
 
-        greetingLabel.setText(saudacao + ", " + nome + " — " + role);
+        greetingLabel.setText(saudacao + ", " + nome);
 
         cardPendentes.setOnMouseClicked(e -> handleNavigateToEncomendaMp());
         cardPendentes.setCursor(Cursor.HAND);
@@ -78,14 +93,16 @@ public class DashboardFuncionarioMp implements AppAware {
         setEncomendasLoading(true);
 
         encomendaMpService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             setEncomendasLoading(false);
             if (state.isSuccess()) {
                 var response = state.getData();
                 if (response != null && response.content != null) {
                     long cPendentes = 0, cEmTransito = 0;
                     for (EncomendaMpResponse enc : response.content) {
-                        if (enc.estado == null) continue;
+                        if (enc.estado == null)
+                            continue;
                         if (enc.estado.equals("PENDENTE")) {
                             cPendentes++;
                         } else if (enc.estado.equals("ENCOMENDADA")) {
@@ -129,7 +146,8 @@ public class DashboardFuncionarioMp implements AppAware {
         pieChartMaterias.setManaged(false);
 
         materiaPrimaService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             setMateriasLoading(false);
             loadingPieChart.setVisible(false);
             loadingPieChart.setManaged(false);
@@ -138,7 +156,8 @@ public class DashboardFuncionarioMp implements AppAware {
                 var response = state.getData();
                 if (response != null && response.content != null) {
                     long cAlertas = response.content.stream()
-                            .filter(mp -> mp.stockAtual != null && mp.stockMinimo != null && mp.stockAtual <= mp.stockMinimo)
+                            .filter(mp -> mp.stockAtual != null && mp.stockMinimo != null
+                                    && mp.stockAtual <= mp.stockMinimo)
                             .count();
                     countAlertas.setText(String.valueOf(cAlertas));
 
@@ -148,8 +167,7 @@ public class DashboardFuncionarioMp implements AppAware {
                     Map<String, Long> countPorTipo = response.content.stream()
                             .collect(Collectors.groupingBy(
                                     mp -> (mp.tipo != null && mp.tipo.nome != null) ? mp.tipo.nome : "Desconhecido",
-                                    Collectors.counting()
-                            ));
+                                    Collectors.counting()));
 
                     ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
                     countPorTipo.forEach((tipo, count) -> {

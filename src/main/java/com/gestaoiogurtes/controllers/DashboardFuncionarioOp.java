@@ -30,25 +30,40 @@ public class DashboardFuncionarioOp implements AppAware {
     private final LoteProducaoService loteProducaoService = new LoteProducaoService();
     private GestaoIogurtes app;
 
-    @FXML private Sidebar sidebarController;
-    @FXML private StackPane rootStack;
-    @FXML private Label greetingLabel;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private StackPane rootStack;
+    @FXML
+    private Label greetingLabel;
 
-    @FXML private VBox cardAguardaAprovacao;
-    @FXML private Label countAguardaAprovacao;
-    @FXML private ProgressIndicator loadingAguardaAprovacao;
+    @FXML
+    private VBox cardAguardaAprovacao;
+    @FXML
+    private Label countAguardaAprovacao;
+    @FXML
+    private ProgressIndicator loadingAguardaAprovacao;
 
-    @FXML private VBox cardEmProducao;
-    @FXML private Label countEmProducao;
-    @FXML private ProgressIndicator loadingEmProducao;
+    @FXML
+    private VBox cardEmProducao;
+    @FXML
+    private Label countEmProducao;
+    @FXML
+    private ProgressIndicator loadingEmProducao;
 
-    @FXML private VBox cardDesperdicio;
-    @FXML private Label countDesperdicio;
-    @FXML private ProgressIndicator loadingDesperdicio;
+    @FXML
+    private VBox cardDesperdicio;
+    @FXML
+    private Label countDesperdicio;
+    @FXML
+    private ProgressIndicator loadingDesperdicio;
 
-    @FXML private VBox lineChartCard;
-    @FXML private LineChart<String, Number> lineChartOrdens;
-    @FXML private ProgressIndicator loadingLineChart;
+    @FXML
+    private VBox lineChartCard;
+    @FXML
+    private LineChart<String, Number> lineChartOrdens;
+    @FXML
+    private ProgressIndicator loadingLineChart;
 
     @FXML
     public void initialize() {
@@ -58,7 +73,7 @@ public class DashboardFuncionarioOp implements AppAware {
         String nome = SessionManager.getInstance().getUserName();
         String role = SessionManager.getInstance().getUserRole();
 
-        greetingLabel.setText(saudacao + ", " + nome + " — " + role);
+        greetingLabel.setText(saudacao + ", " + nome);
 
         cardAguardaAprovacao.setOnMouseClicked(e -> handleNavigateToOrdens());
         cardAguardaAprovacao.setCursor(Cursor.HAND);
@@ -84,7 +99,8 @@ public class DashboardFuncionarioOp implements AppAware {
         lineChartOrdens.setManaged(false);
 
         ordemProducaoService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             setOrdensLoading(false);
             loadingLineChart.setVisible(false);
             loadingLineChart.setManaged(false);
@@ -133,7 +149,8 @@ public class DashboardFuncionarioOp implements AppAware {
                 setOrdensCountsToDash();
                 lineChartOrdens.setVisible(false);
                 lineChartOrdens.setManaged(false);
-                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(), false);
+                MessageHelper.mostrar(rootStack, "Erro ao carregar ordens de produção: " + state.getErrorMessage(),
+                        false);
             }
         });
     }
@@ -142,7 +159,8 @@ public class DashboardFuncionarioOp implements AppAware {
         setLotesLoading(true);
 
         loteProducaoService.getAll(0, 1000, state -> {
-            if (state.isLoading()) return;
+            if (state.isLoading())
+                return;
             setLotesLoading(false);
             if (state.isSuccess()) {
                 var response = state.getData();
@@ -159,7 +177,8 @@ public class DashboardFuncionarioOp implements AppAware {
                 }
             } else if (state.isError()) {
                 countDesperdicio.setText("—");
-                MessageHelper.mostrar(rootStack, "Erro ao carregar lotes de produção: " + state.getErrorMessage(), false);
+                MessageHelper.mostrar(rootStack, "Erro ao carregar lotes de produção: " + state.getErrorMessage(),
+                        false);
             }
         });
     }

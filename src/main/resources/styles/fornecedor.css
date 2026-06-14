@@ -1,6 +1,4 @@
-/* =============================================================
-   fornecedor.css – Estilos baseados em empresas.css
-   ============================================================= */
+
 
 .root {
     -gi-radius-sm:   4px;
@@ -33,7 +31,8 @@
 
 .btn-primario-cabecalho {
     -fx-background-color: -color-accent-emphasis;
-    -fx-text-fill: -color-fg-on-emphasis;
+    -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 14;
     -fx-graphic-text-gap: 6;
@@ -135,7 +134,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* Pill de Tipo de Fornecedor */
+
 .pill-fornecedor-tipo {
     -fx-background-color: -color-accent-muted;
     -fx-text-fill: -color-accent-fg;
@@ -145,7 +144,7 @@
     -fx-background-radius: 12;
 }
 
-/* Botões de Ação na Tabela */
+
 .btn-linha-acao {
     -fx-background-color: transparent;
     -fx-text-fill: -color-accent-fg;
@@ -229,7 +228,7 @@
     -fx-wrap-text: true;
 }
 
-/* Loading Overlay */
+
 .loading-overlay {
     -fx-background-color: rgba(0, 0, 0, 0.18);
     -fx-alignment: CENTER;
@@ -244,7 +243,7 @@
     -fx-text-fill: -color-fg-muted;
 }
 
-/* Paginação */
+
 .pagination-bar {
     -fx-padding: 16 0 0 0;
     -fx-alignment: CENTER;
@@ -282,7 +281,7 @@
     -fx-cursor: default;
 }
 
-/* Modais / Forms */
+
 .modal-root {
     -fx-background-color: -color-bg-default;
 }
@@ -339,6 +338,7 @@
 .btn-modal-submit {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
@@ -347,13 +347,14 @@
 .btn-modal-submit-danger {
     -fx-background-color: -color-danger-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 6;
     -fx-padding: 8 16;
     -fx-cursor: hand;
 }
 
-/* Estilos de Selecionar Tipo Modal */
+
 .selecionar-tipo-row {
     -fx-padding: 8 12 8 12;
     -fx-spacing: 12;
@@ -402,7 +403,7 @@
     -fx-background-color: derive(-color-bg-subtle, -5%);
 }
 
-/* ScrollPane transparente usado nos modais de certificações */
+
 .cert-scroll {
     -fx-background-color: transparent;
     -fx-background: transparent;
@@ -414,7 +415,7 @@
     -fx-background-color: transparent;
 }
 
-/* ── Certificações de Fornecedor Modal ──────────────────────────────────── */
+
 .cert-pagination-bar {
     -fx-border-color: transparent transparent -color-border-subtle transparent;
     -fx-border-width: 0 0 1 0;
@@ -434,7 +435,7 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* Eliminar Certificação Modal */
+
 .cert-eliminar-icone {
     -fx-icon-color: -color-danger-fg;
     -fx-fill: -color-danger-fg;
@@ -455,9 +456,9 @@
 }
 
 
-/* ========================================================================= */
-/* AVATAR DE INICIAIS                                                        */
-/* ========================================================================= */
+
+
+
 
 .avatar {
     -fx-background-radius: 50%;

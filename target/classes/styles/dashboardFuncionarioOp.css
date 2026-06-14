@@ -1,6 +1,4 @@
-/* =============================================================
-   dashboardFuncionarioOp.css  –  Dashboard Funcionario OP Styles
-   ============================================================= */
+
 
 .stat-card, .dashboard-card {
     -fx-background-color: -color-bg-default;
@@ -43,6 +41,7 @@
 .btn-acao-rapida {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-padding: 10 16;
@@ -65,7 +64,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* Accent Lines */
+
 .stat-card-aguarda-aprovacao {
     -fx-border-color: derive(-color-warning-muted, 0%) -color-border-default -color-border-default -color-border-default;
     -fx-border-width: 6 1 1 1;
@@ -90,13 +89,13 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* Spinner overrides if needed */
+
 .stat-card .loading-spinner {
     -fx-pref-width: 36;
     -fx-pref-height: 36;
 }
 
-/* LineChart Styling */
+
 #lineChartOrdens .chart-series-line {
     -fx-stroke: -color-accent-emphasis;
     -fx-stroke-width: 3px;

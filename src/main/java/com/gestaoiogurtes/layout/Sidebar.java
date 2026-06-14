@@ -15,24 +15,8 @@ import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignC;
 
-/**
- * Controller for Sidebar.fxml.
- *
- * <p>Static structure (icons, labels, separators) lives in the FXML.
- * This class keeps all behavioural logic:
- * <ul>
- *   <li>Expand / collapse toggle</li>
- *   <li>Theme cycling</li>
- *   <li>Navigation to other pages</li>
- * </ul>
- *
- * <p>The {@link GestaoIogurtes} reference must be injected after FXML loading
- * via {@link #setApp(GestaoIogurtes)}, which is handled automatically by
- * {@link NavigationHelper} for pages that implement {@link AppAware}.
- */
 public class Sidebar implements AppAware {
 
-    // ── Constants ─────────────────────────────────────────────────
     private static final double LARGURA_EXPANDIDA = 240;
     private static final double LARGURA_RECOLHIDA = 58;
 
@@ -52,61 +36,85 @@ public class Sidebar implements AppAware {
     private int temaAtual = 0;
     private boolean expandida = true;
 
-    // ── App reference — injected after FXML load ───────────────────
     private GestaoIogurtes app;
 
-    // ── FXML references ───────────────────────────────────────────
-    @FXML private VBox root;
-    @FXML private Label tituloLabel;
-    @FXML private Button btnToggle;
-    @FXML private Tooltip temaTooltip;
+    @FXML
+    private VBox root;
+    @FXML
+    private Label tituloLabel;
+    @FXML
+    private Button btnToggle;
+    @FXML
+    private Tooltip temaTooltip;
 
     // Sections
-    @FXML private Label lblSectionDashboards;
-    @FXML private Label lblSectionProdutos;
-    @FXML private Label lblSectionEncomendas;
-    @FXML private Label lblSectionMateriasPrimas;
-    @FXML private Label lblSectionFornecedores;
-    @FXML private Label lblSectionGestao;
+    @FXML
+    private Label lblSectionDashboards;
+    @FXML
+    private Label lblSectionProdutos;
+    @FXML
+    private Label lblSectionEncomendas;
+    @FXML
+    private Label lblSectionMateriasPrimas;
+    @FXML
+    private Label lblSectionFornecedores;
+    @FXML
+    private Label lblSectionGestao;
 
     // Dashboards
-    @FXML private Button btnDashboard;
-    @FXML private Button btnDashboardAdmin;
-    @FXML private Button btnDashboardGestor;
-    @FXML private Button btnDashboardMp;
-    @FXML private Button btnDashboardOp;
+    @FXML
+    private Button btnDashboard;
+    @FXML
+    private Button btnDashboardAdmin;
+    @FXML
+    private Button btnDashboardGestor;
+    @FXML
+    private Button btnDashboardMp;
+    @FXML
+    private Button btnDashboardOp;
 
     // Produtos
-    @FXML private Button btnStock;
-    @FXML private Button btnProdutosFinais;
-    @FXML private Button btnOrdensProducao;
+    @FXML
+    private Button btnStock;
+    @FXML
+    private Button btnProdutosFinais;
+    @FXML
+    private Button btnOrdensProducao;
 
     // Encomendas
-    @FXML private Button btnEncomendas;
+    @FXML
+    private Button btnEncomendas;
 
     // Materias Primas
-    @FXML private Button btnMateriasPrimas;
-    @FXML private Button btnEncomendasMp;
-    @FXML private Button btnTiposMateriaPrima;
+    @FXML
+    private Button btnMateriasPrimas;
+    @FXML
+    private Button btnEncomendasMp;
+    @FXML
+    private Button btnTiposMateriaPrima;
 
     // Fornecedores
-    @FXML private Button btnFornecedores;
-    @FXML private Button btnCertificacoes;
-    @FXML private Button btnTiposFornecedor;
+    @FXML
+    private Button btnFornecedores;
+    @FXML
+    private Button btnCertificacoes;
+    @FXML
+    private Button btnTiposFornecedor;
 
     // Gestao
-    @FXML private Button btnUtilizadores;
-    @FXML private Button btnEmpresas;
-    @FXML private Button btnTiposPallet;
-    @FXML private Button btnMoedas;
+    @FXML
+    private Button btnUtilizadores;
+    @FXML
+    private Button btnEmpresas;
+    @FXML
+    private Button btnTiposPallet;
+    @FXML
+    private Button btnMoedas;
 
-    // ── AppAware ──────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         this.app = app;
     }
-
-    // ── RBAC Visibility ───────────────────────────────────────────
 
     @FXML
     public void initialize() {
@@ -125,7 +133,6 @@ public class Sidebar implements AppAware {
     private void applyRoleBasedVisibility() {
         String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
 
-        // Sempre esconder o dashboard base para todos, uma vez que cada role tem o seu próprio
         hideNode(btnDashboard);
 
         // Ocultar os dashboards de outros roles por defeito
@@ -149,12 +156,11 @@ public class Sidebar implements AppAware {
 
             // Vê Fornecedores, Matérias Primas, Produtos Finais, Encomenda M.P. e Stock.
             hideNode(
-                btnOrdensProducao,
-                lblSectionEncomendas, btnEncomendas,
-                btnTiposMateriaPrima,
-                btnCertificacoes, btnTiposFornecedor,
-                lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas
-            );
+                    btnOrdensProducao,
+                    lblSectionEncomendas, btnEncomendas,
+                    btnTiposMateriaPrima,
+                    btnCertificacoes, btnTiposFornecedor,
+                    lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas);
 
         } else if ("FUNCIONARIO_OP".equals(role)) {
             btnDashboardOp.setVisible(true);
@@ -162,15 +168,12 @@ public class Sidebar implements AppAware {
 
             // Vê Matérias primas, Ordens de produção, Produtos Finais e Stock.
             hideNode(
-                lblSectionEncomendas, btnEncomendas,
-                btnEncomendasMp, btnTiposMateriaPrima,
-                lblSectionFornecedores, btnFornecedores, btnCertificacoes, btnTiposFornecedor,
-                lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas
-            );
+                    lblSectionEncomendas, btnEncomendas,
+                    btnEncomendasMp, btnTiposMateriaPrima,
+                    lblSectionFornecedores, btnFornecedores, btnCertificacoes, btnTiposFornecedor,
+                    lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas);
         }
     }
-
-    // ── FXML event handlers ───────────────────────────────────────
 
     @FXML
     private void handleDashboard() {
@@ -285,8 +288,6 @@ public class Sidebar implements AppAware {
         toggleSidebar();
     }
 
-    // ── Toggle logic ──────────────────────────────────────────────
-
     private void toggleSidebar() {
         expandida = !expandida;
 
@@ -317,7 +318,7 @@ public class Sidebar implements AppAware {
                 }
             });
         }
-        // Section labels ("MENU") have the text-muted style class
+
         if (node instanceof Label lbl && lbl.getStyleClass().contains("text-muted")) {
             lbl.setVisible(visivel);
             lbl.setManaged(visivel);

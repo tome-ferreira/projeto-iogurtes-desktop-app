@@ -28,9 +28,7 @@ public class MoedasController implements AppAware {
     @FXML private VBox tabelaContainer;
     @FXML private StackPane rootStack;
     @FXML private VBox loadingOverlay;
-    @FXML private TextField campoPesquisa;
     @FXML private Button btnNovo;
-    @FXML private Button fab;
     @FXML private Button btnAnterior;
     @FXML private Button btnProxima;
     @FXML private Label lblPagina;
@@ -49,7 +47,7 @@ public class MoedasController implements AppAware {
 
     @FXML
     public void initialize() {
-        campoPesquisa.textProperty().addListener((obs, old, val) -> filtrarTabela(val.trim().toLowerCase()));
+
 
         if (cbTamanhoPagina != null) {
             cbTamanhoPagina.getItems().addAll(5, 10, 20, 50, 100);
@@ -97,7 +95,7 @@ public class MoedasController implements AppAware {
                     } else {
                         todasMoedas = List.of();
                     }
-                    filtrarTabela(campoPesquisa != null ? campoPesquisa.getText().toLowerCase().trim() : "");
+                    renderizarTabela();
                 }
 
                 case ERROR -> {
@@ -126,15 +124,10 @@ public class MoedasController implements AppAware {
         }
     }
 
-    private void filtrarTabela(String pesquisa) {
+    private void renderizarTabela() {
         tabelaContainer.getChildren().clear();
 
-        var filtrados = todasMoedas.stream()
-                .filter(m -> pesquisa.isEmpty()
-                        || m.nome.toLowerCase().contains(pesquisa)
-                        || m.codigo.toLowerCase().contains(pesquisa)
-                        || m.simbolo.toLowerCase().contains(pesquisa))
-                .toList();
+        var filtrados = todasMoedas;
 
         if (filtrados.isEmpty()) {
             tabelaContainer.getChildren().add(criarEstadoVazio());
@@ -260,9 +253,7 @@ public class MoedasController implements AppAware {
         }
         if (btnNovo != null)
             btnNovo.setDisable(loading);
-        if (fab != null)
-            fab.setDisable(loading);
-    }
+        }
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);

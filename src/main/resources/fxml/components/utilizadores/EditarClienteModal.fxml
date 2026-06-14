@@ -25,10 +25,10 @@
         <VBox styleClass="form-group">
             <Label text="Empresa" styleClass="form-label"/>
             <HBox spacing="8" alignment="CENTER_LEFT">
-                <!-- Nome da empresa seleccionada (oculto enquanto não há selecção) -->
+               
                 <Label fx:id="lblEmpresaNome" styleClass="empresa-selecionada-nome"
                        visible="false" managed="false" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                <!-- Botão para abrir o modal de selecção -->
+                
                 <Button fx:id="btnSelecionarEmpresa" text="Selecionar Empresa"
                         onAction="#handleSelecionarEmpresa"
                         styleClass="btn-selecionar-empresa" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>

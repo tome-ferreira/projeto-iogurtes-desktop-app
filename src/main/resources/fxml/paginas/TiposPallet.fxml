@@ -35,7 +35,7 @@
             <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
                 <Label text="Tipos de Pallet" styleClass="pagina-titulo" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="btnNovo" text="Novo Tipo de Pallet" styleClass="btn-primario-cabecalho" onAction="#handleNovo">
+                <Button fx:id="btnNovo" text="Novo Tipo de Pallet" textFill="WHITE" styleClass="btn-primario-cabecalho" onAction="#handleNovo">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16"/></graphic>
                 </Button>
             </HBox>
@@ -43,13 +43,6 @@
             <Separator styleClass="pagina-separador"/>
 
             <!-- ── Toolbar de filtros ────────────────────────────── -->
-            <HBox styleClass="toolbar-filtros">
-                <HBox fx:id="campoPesquisaWrapper" spacing="8" alignment="CENTER_LEFT" styleClass="campo-pesquisa-wrapper">
-                    <FontIcon iconLiteral="mdi2m-magnify" iconSize="15" styleClass="icone-pesquisa"/>
-                    <TextField fx:id="campoPesquisa" promptText="Procurar..." styleClass="campo-pesquisa"/>
-                </HBox>
-                <Region HBox.hgrow="ALWAYS"/>
-            </HBox>
 
             <StackPane fx:id="rootStack" VBox.vgrow="ALWAYS">
                 <VBox VBox.vgrow="ALWAYS">
@@ -79,17 +72,6 @@
                     <ProgressIndicator styleClass="loading-spinner"/>
                     <Label text="A carregar..." styleClass="loading-label"/>
                 </VBox>
-
-                <!-- Floating action button -->
-                <Button fx:id="fab" styleClass="fab" onAction="#handleNovo" StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" iconSize="22" styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Novo Tipo de Pallet"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
             </StackPane>
         </VBox>
     </center>

@@ -20,33 +20,34 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Mini-CRUD de fornecedores de uma matéria prima.
- * Abre-se via {@link #show(String, String, MateriaPrimaService, Window)}.
- */
 public class FornecedoresMateriaPrimaModalController {
 
-    @FXML private Label  lblTitulo;
-    @FXML private Label  lblPagina;
-    @FXML private Button btnAnterior;
-    @FXML private Button btnProximo;
-    @FXML private VBox   listaContainer;
-    @FXML private VBox   loadingOverlay;
-    @FXML private Button btnAdicionarFornecedor;
+    @FXML
+    private Label lblTitulo;
+    @FXML
+    private Label lblPagina;
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Button btnProximo;
+    @FXML
+    private VBox listaContainer;
+    @FXML
+    private VBox loadingOverlay;
+    @FXML
+    private Button btnAdicionarFornecedor;
 
-    private Stage              dialogStage;
+    private Stage dialogStage;
     private MateriaPrimaService service;
-    private String             materiaId;
-    private String             materiaNome;
+    private String materiaId;
+    private String materiaNome;
 
     private int currentPage = 0;
-    private int totalPages  = 1;
+    private int totalPages = 1;
     private static final int PAGE_SIZE = 10;
 
-    // ── Abertura ────────────────────────────────────────────────────────────
-
     public static void show(String materiaId, String materiaNome,
-                            MateriaPrimaService service, Window owner) {
+            MateriaPrimaService service, Window owner) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     FornecedoresMateriaPrimaModalController.class
@@ -62,10 +63,10 @@ public class FornecedoresMateriaPrimaModalController {
             stage.setScene(new Scene(root));
 
             FornecedoresMateriaPrimaModalController ctrl = loader.getController();
-            ctrl.dialogStage  = stage;
-            ctrl.service      = service;
-            ctrl.materiaId    = materiaId;
-            ctrl.materiaNome  = materiaNome;
+            ctrl.dialogStage = stage;
+            ctrl.service = service;
+            ctrl.materiaId = materiaId;
+            ctrl.materiaNome = materiaNome;
             ctrl.lblTitulo.setText("Fornecedores de " + materiaNome);
 
             ctrl.carregarFornecedores(0);
@@ -84,8 +85,6 @@ public class FornecedoresMateriaPrimaModalController {
         }
     }
 
-    // ── Handlers FXML ───────────────────────────────────────────────────────
-
     @FXML
     private void handleAdicionarFornecedor() {
         AdicionarFornecedorMateriaPrimaModalController.show(
@@ -95,20 +94,20 @@ public class FornecedoresMateriaPrimaModalController {
 
     @FXML
     private void handleAnterior() {
-        if (currentPage > 0) carregarFornecedores(currentPage - 1);
+        if (currentPage > 0)
+            carregarFornecedores(currentPage - 1);
     }
 
     @FXML
     private void handleProximo() {
-        if (currentPage < totalPages - 1) carregarFornecedores(currentPage + 1);
+        if (currentPage < totalPages - 1)
+            carregarFornecedores(currentPage + 1);
     }
 
     @FXML
     private void handleFechar() {
         dialogStage.close();
     }
-
-    // ── Carregamento ────────────────────────────────────────────────────────
 
     void carregarFornecedores(int page) {
         setLoading(true);
@@ -121,7 +120,7 @@ public class FornecedoresMateriaPrimaModalController {
                 var resposta = state.getData();
                 if (resposta != null) {
                     currentPage = page;
-                    totalPages  = Math.max(1, resposta.totalPages);
+                    totalPages = Math.max(1, resposta.totalPages);
                     lblPagina.setText("Página " + (currentPage + 1) + " de " + totalPages);
                     btnAnterior.setDisable(resposta.first);
                     btnProximo.setDisable(resposta.last);
@@ -136,8 +135,6 @@ public class FornecedoresMateriaPrimaModalController {
             }
         });
     }
-
-    // ── Renderização ────────────────────────────────────────────────────────
 
     private void renderizarLista(List<MateriaPrimaFornecedorResponse> items) {
         listaContainer.getChildren().clear();
@@ -156,7 +153,7 @@ public class FornecedoresMateriaPrimaModalController {
                 headerCol("Fornecedor", true),
                 headerCol("Preço Unitário", false),
                 headerCol("Preferencial", false));
-                
+
         String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
         if (!"FUNCIONARIO_MP".equals(role) && !"FUNCIONARIO_OP".equals(role)) {
             header.getChildren().add(headerCol("Ações", false));
@@ -165,8 +162,9 @@ public class FornecedoresMateriaPrimaModalController {
 
         for (int i = 0; i < items.size(); i++) {
             var item = items.get(i);
-            var row  = criarLinha(item);
-            if (i == items.size() - 1) row.getStyleClass().add("tabela-linha-ultima");
+            var row = criarLinha(item);
+            if (i == items.size() - 1)
+                row.getStyleClass().add("tabela-linha-ultima");
             listaContainer.getChildren().add(row);
         }
     }
@@ -194,7 +192,7 @@ public class FornecedoresMateriaPrimaModalController {
         HBox.setHgrow(lblNome, Priority.ALWAYS);
 
         String simbolo = item.moedaSimbolo != null ? item.moedaSimbolo : "";
-        String preco   = item.precoUnitario != null ? String.format("%.2f %s", item.precoUnitario, simbolo) : "—";
+        String preco = item.precoUnitario != null ? String.format("%.2f %s", item.precoUnitario, simbolo) : "—";
         var lblPreco = new Label(preco);
         lblPreco.getStyleClass().add("celula-dados");
         lblPreco.setMinWidth(130);
@@ -204,7 +202,7 @@ public class FornecedoresMateriaPrimaModalController {
         lblPref.getStyleClass().add("celula-dados");
         lblPref.setMinWidth(130);
 
-        var btnEditar   = new Button("Editar");
+        var btnEditar = new Button("Editar");
         var btnEliminar = new Button("Eliminar");
         btnEditar.getStyleClass().add("btn-linha-acao");
         btnEliminar.getStyleClass().addAll("btn-linha-acao", "btn-linha-danger");
@@ -230,8 +228,6 @@ public class FornecedoresMateriaPrimaModalController {
         }
         return row;
     }
-
-    // ── Helpers de UI ───────────────────────────────────────────────────────
 
     private void setLoading(boolean loading) {
         loadingOverlay.setVisible(loading);

@@ -33,7 +33,7 @@
     <!-- Footer: Paginação e Loading -->
     <VBox spacing="16" styleClass="modal-footer">
         
-        <!-- Estado de Loading (oculto por omissão) -->
+        <!-- Estado de Loading  -->
         <HBox fx:id="hboxLoading" alignment="CENTER" spacing="10" visible="false" managed="false">
             <ProgressIndicator prefWidth="20" prefHeight="20"/>
             <Label text="A carregar tipos..." textFill="#6c757d"/>

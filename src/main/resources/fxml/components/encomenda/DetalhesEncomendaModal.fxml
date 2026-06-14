@@ -25,7 +25,7 @@
                 style="-fx-background-color: transparent; -fx-background: transparent;">
         <VBox styleClass="modal-content" spacing="12">
 
-            <!-- 2-column GridPane inside ScrollPane for field display -->
+           
             <GridPane hgap="16" vgap="16">
                 <!-- Row 0 -->
                 <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-group" GridPane.hgrow="ALWAYS">
@@ -66,7 +66,7 @@
                 </VBox>
             </GridPane>
 
-            <!-- Pallets Items (mini table) -->
+            <!-- Pallets Items (mini tabekla) -->
             <Label text="PALLETS ENCOMENDADAS" styleClass="form-label"/>
             <VBox fx:id="palletsContainer" spacing="0"/>
         </VBox>

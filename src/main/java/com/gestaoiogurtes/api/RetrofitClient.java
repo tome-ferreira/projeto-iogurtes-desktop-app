@@ -19,28 +19,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Singleton que fornece uma instância partilhada do cliente {@link Retrofit}.
- *
- * <h3>Configuração</h3>
- * <p>
- * Lida automaticamente a partir de {@link ApiConfig}:
- * <ul>
- * <li>URL base – {@code ApiConfig.BASE_URL}</li>
- * <li>Timeout – {@code ApiConfig.TIMEOUT} segundos</li>
- * <li>Logging – activado se {@code ApiConfig.LOGGING_ENABLED == true}</li>
- * </ul>
- * </p>
- *
- * <h3>Utilização</h3>
- * 
- * <pre>{@code
- * MyApiInterface api = RetrofitClient.getInstance().getService(MyApiInterface.class);
- * Call<List<IogurteVM>> call = api.listarTodos();
- * }</pre>
- */
+
 public final class RetrofitClient {
-    // TODO: Desdafios do relatorio
 
     Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class,
@@ -59,16 +39,11 @@ public final class RetrofitClient {
                     (JsonSerializer<LocalDate>) (src, type, ctx) -> new JsonPrimitive(src.toString()))
             .create();
 
-    // ──────────────────────────────────────────────────────────────────────────
+    
     // Singleton
-    // ──────────────────────────────────────────────────────────────────────────
 
     private static volatile RetrofitClient instance;
 
-    /**
-     * Devolve a instância única (criação lazy thread-safe via double-checked
-     * locking).
-     */
     public static RetrofitClient getInstance() {
         if (instance == null) {
             synchronized (RetrofitClient.class) {
@@ -80,9 +55,9 @@ public final class RetrofitClient {
         return instance;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
+   
     // Estado interno
-    // ──────────────────────────────────────────────────────────────────────────
+   
 
     private final Retrofit retrofit;
 
@@ -124,17 +99,9 @@ public final class RetrofitClient {
                 .build();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     // API pública
-    // ──────────────────────────────────────────────────────────────────────────
-
     /**
      * Cria (ou devolve em cache) um proxy da interface Retrofit indicada.
-     *
-     * @param <T>          tipo da interface Retrofit
-     * @param serviceClass interface Retrofit anotada com {@code @GET},
-     *                     {@code @POST}, etc.
-     * @return instância da interface pronta a usar
      */
     public <T> T getService(Class<T> serviceClass) {
         return retrofit.create(serviceClass);

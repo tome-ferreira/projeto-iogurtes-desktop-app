@@ -30,7 +30,7 @@
                 styleClass="btn-modal-submit"/>
     </HBox>
 
-    <!-- Barra de paginação — sempre visível, acima da lista -->
+    <!-- Barra de paginação -->
     <HBox styleClass="cert-pagination-bar" alignment="CENTER_LEFT" spacing="12">
         <padding><Insets top="10" right="24" bottom="10" left="24"/></padding>
         <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"/>

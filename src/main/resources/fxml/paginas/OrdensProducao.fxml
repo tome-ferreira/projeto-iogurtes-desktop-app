@@ -28,13 +28,13 @@
                 <String fx:value="/styles/ordemProducao.css"/>
             </stylesheets>
 
-            <!-- 1. Header -->
+            <!--  Header -->
             <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
                 <Label text="Ordens de Produção" styleClass="pagina-titulo"
                        maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Button fx:id="btnNovo" text="Nova Ordem"
-                        styleClass="btn-primario-cabecalho"
+                        textFill="WHITE" styleClass="btn-primario-cabecalho"
                         onAction="#handleNovo">
                     <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16"/></graphic>
                 </Button>
@@ -49,7 +49,7 @@
                 <VBox VBox.vgrow="ALWAYS">
                     <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
 
-                    <!-- 2. Filtro + Paginação -->
+                    <!-- Filtro + Paginação -->
                     <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="12">
                         <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"/>
 
@@ -75,7 +75,7 @@
                         </HBox>
                     </HBox>
 
-                    <!-- 3. TableView VBox -->
+                    <!-- TableView VBox -->
                     <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                         <VBox fx:id="tabelaContainer" styleClass="tabela-card" fillWidth="true"/>
                     </ScrollPane>
@@ -89,17 +89,6 @@
                 </VBox>
                 
                 <!-- FAB -->
-                <Button fx:id="fab" styleClass="fab"
-                        onAction="#handleNovo"
-                        StackPane.alignment="BOTTOM_RIGHT">
-                    <graphic>
-                        <FontIcon iconLiteral="mdi2p-plus" iconSize="22" styleClass="fab-icone"/>
-                    </graphic>
-                    <tooltip><Tooltip text="Nova Ordem de Produção"/></tooltip>
-                    <StackPane.margin>
-                        <Insets top="0" right="24" bottom="24" left="0"/>
-                    </StackPane.margin>
-                </Button>
 
             </StackPane>
         </VBox>

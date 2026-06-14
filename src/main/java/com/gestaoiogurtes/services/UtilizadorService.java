@@ -17,12 +17,10 @@ public class UtilizadorService {
                 .getService(com.gestaoiogurtes.api.services.IUtilizadorApiService.class);
     }
 
-    /** Utilizadores ativos paginados. */
     public void getAllActive(int page, int size, Consumer<QueryState<PaginatedResponse<UserResponse>>> cb) {
         ApiQuery.execute(api().findAllActive(page, size), cb);
     }
 
-    /** Utilizadores inativos paginados. */
     public void getAllInactive(int page, int size, Consumer<QueryState<PaginatedResponse<UserResponse>>> cb) {
         ApiQuery.execute(api().findAllInactive(page, size), cb);
     }
@@ -43,12 +41,9 @@ public class UtilizadorService {
         ApiQuery.execute(api().findFuncionarios(page, size), cb);
     }
 
-    /** Soft-delete (desativar) um utilizador. */
     public void deactivate(String id, Consumer<QueryState<ResponseBody>> cb) {
         ApiQuery.execute(api().softDelete(id), cb);
     }
-
-    /* ── Gestores ─────────────────────────────────────────────── */
 
     public void createGestor(CreateGestorRequest req, Consumer<QueryState<UserResponse>> cb) {
         ApiQuery.execute(api().createGestor(req), cb);
@@ -58,8 +53,6 @@ public class UtilizadorService {
         ApiQuery.execute(api().updateGestor(id, req), cb);
     }
 
-    /* ── Clientes ─────────────────────────────────────────────── */
-
     public void createCliente(CreateClienteRequest req, Consumer<QueryState<UserResponse>> cb) {
         ApiQuery.execute(api().createCliente(req), cb);
     }
@@ -68,8 +61,6 @@ public class UtilizadorService {
         ApiQuery.execute(api().updateCliente(id, req), cb);
     }
 
-    /* ── Admins ───────────────────────────────────────────────── */
-
     public void createAdmin(CreateAdminRequest req, Consumer<QueryState<UserResponse>> cb) {
         ApiQuery.execute(api().createAdmin(req), cb);
     }
@@ -77,8 +68,6 @@ public class UtilizadorService {
     public void updateAdmin(String id, UpdateAdminRequest req, Consumer<QueryState<UserResponse>> cb) {
         ApiQuery.execute(api().updateAdmin(id, req), cb);
     }
-
-    /* ── Funcionários ─────────────────────────────────────────── */
 
     public void createFuncionarioOp(CreateFuncionarioRequest req, Consumer<QueryState<UserResponse>> cb) {
         ApiQuery.execute(api().createFuncionarioOp(req), cb);

@@ -43,7 +43,7 @@
                        promptText="ex: 1.50"/>
         </VBox>
 
-        <!-- Prazo estimado (opcional) -->
+        <!-- Prazo estimado -->
         <VBox styleClass="form-group">
             <Label text="Prazo Estimado de Entrega (dias)" styleClass="form-label"/>
             <TextField fx:id="txtPrazo" styleClass="form-control"

@@ -20,17 +20,23 @@ public class EliminarFornecedorTipoModalController {
     private FornecedorTipoService service;
     private FornecedorTipoResponse tipo;
 
-    @FXML private Label lblAviso;
-    @FXML private Label lblErro;
-    @FXML private Button btnEliminar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private Label lblAviso;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnCancelar;
 
     private Stage dialogStage;
     private Consumer<String> onSuccess;
 
-    public static void show(FornecedorTipoResponse tipo, FornecedorTipoService service, Window owner, Consumer<String> onSuccess) {
+    public static void show(FornecedorTipoResponse tipo, FornecedorTipoService service, Window owner,
+            Consumer<String> onSuccess) {
         try {
-            FXMLLoader loader = new FXMLLoader(EliminarFornecedorTipoModalController.class.getResource("/fxml/components/fornecedorestipo/EliminarFornecedorTipoModal.fxml"));
+            FXMLLoader loader = new FXMLLoader(EliminarFornecedorTipoModalController.class
+                    .getResource("/fxml/components/fornecedorestipo/EliminarFornecedorTipoModal.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -76,7 +82,7 @@ public class EliminarFornecedorTipoModalController {
 
     @FXML
     public void initialize() {
-        // Any specific initialization here
+
     }
 
     @FXML
@@ -96,7 +102,8 @@ public class EliminarFornecedorTipoModalController {
                 btnEliminar.setText("A eliminar...");
             } else if (state.isSuccess()) {
                 dialogStage.close();
-                onSuccess.accept(("Tipo de fornecedor \"" + tipo.nome + "\" eliminado com sucesso.").replaceAll("\\R", " ").strip());
+                onSuccess.accept(("Tipo de fornecedor \"" + tipo.nome + "\" eliminado com sucesso.")
+                        .replaceAll("\\R", " ").strip());
             } else if (state.isError()) {
                 btnEliminar.setDisable(false);
                 btnCancelar.setDisable(false);

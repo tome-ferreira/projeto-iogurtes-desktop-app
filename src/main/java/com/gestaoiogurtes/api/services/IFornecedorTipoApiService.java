@@ -11,16 +11,12 @@ import retrofit2.http.*;
 
 import java.util.List;
 
-/**
- * Interface Retrofit para os endpoints do recurso FornecedorTipo.
- */
 public interface IFornecedorTipoApiService {
 
     @GET("fornecedor-tipos")
     Call<PaginatedResponse<FornecedorTipoResponse>> findAllActive(
             @Query("page") int page,
-            @Query("size") int size
-    );
+            @Query("size") int size);
 
     @GET("fornecedor-tipos/{id}")
     Call<FornecedorTipoResponse> findById(@Path("id") String id);

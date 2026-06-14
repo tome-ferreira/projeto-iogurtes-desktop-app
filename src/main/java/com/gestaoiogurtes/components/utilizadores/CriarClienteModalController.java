@@ -19,24 +19,29 @@ import java.util.function.Consumer;
 public class CriarClienteModalController {
 
     private UtilizadorService service;
-    private EmpresaService    empresaService;
+    private EmpresaService empresaService;
 
-    @FXML private TextField     txtNome;
-    @FXML private TextField     txtEmail;
-    @FXML private PasswordField txtPassword;
-    @FXML private Label         lblEmpresaNome;
-    @FXML private Button        btnSelecionarEmpresa;
-    @FXML private Label         lblErro;
-    @FXML private Button        btnCriar;
-    @FXML private Button        btnCancelar;
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private PasswordField txtPassword;
+    @FXML
+    private Label lblEmpresaNome;
+    @FXML
+    private Button btnSelecionarEmpresa;
+    @FXML
+    private Label lblErro;
+    @FXML
+    private Button btnCriar;
+    @FXML
+    private Button btnCancelar;
 
-    private Stage             dialogStage;
-    private Consumer<String>  onSuccess;
+    private Stage dialogStage;
+    private Consumer<String> onSuccess;
 
-    /** UUID da empresa escolhida pelo utilizador (null enquanto não for seleccionada). */
     private String selectedEmpresaId;
-
-    /* ── Abertura do modal ──────────────────────────────────────────────── */
 
     public static void show(
             UtilizadorService service,
@@ -57,49 +62,47 @@ public class CriarClienteModalController {
             stage.setScene(new Scene(root));
 
             CriarClienteModalController ctrl = loader.getController();
-            ctrl.dialogStage    = stage;
-            ctrl.onSuccess      = onSuccess;
-            ctrl.service        = service;
+            ctrl.dialogStage = stage;
+            ctrl.onSuccess = onSuccess;
+            ctrl.service = service;
             ctrl.empresaService = empresaService;
 
             stage.showAndWait();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /* ── Inicialização ──────────────────────────────────────────────────── */
+    @FXML
+    public void initialize() {
+    }
 
-    @FXML public void initialize() {}
+    @FXML
+    private void handleCancelar() {
+        dialogStage.close();
+    }
 
-    /* ── Handlers ───────────────────────────────────────────────────────── */
-
-    @FXML private void handleCancelar() { dialogStage.close(); }
-
-    /**
-     * Abre o {@link SelecionarEmpresaModalController} sem pré-selecção.
-     * Quando o utilizador confirma, guarda o id e mostra o nome.
-     */
     @FXML
     private void handleSelecionarEmpresa() {
         SelecionarEmpresaModalController.show(
                 empresaService,
                 dialogStage,
-                null,   // sem pré-selecção
+                null, // sem pré-selecção
                 selecao -> {
                     selectedEmpresaId = selecao.id;
                     lblEmpresaNome.setText(selecao.nome);
                     lblEmpresaNome.setVisible(true);
                     lblEmpresaNome.setManaged(true);
                     btnSelecionarEmpresa.setText("Alterar Empresa");
-                }
-        );
+                });
     }
 
     @FXML
     private void handleCriar() {
         lblErro.setText("");
-        String nome  = txtNome.getText()     == null ? "" : txtNome.getText().trim();
-        String email = txtEmail.getText()    == null ? "" : txtEmail.getText().trim();
-        String pass  = txtPassword.getText() == null ? "" : txtPassword.getText();
+        String nome = txtNome.getText() == null ? "" : txtNome.getText().trim();
+        String email = txtEmail.getText() == null ? "" : txtEmail.getText().trim();
+        String pass = txtPassword.getText() == null ? "" : txtPassword.getText();
 
         if (nome.isEmpty() || email.isEmpty() || pass.isEmpty()) {
             lblErro.setText("Por favor, preencha todos os campos obrigatórios (*).");

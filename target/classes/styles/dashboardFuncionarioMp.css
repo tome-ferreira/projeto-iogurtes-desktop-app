@@ -1,6 +1,4 @@
-/* =============================================================
-   dashboardFuncionarioMp.css  –  Dashboard Funcionario MP Styles
-   ============================================================= */
+
 
 .stat-card, .dashboard-card {
     -fx-background-color: -color-bg-default;
@@ -43,6 +41,7 @@
 .btn-acao-rapida {
     -fx-background-color: -color-accent-emphasis;
     -fx-text-fill: white;
+    -fx-icon-color: white;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-padding: 10 16;
@@ -65,7 +64,7 @@
     -fx-text-fill: -color-fg-default;
 }
 
-/* Card Accent Lines */
+
 .stat-card-pendentes {
     -fx-border-color: derive(-color-warning-muted, 0%) -color-border-default -color-border-default -color-border-default;
     -fx-border-width: 6 1 1 1;
@@ -90,7 +89,7 @@
     -fx-text-fill: -color-danger-fg;
 }
 
-/* Spinner overrides if needed */
+
 .stat-card .loading-spinner {
     -fx-pref-width: 36;
     -fx-pref-height: 36;

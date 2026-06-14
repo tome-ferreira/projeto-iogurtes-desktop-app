@@ -22,59 +22,61 @@ import java.util.function.Consumer;
 import com.gestaoiogurtes.api.QueryState;
 import com.gestaoiogurtes.models.PaginatedResponse;
 
-/**
- * Controller para Utilizadores.fxml.
- *
- * Aba 1 — Ativos:   GET /users/active  com paginação
- * Aba 2 — Inativos: GET /users/inactive com paginação
- *
- * Regra: Platform.runLater() nunca é chamado aqui — o ApiQuery garante
- * que os callbacks chegam na JavaFX Application Thread.
- */
 public class UtilizadoresController implements AppAware {
 
-    private final UtilizadorService service        = new UtilizadorService();
-    private final EmpresaService    empresaService  = new EmpresaService();
+    private final UtilizadorService service = new UtilizadorService();
+    private final EmpresaService empresaService = new EmpresaService();
 
-    // ── FXML ─────────────────────────────────────────────────────
-    @FXML private Sidebar sidebarController;
-    @FXML private StackPane rootStack;
+    @FXML
+    private Sidebar sidebarController;
+    @FXML
+    private StackPane rootStack;
 
     // Aba Ativos
-    @FXML private VBox    tabelaAtivosContainer;
-    @FXML private VBox    loadingOverlayAtivos;
-    @FXML private ComboBox<String> cbFiltroRole;
-    @FXML private Button  btnAnteriorAtivos;
-    @FXML private Button  btnProximaAtivos;
-    @FXML private Label   lblPaginaAtivos;
-    @FXML private ComboBox<Integer> cbTamanhoPaginaAtivos;
+    @FXML
+    private VBox tabelaAtivosContainer;
+    @FXML
+    private VBox loadingOverlayAtivos;
+    @FXML
+    private ComboBox<String> cbFiltroRole;
+    @FXML
+    private Button btnAnteriorAtivos;
+    @FXML
+    private Button btnProximaAtivos;
+    @FXML
+    private Label lblPaginaAtivos;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPaginaAtivos;
 
     // Aba Inativos
-    @FXML private VBox    tabelaInativosContainer;
-    @FXML private VBox    loadingOverlayInativos;
-    @FXML private Button  btnAnteriorInativos;
-    @FXML private Button  btnProximaInativos;
-    @FXML private Label   lblPaginaInativos;
-    @FXML private ComboBox<Integer> cbTamanhoPaginaInativos;
+    @FXML
+    private VBox tabelaInativosContainer;
+    @FXML
+    private VBox loadingOverlayInativos;
+    @FXML
+    private Button btnAnteriorInativos;
+    @FXML
+    private Button btnProximaInativos;
+    @FXML
+    private Label lblPaginaInativos;
+    @FXML
+    private ComboBox<Integer> cbTamanhoPaginaInativos;
 
-    // ── Estado ────────────────────────────────────────────────────
-    private int currentPageAtivos   = 0;
-    private int pageSizeAtivos      = 20;
-    private int totalPagesAtivos    = 0;
+    private int currentPageAtivos = 0;
+    private int pageSizeAtivos = 20;
+    private int totalPagesAtivos = 0;
     private List<UserResponse> todosAtivos = List.of();
 
     private int currentPageInativos = 0;
-    private int pageSizeInativos    = 20;
-    private int totalPagesInativos  = 0;
+    private int pageSizeInativos = 20;
+    private int totalPagesInativos = 0;
     private List<UserResponse> todosInativos = List.of();
 
-    // ── AppAware ──────────────────────────────────────────────────
     @Override
     public void setApp(GestaoIogurtes app) {
         sidebarController.setApp(app);
     }
 
-    // ── Lifecycle ─────────────────────────────────────────────────
     @FXML
     public void initialize() {
         if (cbFiltroRole != null) {
@@ -121,8 +123,6 @@ public class UtilizadoresController implements AppAware {
         }
     }
 
-    // ── Criar utilizador — dropdown handlers ──────────────────────
-
     @FXML
     private void handleCriarGestor() {
         CriarGestorModalController.show(service,
@@ -153,8 +153,6 @@ public class UtilizadoresController implements AppAware {
                 rootStack.getScene().getWindow(), this::onMutacaoBemSucedida);
     }
 
-    // ── Carregar dados ────────────────────────────────────────────
-
     private void carregarAtivos() {
         String filtro = cbFiltroRole != null ? cbFiltroRole.getValue() : "Todos";
         Consumer<QueryState<PaginatedResponse<UserResponse>>> cb = state -> {
@@ -167,10 +165,13 @@ public class UtilizadoresController implements AppAware {
                         todosAtivos = response.content != null ? response.content : List.of();
                         totalPagesAtivos = response.totalPages;
                         if (lblPaginaAtivos != null) {
-                            lblPaginaAtivos.setText("Página " + (currentPageAtivos + 1) + " de " + Math.max(1, totalPagesAtivos));
+                            lblPaginaAtivos.setText(
+                                    "Página " + (currentPageAtivos + 1) + " de " + Math.max(1, totalPagesAtivos));
                         }
-                        if (btnAnteriorAtivos != null) btnAnteriorAtivos.setDisable(response.first);
-                        if (btnProximaAtivos  != null) btnProximaAtivos.setDisable(response.last);
+                        if (btnAnteriorAtivos != null)
+                            btnAnteriorAtivos.setDisable(response.first);
+                        if (btnProximaAtivos != null)
+                            btnProximaAtivos.setDisable(response.last);
                     } else {
                         todosAtivos = List.of();
                     }
@@ -180,7 +181,8 @@ public class UtilizadoresController implements AppAware {
                     setLoadingAtivos(false);
                     mostrarNotificacao("Erro ao carregar utilizadores ativos: " + state.getErrorMessage(), false);
                 }
-                default -> {}
+                default -> {
+                }
             }
         };
 
@@ -204,10 +206,13 @@ public class UtilizadoresController implements AppAware {
                         todosInativos = response.content != null ? response.content : List.of();
                         totalPagesInativos = response.totalPages;
                         if (lblPaginaInativos != null) {
-                            lblPaginaInativos.setText("Página " + (currentPageInativos + 1) + " de " + Math.max(1, totalPagesInativos));
+                            lblPaginaInativos.setText(
+                                    "Página " + (currentPageInativos + 1) + " de " + Math.max(1, totalPagesInativos));
                         }
-                        if (btnAnteriorInativos != null) btnAnteriorInativos.setDisable(response.first);
-                        if (btnProximaInativos  != null) btnProximaInativos.setDisable(response.last);
+                        if (btnAnteriorInativos != null)
+                            btnAnteriorInativos.setDisable(response.first);
+                        if (btnProximaInativos != null)
+                            btnProximaInativos.setDisable(response.last);
                     } else {
                         todosInativos = List.of();
                     }
@@ -217,36 +222,43 @@ public class UtilizadoresController implements AppAware {
                     setLoadingInativos(false);
                     mostrarNotificacao("Erro ao carregar utilizadores inativos: " + state.getErrorMessage(), false);
                 }
-                default -> {}
+                default -> {
+                }
             }
         });
     }
 
-    // ── Paginação ativos ──────────────────────────────────────────
-
     @FXML
     private void handlePaginaAnteriorAtivos() {
-        if (currentPageAtivos > 0) { currentPageAtivos--; carregarAtivos(); }
+        if (currentPageAtivos > 0) {
+            currentPageAtivos--;
+            carregarAtivos();
+        }
     }
 
     @FXML
     private void handleProximaPaginaAtivos() {
-        if (currentPageAtivos < totalPagesAtivos - 1) { currentPageAtivos++; carregarAtivos(); }
+        if (currentPageAtivos < totalPagesAtivos - 1) {
+            currentPageAtivos++;
+            carregarAtivos();
+        }
     }
-
-    // ── Paginação inativos ────────────────────────────────────────
 
     @FXML
     private void handlePaginaAnteriorInativos() {
-        if (currentPageInativos > 0) { currentPageInativos--; carregarInativos(); }
+        if (currentPageInativos > 0) {
+            currentPageInativos--;
+            carregarInativos();
+        }
     }
 
     @FXML
     private void handleProximaPaginaInativos() {
-        if (currentPageInativos < totalPagesInativos - 1) { currentPageInativos++; carregarInativos(); }
+        if (currentPageInativos < totalPagesInativos - 1) {
+            currentPageInativos++;
+            carregarInativos();
+        }
     }
-
-    // ── Filtros ────────────────────────────────────────────────────
 
     private void renderizarAtivos() {
         tabelaAtivosContainer.getChildren().clear();
@@ -257,7 +269,8 @@ public class UtilizadoresController implements AppAware {
         tabelaAtivosContainer.getChildren().add(criarLinhaHeader(true));
         for (int i = 0; i < todosAtivos.size(); i++) {
             var linha = criarLinhaAtivo(todosAtivos.get(i), i);
-            if (i == todosAtivos.size() - 1) linha.getStyleClass().add("tabela-linha-ultima");
+            if (i == todosAtivos.size() - 1)
+                linha.getStyleClass().add("tabela-linha-ultima");
             tabelaAtivosContainer.getChildren().add(linha);
         }
     }
@@ -271,12 +284,11 @@ public class UtilizadoresController implements AppAware {
         tabelaInativosContainer.getChildren().add(criarLinhaHeader(false));
         for (int i = 0; i < todosInativos.size(); i++) {
             var linha = criarLinhaInativo(todosInativos.get(i), i);
-            if (i == todosInativos.size() - 1) linha.getStyleClass().add("tabela-linha-ultima");
+            if (i == todosInativos.size() - 1)
+                linha.getStyleClass().add("tabela-linha-ultima");
             tabelaInativosContainer.getChildren().add(linha);
         }
     }
-
-    // ── Construção das linhas ──────────────────────────────────────
 
     private HBox criarLinhaHeader(boolean comBotoesEdicao) {
         var row = new HBox();
@@ -284,9 +296,9 @@ public class UtilizadoresController implements AppAware {
         row.setMaxWidth(Double.MAX_VALUE);
         row.getChildren().addAll(
                 headerCol("", 48, false),
-                headerCol("Nome",  220, true),
+                headerCol("Nome", 220, true),
                 headerCol("Email", 200, false),
-                headerCol("Role",  130, false),
+                headerCol("Role", 130, false),
                 headerCol("Ações", comBotoesEdicao ? 220 : 110, false));
         return row;
     }
@@ -325,8 +337,8 @@ public class UtilizadoresController implements AppAware {
         var pill = criarRolePill(u.role);
 
         // Botões
-        var btnDetalhes  = new Button("Detalhes");
-        var btnEditar    = new Button("Editar");
+        var btnDetalhes = new Button("Detalhes");
+        var btnEditar = new Button("Editar");
         var btnDesativar = new Button("Desativar");
         btnDetalhes.getStyleClass().add("btn-linha-acao");
         btnEditar.getStyleClass().add("btn-linha-acao");
@@ -365,17 +377,18 @@ public class UtilizadoresController implements AppAware {
 
         var pill = criarRolePill(u.role);
 
-        var btnDetalhes  = new Button("Detalhes");
+        var btnDetalhes = new Button("Detalhes");
         btnDetalhes.getStyleClass().add("btn-linha-acao");
         btnDetalhes.setOnAction(e -> abrirDetalhes(u, true));
 
-        /* TODO: Reativar — endpoint not yet available
-        var btnReativar  = new Button("Reativar");
-        btnReativar.getStyleClass().add("btn-linha-acao");
-        btnReativar.setOnAction(e -> {
-            // implementar reativação
-        });
-        */
+        /*
+         * TODO: Reativar — endpoint not yet available
+         * var btnReativar = new Button("Reativar");
+         * btnReativar.getStyleClass().add("btn-linha-acao");
+         * btnReativar.setOnAction(e -> {
+         * // implementar reativação
+         * });
+         */
 
         var acoesBox = new HBox(6, btnDetalhes);
         acoesBox.setAlignment(Pos.CENTER_RIGHT);
@@ -386,8 +399,6 @@ public class UtilizadoresController implements AppAware {
         return row;
     }
 
-    // ── Role pill ─────────────────────────────────────────────────
-
     private Label criarRolePill(String role) {
         var pill = new Label(roleLegivel(role));
         pill.getStyleClass().addAll("role-pill", pilStyleClass(role));
@@ -396,38 +407,39 @@ public class UtilizadoresController implements AppAware {
     }
 
     private String roleLegivel(String role) {
-        if (role == null) return "—";
+        if (role == null)
+            return "—";
         return switch (role) {
-            case "ADMIN"          -> "Admin";
-            case "GESTOR"         -> "Gestor";
-            case "CLIENTE"        -> "Cliente";
+            case "ADMIN" -> "Admin";
+            case "GESTOR" -> "Gestor";
+            case "CLIENTE" -> "Cliente";
             case "FUNCIONARIO_OP" -> "Funcionário OP";
             case "FUNCIONARIO_MP" -> "Funcionário MP";
-            default               -> role;
+            default -> role;
         };
     }
 
     private String pilStyleClass(String role) {
-        if (role == null) return "pill-desconhecido";
+        if (role == null)
+            return "pill-desconhecido";
         return switch (role) {
-            case "ADMIN"          -> "pill-admin";
-            case "GESTOR"         -> "pill-gestor";
-            case "CLIENTE"        -> "pill-cliente";
+            case "ADMIN" -> "pill-admin";
+            case "GESTOR" -> "pill-gestor";
+            case "CLIENTE" -> "pill-cliente";
             case "FUNCIONARIO_OP" -> "pill-funcionario-op";
             case "FUNCIONARIO_MP" -> "pill-funcionario-mp";
-            default               -> "pill-desconhecido";
+            default -> "pill-desconhecido";
         };
     }
 
-    // ── Abertura de modais ────────────────────────────────────────
-
     private void abrirDetalhes(UserResponse u, boolean inativo) {
         var window = rootStack.getScene().getWindow();
-        if (u.role == null) return;
+        if (u.role == null)
+            return;
         switch (u.role) {
-            case "GESTOR"         -> DetalhesGestorModalController.show(u, inativo, window);
-            case "CLIENTE"        -> DetalhesClienteModalController.show(u, inativo, window, empresaService);
-            case "ADMIN"          -> DetalhesAdminModalController.show(u, inativo, window);
+            case "GESTOR" -> DetalhesGestorModalController.show(u, inativo, window);
+            case "CLIENTE" -> DetalhesClienteModalController.show(u, inativo, window, empresaService);
+            case "ADMIN" -> DetalhesAdminModalController.show(u, inativo, window);
             case "FUNCIONARIO_OP" -> DetalhesFuncionarioOpModalController.show(u, inativo, window);
             case "FUNCIONARIO_MP" -> DetalhesFuncionarioMpModalController.show(u, inativo, window);
         }
@@ -435,17 +447,18 @@ public class UtilizadoresController implements AppAware {
 
     private void abrirEditar(UserResponse u) {
         var window = rootStack.getScene().getWindow();
-        if (u.role == null) return;
+        if (u.role == null)
+            return;
         switch (u.role) {
-            case "GESTOR"         -> EditarGestorModalController.show(u, service, window, this::onMutacaoBemSucedida);
-            case "CLIENTE"        -> EditarClienteModalController.show(u, service, empresaService, window, this::onMutacaoBemSucedida);
-            case "ADMIN"          -> EditarAdminModalController.show(u, service, window, this::onMutacaoBemSucedida);
+            case "GESTOR" -> EditarGestorModalController.show(u, service, window, this::onMutacaoBemSucedida);
+            case "CLIENTE" ->
+                EditarClienteModalController.show(u, service, empresaService, window, this::onMutacaoBemSucedida);
+            case "ADMIN" -> EditarAdminModalController.show(u, service, window, this::onMutacaoBemSucedida);
             case "FUNCIONARIO_OP",
-                 "FUNCIONARIO_MP" -> EditarFuncionarioModalController.show(u, service, window, this::onMutacaoBemSucedida);
+                    "FUNCIONARIO_MP" ->
+                EditarFuncionarioModalController.show(u, service, window, this::onMutacaoBemSucedida);
         }
     }
-
-    // ── Estado vazio ──────────────────────────────────────────────
 
     private VBox criarEstadoVazio(String mensagem) {
         var icone = new FontIcon(MaterialDesignA.ACCOUNT_GROUP);
@@ -466,8 +479,6 @@ public class UtilizadoresController implements AppAware {
         return caixa;
     }
 
-    // ── Loading overlay ────────────────────────────────────────────
-
     private void setLoadingAtivos(boolean loading) {
         if (loadingOverlayAtivos != null) {
             loadingOverlayAtivos.setVisible(loading);
@@ -481,8 +492,6 @@ public class UtilizadoresController implements AppAware {
             loadingOverlayInativos.setManaged(loading);
         }
     }
-
-    // ── Notificações ──────────────────────────────────────────────
 
     private void mostrarNotificacao(String mensagem, boolean sucesso) {
         MessageHelper.mostrar(rootStack, mensagem, sucesso);
@@ -512,7 +521,8 @@ public class UtilizadoresController implements AppAware {
     }
 
     private String extrairIniciais(String nome) {
-        if (nome == null || nome.isBlank()) return "?";
+        if (nome == null || nome.isBlank())
+            return "?";
         var partes = nome.trim().split("\\s+");
         if (partes.length == 1) {
             return partes[0].substring(0, Math.min(2, partes[0].length())).toUpperCase();
