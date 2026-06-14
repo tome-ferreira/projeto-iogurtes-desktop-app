@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.moeda.EliminarMoedaModalController"
+      styleClass="modal-root" prefWidth="400">
+
+    <stylesheets>
+        <String fx:value="/styles/moeda.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Eliminar Moeda" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content" spacing="16">
+        <Label fx:id="lblMensagem" wrapText="true" styleClass="form-label"/>
+        
+        <Label text="Esta acção não pode ser desfeita." styleClass="form-error" wrapText="true"/>
+        
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true" visible="true" managed="true" minHeight="32"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnEliminar" text="Eliminar" defaultButton="true" onAction="#handleEliminar"
+                styleClass="btn-modal-submit-danger"/>
+    </HBox>
+
+</VBox>

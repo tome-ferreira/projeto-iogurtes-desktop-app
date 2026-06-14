@@ -8,19 +8,27 @@
 
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.gestaoiogurtes.paginas.PaginaLogin"
+      fx:controller="com.gestaoiogurtes.controllers.PaginaLogin"
       spacing="12" alignment="CENTER">
 
     <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-    <Label text="Gestão de Iogurtes" styleClass="title-1"/>
+    <Label text="Norgurtes" styleClass="title-1"/>
     <Label text="Inicia sessão para continuar" styleClass="text-muted"/>
 
-    <TextField fx:id="campoUser" promptText="Utilizador" maxWidth="300"/>
-    <PasswordField fx:id="campoPass" promptText="Palavra-passe" maxWidth="300"/>
+    <TextField fx:id="campoEmail" promptText="Email" maxWidth="300"/>
+    <PasswordField fx:id="campoPassword" promptText="Palavra-passe" maxWidth="300"/>
+
+    <!-- Área de erro visível apenas quando o login falha -->
+    <Label fx:id="lblErro"
+           styleClass="danger"
+           wrapText="true"
+           maxWidth="300"
+           visible="false"
+           managed="false"/>
 
     <Button fx:id="btnEntrar" text="Entrar" maxWidth="300"
             styleClass="button-outlined, accent"
-            onAction="#handleEntrar"/>
+            onAction="#handleLogin"/>
 
 </VBox>

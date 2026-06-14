@@ -25,12 +25,12 @@
     <HBox spacing="10" alignment="CENTER_LEFT" styleClass="sidebar-header">
         <padding><Insets top="16" right="10" bottom="16" left="14"/></padding>
 
-        <FontIcon iconLiteral="mdi2s-snowflake" iconSize="22" styleClass="accent"/>
+        
 
-        <Label fx:id="tituloLabel" text="Iogurtes"
+        <Label fx:id="tituloLabel" text="Norgurtes"
                maxWidth="Infinity" HBox.hgrow="ALWAYS"
-               styleClass="title-4, accent"/>
-
+               styleClass="title-2, accent"/>
+        <!--
         <Button fx:id="btnToggle"
                 styleClass="sidebar-toggle, button-circle, flat"
                 onAction="#handleToggle">
@@ -41,6 +41,7 @@
                 <Tooltip text="Recolher menu"/>
             </tooltip>
         </Button>
+        -->
     </HBox>
 
     <Separator/>
@@ -49,16 +50,13 @@
     <VBox spacing="2" VBox.vgrow="ALWAYS">
         <padding><Insets top="8" right="6" bottom="8" left="6"/></padding>
 
-        <Label text="MENU" styleClass="sidebar-section-label">
+        <Label fx:id="lblSectionDashboards" text="DASHBOARDS" styleClass="sidebar-section-label">
             <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
         </Label>
 
         <!-- Dashboard -->
         <Button fx:id="btnDashboard" styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY"
-                onAction="#handleDashboard">
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboard">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
@@ -69,68 +67,260 @@
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Iogurtes -->
-        <Button fx:id="btnIogurtes" styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY"
-                onAction="#handleIogurtes">
+        <!-- Dashboard Admin -->
+        <Button fx:id="btnDashboardAdmin" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboardAdmin">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2b-bottle-tonic-outline" iconSize="18"/>
-                    <Label text="Iogurtes" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
-            <tooltip><Tooltip text="Iogurtes"/></tooltip>
+            <tooltip><Tooltip text="Dashboard Admin"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Stock -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
+        <!-- Dashboard Gestor -->
+        <Button fx:id="btnDashboardGestor" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboardGestor">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2a-archive-outline" iconSize="18"/>
+                    <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard Gestor"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Dashboard MP -->
+        <Button fx:id="btnDashboardMp" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboardMp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard MP"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Dashboard OP -->
+        <Button fx:id="btnDashboardOp" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleDashboardOp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2h-home-outline" iconSize="18"/>
+                    <Label text="Dashboard" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Dashboard OP"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <Label fx:id="lblSectionProdutos" text="PRODUTOS" styleClass="sidebar-section-label">
+            <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
+        </Label>
+
+        <!-- Stock -->
+        <Button fx:id="btnStock" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleStock">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2w-warehouse" iconSize="18"/>
                     <Label text="Stock" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
-            <tooltip><Tooltip text="Stock"/></tooltip>
+            <tooltip><Tooltip text="Gestão de Stock"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Produção -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
+        <!-- Produtos Finais -->
+        <Button fx:id="btnProdutosFinais" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleProdutosFinais">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2c-cog-outline" iconSize="18"/>
-                    <Label text="Produção" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <FontIcon iconLiteral="mdi2c-cup-water" iconSize="18"/>
+                    <Label text="Produtos Finais" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
-            <tooltip><Tooltip text="Produção"/></tooltip>
+            <tooltip><Tooltip text="Gestão de Produtos Finais"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
 
-        <!-- Relatórios -->
-        <Button styleClass="sidebar-item"
-                maxWidth="Infinity"
-                alignment="CENTER_LEFT"
-                contentDisplay="GRAPHIC_ONLY">
+        <!-- Ordens de Produção -->
+        <Button fx:id="btnOrdensProducao" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleOrdensProducao">
             <graphic>
                 <HBox spacing="10" alignment="CENTER_LEFT">
-                    <FontIcon iconLiteral="mdi2c-chart-box-outline" iconSize="18"/>
-                    <Label text="Relatórios" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <FontIcon iconLiteral="mdi2f-factory" iconSize="18"/>
+                    <Label text="Ordens de Produção" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
                 </HBox>
             </graphic>
-            <tooltip><Tooltip text="Relatórios"/></tooltip>
+            <tooltip><Tooltip text="Gestão de Ordens de Produção"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <Label fx:id="lblSectionEncomendas" text="ENCOMENDAS" styleClass="sidebar-section-label">
+            <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
+        </Label>
+
+        <!-- Encomendas -->
+        <Button fx:id="btnEncomendas" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleEncomendas">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-cart-outline" iconSize="18"/>
+                    <Label text="Encomendas" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Encomendas"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <Label fx:id="lblSectionMateriasPrimas" text="MATÉRIAS PRIMAS" styleClass="sidebar-section-label">
+            <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
+        </Label>
+
+        <!-- Matérias Primas -->
+        <Button fx:id="btnMateriasPrimas" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleMateriasPrimas">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-corn" iconSize="18"/>
+                    <Label text="Matérias Primas" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Matérias Primas"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Encomendas MP -->
+        <Button fx:id="btnEncomendasMp" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleEncomendasMp">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-cart-arrow-down" iconSize="18"/>
+                    <Label text="Encomendas M.P." maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Encomendas de Matéria Prima"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Tipos de Matéria Prima -->
+        <Button fx:id="btnTiposMateriaPrima" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleTiposMateriaPrima">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2l-leaf" iconSize="18"/>
+                    <Label text="Tipos de Matéria Prima" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Tipos de Matéria Prima"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <Label fx:id="lblSectionFornecedores" text="FORNECEDORES" styleClass="sidebar-section-label">
+            <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
+        </Label>
+
+        <!-- Fornecedores -->
+        <Button fx:id="btnFornecedores" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleFornecedores">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2t-truck-delivery-outline" iconSize="18"/>
+                    <Label text="Fornecedores" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Fornecedores"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Certificações -->
+        <Button fx:id="btnCertificacoes" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleCertificacoes">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-certificate-outline" iconSize="18"/>
+                    <Label text="Certificações de Fornecedor" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Certificações"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Tipos de Fornecedor -->
+        <Button fx:id="btnTiposFornecedor" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleTiposFornecedor">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2t-tag-outline" iconSize="18"/>
+                    <Label text="Tipos de Fornecedor" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Tipos de Fornecedor"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <Label fx:id="lblSectionGestao" text="GESTÃO" styleClass="sidebar-section-label">
+            <padding><Insets top="8" right="8" bottom="4" left="8"/></padding>
+        </Label>
+
+        <!-- Utilizadores -->
+        <Button fx:id="btnUtilizadores" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleUtilizadores">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2a-account-group" iconSize="18"/>
+                    <Label text="Utilizadores" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Utilizadores"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Empresas -->
+        <Button fx:id="btnEmpresas" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleEmpresas">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2b-bank-outline" iconSize="18"/>
+                    <Label text="Empresas" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Empresas"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Tipos de Pallet -->
+        <Button fx:id="btnTiposPallet" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleTiposPallet">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2p-package-variant-closed" iconSize="18"/>
+                    <Label text="Tipos de Pallet" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Tipos de Pallet"/></tooltip>
+            <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
+        </Button>
+
+        <!-- Moedas -->
+        <Button fx:id="btnMoedas" styleClass="sidebar-item"
+                maxWidth="Infinity" alignment="CENTER_LEFT" contentDisplay="GRAPHIC_ONLY" onAction="#handleMoedas">
+            <graphic>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="mdi2c-currency-usd" iconSize="18"/>
+                    <Label text="Moedas" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </graphic>
+            <tooltip><Tooltip text="Gestão de Moedas"/></tooltip>
             <padding><Insets top="9" right="12" bottom="9" left="10"/></padding>
         </Button>
     </VBox>
-
     <!-- ── Rodapé ───────────────────────── -->
     <VBox spacing="2">
         <padding><Insets top="4" right="6" bottom="10" left="6"/></padding>

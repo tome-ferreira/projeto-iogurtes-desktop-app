@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.ordemProducao.DetalhesOrdemProducaoModalController"
+      styleClass="modal-root" prefWidth="650" prefHeight="650">
+
+    <stylesheets>
+        <String fx:value="/styles/ordemProducao.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Detalhes da Ordem de Produção" styleClass="modal-title"/>
+    </HBox>
+
+    <StackPane VBox.vgrow="ALWAYS">
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox fx:id="conteudoContainer" styleClass="modal-content" spacing="24">
+
+                <!-- INFO BASICA GRID -->
+                <VBox spacing="8" styleClass="detalhe-info-block">
+                    <Label text="INFORMAÇÃO GERAL" styleClass="detalhe-secao-titulo"/>
+                    <GridPane hgap="16" vgap="12">
+                        
+
+                        <Label text="Criado por:" styleClass="detalhe-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label fx:id="lblUtilizador" styleClass="detalhe-valor" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Estado:" styleClass="detalhe-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="lblEstado" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Data de Início:" styleClass="detalhe-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label fx:id="lblDataInicio" styleClass="detalhe-valor" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <Label text="Data de Fim:" styleClass="detalhe-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label fx:id="lblDataFim" styleClass="detalhe-valor" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                        <!--
+                        <Label text="Aprovado Em:" styleClass="detalhe-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <Label fx:id="lblAprovadoEm" styleClass="detalhe-valor" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        -->
+
+                        
+                    </GridPane>
+                </VBox>
+
+                <!-- OBSERVAÇÕES -->
+                <VBox spacing="8" styleClass="detalhe-info-block">
+                    <Label text="OBSERVAÇÕES" styleClass="detalhe-secao-titulo"/>
+                    <Label fx:id="lblObservacoes" styleClass="detalhe-valor" wrapText="true"/>
+                </VBox>
+
+                <!-- PRODUTOS -->
+                <VBox spacing="8" styleClass="detalhe-info-block">
+                    <Label text="PRODUTOS A PRODUZIR" styleClass="detalhe-secao-titulo"/>
+                    <VBox fx:id="produtosContainer" style="-fx-border-color: -color-border-default; -fx-border-radius: 6; -fx-background-color: -color-bg-default;">
+                        <!-- Header da tabela de produtos -->
+                        <HBox styleClass="detalhe-linha-header">
+                            <Label text="PRODUTO" styleClass="detalhe-linha-header-label" prefWidth="250" HBox.hgrow="ALWAYS"/>
+                            <Label text="SKU" styleClass="detalhe-linha-header-label" prefWidth="120"/>
+                            <Label text="QUANTIDADE" styleClass="detalhe-linha-header-label" prefWidth="100"/>
+                        </HBox>
+                        <!-- Linhas dinâmicas -->
+                        <VBox fx:id="linhasProdutosList"/>
+                    </VBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox fx:id="loadingOverlay" styleClass="loading-overlay" visible="false" managed="false" alignment="CENTER">
+            <ProgressIndicator styleClass="loading-spinner"/>
+            <Label text="A carregar detalhes..." styleClass="loading-label"/>
+        </VBox>
+    </StackPane>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer" spacing="12">
+        <Button fx:id="btnCancelar" text="Cancelar Ordem" onAction="#handleCancelar" styleClass="btn-modal-submit-danger"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnAprovar" text="Aprovar" onAction="#handleAprovar" styleClass="btn-modal-submit"/>
+        <Button fx:id="btnConcluir" text="Concluir" onAction="#handleConcluir" styleClass="btn-modal-submit"/>
+        <Button fx:id="btnFechar" text="Fechar" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
+    </HBox>
+
+</VBox>

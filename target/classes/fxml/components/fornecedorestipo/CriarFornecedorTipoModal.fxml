@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.fornecedorestipo.CriarFornecedorTipoModalController"
+      styleClass="modal-root" prefWidth="500">
+
+    <stylesheets>
+        <String fx:value="/styles/fornecedorestipo.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Novo Tipo de Fornecedor" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Nome*" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control" promptText="Ex: Frio"/>
+        </VBox>
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Descrição" styleClass="form-label"/>
+            <TextArea fx:id="txtDescricao" styleClass="form-control" promptText="Breve descrição do tipo de fornecedor" prefRowCount="3"/>
+        </VBox>
+
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true"/>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnCriar" text="Criar Tipo" defaultButton="true" onAction="#handleCriar"
+                styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

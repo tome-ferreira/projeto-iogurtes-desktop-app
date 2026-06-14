@@ -15,24 +15,8 @@ import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignC;
 
-/**
- * Controller for Sidebar.fxml.
- *
- * <p>Static structure (icons, labels, separators) lives in the FXML.
- * This class keeps all behavioural logic:
- * <ul>
- *   <li>Expand / collapse toggle</li>
- *   <li>Theme cycling</li>
- *   <li>Navigation to other pages</li>
- * </ul>
- *
- * <p>The {@link GestaoIogurtes} reference must be injected after FXML loading
- * via {@link #setApp(GestaoIogurtes)}, which is handled automatically by
- * {@link NavigationHelper} for pages that implement {@link AppAware}.
- */
 public class Sidebar implements AppAware {
 
-    // ── Constants ─────────────────────────────────────────────────
     private static final double LARGURA_EXPANDIDA = 240;
     private static final double LARGURA_RECOLHIDA = 58;
 
@@ -52,22 +36,144 @@ public class Sidebar implements AppAware {
     private int temaAtual = 0;
     private boolean expandida = true;
 
-    // ── App reference — injected after FXML load ───────────────────
     private GestaoIogurtes app;
 
-    // ── FXML references ───────────────────────────────────────────
-    @FXML private VBox root;
-    @FXML private Label tituloLabel;
-    @FXML private Button btnToggle;
-    @FXML private Tooltip temaTooltip;
+    @FXML
+    private VBox root;
+    @FXML
+    private Label tituloLabel;
+    @FXML
+    private Button btnToggle;
+    @FXML
+    private Tooltip temaTooltip;
 
-    // ── AppAware ──────────────────────────────────────────────────
+    // Sections
+    @FXML
+    private Label lblSectionDashboards;
+    @FXML
+    private Label lblSectionProdutos;
+    @FXML
+    private Label lblSectionEncomendas;
+    @FXML
+    private Label lblSectionMateriasPrimas;
+    @FXML
+    private Label lblSectionFornecedores;
+    @FXML
+    private Label lblSectionGestao;
+
+    // Dashboards
+    @FXML
+    private Button btnDashboard;
+    @FXML
+    private Button btnDashboardAdmin;
+    @FXML
+    private Button btnDashboardGestor;
+    @FXML
+    private Button btnDashboardMp;
+    @FXML
+    private Button btnDashboardOp;
+
+    // Produtos
+    @FXML
+    private Button btnStock;
+    @FXML
+    private Button btnProdutosFinais;
+    @FXML
+    private Button btnOrdensProducao;
+
+    // Encomendas
+    @FXML
+    private Button btnEncomendas;
+
+    // Materias Primas
+    @FXML
+    private Button btnMateriasPrimas;
+    @FXML
+    private Button btnEncomendasMp;
+    @FXML
+    private Button btnTiposMateriaPrima;
+
+    // Fornecedores
+    @FXML
+    private Button btnFornecedores;
+    @FXML
+    private Button btnCertificacoes;
+    @FXML
+    private Button btnTiposFornecedor;
+
+    // Gestao
+    @FXML
+    private Button btnUtilizadores;
+    @FXML
+    private Button btnEmpresas;
+    @FXML
+    private Button btnTiposPallet;
+    @FXML
+    private Button btnMoedas;
+
     @Override
     public void setApp(GestaoIogurtes app) {
         this.app = app;
     }
 
-    // ── FXML event handlers ───────────────────────────────────────
+    @FXML
+    public void initialize() {
+        applyRoleBasedVisibility();
+    }
+
+    private void hideNode(Node... nodes) {
+        for (Node n : nodes) {
+            if (n != null) {
+                n.setVisible(false);
+                n.setManaged(false);
+            }
+        }
+    }
+
+    private void applyRoleBasedVisibility() {
+        String role = com.gestaoiogurtes.utils.SessionManager.getInstance().getUserRole();
+
+        hideNode(btnDashboard);
+
+        // Ocultar os dashboards de outros roles por defeito
+        hideNode(btnDashboardAdmin, btnDashboardGestor, btnDashboardMp, btnDashboardOp);
+
+        if ("ADMIN".equals(role)) {
+            btnDashboardAdmin.setVisible(true);
+            btnDashboardAdmin.setManaged(true);
+            // Vê tudo o resto
+
+        } else if ("GESTOR".equals(role)) {
+            btnDashboardGestor.setVisible(true);
+            btnDashboardGestor.setManaged(true);
+
+            // Esconde Utilizadores e Empresas
+            hideNode(btnUtilizadores, btnEmpresas);
+
+        } else if ("FUNCIONARIO_MP".equals(role)) {
+            btnDashboardMp.setVisible(true);
+            btnDashboardMp.setManaged(true);
+
+            // Vê Fornecedores, Matérias Primas, Produtos Finais, Encomenda M.P. e Stock.
+            hideNode(
+                    btnOrdensProducao,
+                    lblSectionEncomendas, btnEncomendas,
+                    btnTiposMateriaPrima,
+                    btnCertificacoes, btnTiposFornecedor,
+                    lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas);
+
+        } else if ("FUNCIONARIO_OP".equals(role)) {
+            btnDashboardOp.setVisible(true);
+            btnDashboardOp.setManaged(true);
+
+            // Vê Matérias primas, Ordens de produção, Produtos Finais e Stock.
+            hideNode(
+                    lblSectionEncomendas, btnEncomendas,
+                    btnEncomendasMp, btnTiposMateriaPrima,
+                    lblSectionFornecedores, btnFornecedores, btnCertificacoes, btnTiposFornecedor,
+                    lblSectionGestao, btnUtilizadores, btnEmpresas, btnTiposPallet, btnMoedas);
+        }
+    }
 
     @FXML
     private void handleDashboard() {
@@ -75,8 +181,93 @@ public class Sidebar implements AppAware {
     }
 
     @FXML
-    private void handleIogurtes() {
-        NavigationHelper.navigateTo(app, "/fxml/paginas/Iogurtes.fxml");
+    private void handleDashboardAdmin() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardAdmin.fxml");
+    }
+
+    @FXML
+    private void handleDashboardGestor() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardGestor.fxml");
+    }
+
+    @FXML
+    private void handleDashboardMp() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardFuncionarioMp.fxml");
+    }
+
+    @FXML
+    private void handleDashboardOp() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/DashboardFuncionarioOp.fxml");
+    }
+
+    @FXML
+    private void handleEmpresas() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Empresas.fxml");
+    }
+
+    @FXML
+    private void handleEncomendas() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Encomenda.fxml");
+    }
+
+    @FXML
+    private void handleEncomendasMp() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/EncomendaMp.fxml");
+    }
+
+    @FXML
+    private void handleOrdensProducao() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/OrdensProducao.fxml");
+    }
+
+    @FXML
+    private void handleFornecedores() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Fornecedores.fxml");
+    }
+
+    @FXML
+    private void handleMateriasPrimas() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/MateriasPrimas.fxml");
+    }
+
+    @FXML
+    private void handleMoedas() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Moedas.fxml");
+    }
+
+    @FXML
+    private void handleUtilizadores() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Utilizadores.fxml");
+    }
+
+    @FXML
+    private void handleTiposFornecedor() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/FornecedoresTipo.fxml");
+    }
+
+    @FXML
+    private void handleCertificacoes() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Certificacoes.fxml");
+    }
+
+    @FXML
+    private void handleTiposMateriaPrima() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/TiposMateriaPrima.fxml");
+    }
+
+    @FXML
+    private void handleTiposPallet() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/TiposPallet.fxml");
+    }
+
+    @FXML
+    private void handleProdutosFinais() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/ProdutosFinais.fxml");
+    }
+
+    @FXML
+    private void handleStock() {
+        NavigationHelper.navigateTo(app, "/fxml/paginas/Stock.fxml");
     }
 
     @FXML
@@ -88,6 +279,7 @@ public class Sidebar implements AppAware {
 
     @FXML
     private void handleSair() {
+        com.gestaoiogurtes.utils.SessionManager.getInstance().clearSession();
         NavigationHelper.navigateTo(app, "/fxml/paginas/PaginaLogin.fxml");
     }
 
@@ -95,8 +287,6 @@ public class Sidebar implements AppAware {
     private void handleToggle() {
         toggleSidebar();
     }
-
-    // ── Toggle logic ──────────────────────────────────────────────
 
     private void toggleSidebar() {
         expandida = !expandida;
@@ -128,7 +318,7 @@ public class Sidebar implements AppAware {
                 }
             });
         }
-        // Section labels ("MENU") have the text-muted style class
+
         if (node instanceof Label lbl && lbl.getStyleClass().contains("text-muted")) {
             lbl.setVisible(visivel);
             lbl.setManaged(visivel);

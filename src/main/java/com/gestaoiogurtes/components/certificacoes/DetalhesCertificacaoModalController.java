@@ -1,0 +1,79 @@
+package com.gestaoiogurtes.components.certificacoes;
+
+import com.gestaoiogurtes.models.certificacao.CertificacaoResponse;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
+
+import java.io.IOException;
+
+public class DetalhesCertificacaoModalController {
+
+    private CertificacaoResponse certificacao;
+
+    @FXML
+    private TextField txtNome;
+    @FXML
+    private TextArea txtDescricao;
+    @FXML
+    private Button btnFechar;
+
+    private Stage dialogStage;
+
+    public static void show(CertificacaoResponse certificacao, Window owner) {
+        try {
+            FXMLLoader loader = new FXMLLoader(DetalhesCertificacaoModalController.class
+                    .getResource("/fxml/components/certificacoes/DetalhesCertificacaoModal.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.initOwner(owner);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
+            stage.setTitle("Detalhes da Certificação");
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            DetalhesCertificacaoModalController controller = loader.getController();
+            controller.setDialogStage(stage);
+            controller.setCertificacao(certificacao);
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+    private void setCertificacao(CertificacaoResponse certificacao) {
+        this.certificacao = certificacao;
+        txtNome.setText(certificacao.nome != null ? certificacao.nome : "");
+        txtDescricao.setText(certificacao.descricao != null ? certificacao.descricao : "");
+
+        txtNome.setEditable(false);
+        txtDescricao.setEditable(false);
+    }
+
+    @FXML
+    public void initialize() {
+
+    }
+
+    @FXML
+    private void handleFechar() {
+        dialogStage.close();
+    }
+}

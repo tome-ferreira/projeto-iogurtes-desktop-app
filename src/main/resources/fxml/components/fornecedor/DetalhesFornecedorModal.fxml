@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.fornecedor.DetalhesFornecedorModalController"
+      styleClass="modal-root" prefWidth="550">
+    <stylesheets>
+        <String fx:value="/styles/fornecedor.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Detalhes do Fornecedor" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo do formulário (Read-only) -->
+    <VBox styleClass="modal-content">
+        <!-- Linha 1: Nome e NIF -->
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Nome" styleClass="form-label"/>
+                <TextField fx:id="txtNome" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" prefWidth="180">
+                <Label text="NIF" styleClass="form-label"/>
+                <TextField fx:id="txtNif" editable="false" styleClass="form-control"/>
+            </VBox>
+        </HBox>
+
+        <!-- Linha 2: Email e Telefone -->
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Email" styleClass="form-label"/>
+                <TextField fx:id="txtEmail" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" prefWidth="180">
+                <Label text="Telefone" styleClass="form-label"/>
+                <TextField fx:id="txtTelefone" editable="false" styleClass="form-control"/>
+            </VBox>
+        </HBox>
+
+        <!-- Linha 3: Morada -->
+        <VBox styleClass="form-group">
+            <Label text="Morada" styleClass="form-label"/>
+            <TextField fx:id="txtMorada" editable="false" styleClass="form-control"/>
+        </VBox>
+
+        <!-- Linha 4: Cidade e Tipo -->
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Cidade" styleClass="form-label"/>
+                <TextField fx:id="txtCidade" editable="false" styleClass="form-control"/>
+            </VBox>
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Tipo de Fornecedor" styleClass="form-label"/>
+                <TextField fx:id="txtTipo" editable="false" styleClass="form-control"/>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Button text="Fechar" onAction="#handleFechar" styleClass="btn-modal-cancel"/>
+        <Button text="Ver Certificações" onAction="#handleVerCertificacoes" styleClass="btn-modal-submit"/>
+    </HBox>
+</VBox>

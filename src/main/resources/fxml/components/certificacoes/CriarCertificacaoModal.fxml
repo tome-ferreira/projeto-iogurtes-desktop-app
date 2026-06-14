@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.certificacoes.CriarCertificacaoModalController"
+      styleClass="modal-root" prefWidth="500">
+
+    <stylesheets>
+        <String fx:value="/styles/certificacoes.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Nova Certificação" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Nome *" styleClass="form-label"/>
+            <TextField fx:id="txtNome" promptText="Nome da certificação" styleClass="form-control"/>
+            <Label fx:id="erroNome" styleClass="form-error"/>
+        </VBox>
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Descrição" styleClass="form-label"/>
+            <TextArea fx:id="txtDescricao" promptText="Detalhes adicionais (opcional)" styleClass="form-control" prefRowCount="3" wrapText="true"/>
+        </VBox>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar"
+                styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnGravar" text="Gravar" defaultButton="true" onAction="#handleGravar"
+                styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

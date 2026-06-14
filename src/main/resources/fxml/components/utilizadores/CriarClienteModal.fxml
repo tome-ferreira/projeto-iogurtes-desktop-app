@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.CriarClienteModalController"
+      styleClass="modal-root" prefWidth="480">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <HBox styleClass="modal-header">
+        <Label text="Criar Cliente" styleClass="modal-title"/>
+    </HBox>
+
+    <VBox styleClass="modal-content">
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Nome*" styleClass="form-label"/>
+                <TextField fx:id="txtNome" styleClass="form-control" promptText="Nome completo"/>
+            </VBox>
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Email*" styleClass="form-label"/>
+                <TextField fx:id="txtEmail" styleClass="form-control" promptText="email@exemplo.com"/>
+            </VBox>
+        </HBox>
+        
+        <VBox styleClass="form-group">
+            <Label text="Palavra-passe*" styleClass="form-label"/>
+            <PasswordField fx:id="txtPassword" styleClass="form-control" promptText="Mínimo 8 caracteres"/>
+        </VBox>
+
+        <VBox styleClass="form-group">
+            <Label text="Empresa*" styleClass="form-label"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <!-- Nome da empresa seleccionada -->
+                <Label fx:id="lblEmpresaNome" styleClass="empresa-selecionada-nome"
+                       visible="false" managed="false" wrapText="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <!-- Botão para abrir o modal de selecção -->
+                <Button fx:id="btnSelecionarEmpresa" text="Selecionar Empresa"
+                        onAction="#handleSelecionarEmpresa"
+                        styleClass="btn-selecionar-empresa" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+        </VBox>
+        
+        <Label fx:id="lblErro" styleClass="form-error" wrapText="true" visible="true" managed="true" minHeight="32"/>
+    </VBox>
+
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnCancelar" text="Cancelar" cancelButton="true" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnCriar" text="Criar Cliente" defaultButton="true" onAction="#handleCriar" styleClass="btn-modal-submit"/>
+    </HBox>
+</VBox>

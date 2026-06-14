@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.gestaoiogurtes.controllers.UtilizadoresController">
+
+    <left>
+        <fx:include fx:id="sidebar" source="/fxml/layout/Sidebar.fxml"/>
+    </left>
+
+    <center>
+        <VBox styleClass="pagina-conteudo" VBox.vgrow="ALWAYS">
+            <stylesheets>
+                <String fx:value="/styles/utilizadores.css"/>
+            </stylesheets>
+
+            <!-- ── Cabeçalho ──────────────────────────────────────── -->
+            <HBox styleClass="pagina-cabecalho" maxWidth="Infinity">
+                <Label text="Utilizadores" styleClass="pagina-titulo"
+                       maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- Dropdown de criação -->
+                <MenuButton text="Criar Utilizador" textFill="WHITE" styleClass="btn-primario-cabecalho">
+                    <graphic><FontIcon iconLiteral="mdi2p-plus" iconSize="16"/></graphic>
+                    <items>
+                        <MenuItem text="Criar Gestor"          onAction="#handleCriarGestor"/>
+                        <MenuItem text="Criar Cliente"         onAction="#handleCriarCliente"/>
+                        <MenuItem text="Criar Admin"           onAction="#handleCriarAdmin"/>
+                        <MenuItem text="Criar Funcionário OP"  onAction="#handleCriarFuncionarioOp"/>
+                        <MenuItem text="Criar Funcionário MP"  onAction="#handleCriarFuncionarioMp"/>
+                    </items>
+                </MenuButton>
+            </HBox>
+
+            <Separator styleClass="pagina-separador"/>
+
+            <!-- ── TabPane ────────────────────────────────────────── -->
+            <StackPane fx:id="rootStack" VBox.vgrow="ALWAYS">
+                <TabPane styleClass="utilizadores-tabpane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+
+                    <!-- ═══ ABA 1 — ATIVOS ═══════════════════════════ -->
+                    <Tab text="Utilizadores Ativos">
+                        <VBox VBox.vgrow="ALWAYS">
+
+                            
+
+                            <!-- Wrapper de tabela + loading overlay -->
+                            <StackPane VBox.vgrow="ALWAYS">
+                                <VBox VBox.vgrow="ALWAYS">
+                                    <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
+                                    <!-- Barra de paginação ativos -->
+                                    <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="12">
+
+                                        <!-- Info página -->
+                                        <Label fx:id="lblPaginaAtivos"
+                                            text="Página 1 de 1"
+                                            styleClass="pagination-label"/>
+
+                                        <!-- Filtro role -->
+                                        <HBox alignment="CENTER_LEFT" spacing="6">
+                                            <Label text="Tipo:"
+                                                styleClass="pagination-label"/>
+
+                                            <ComboBox fx:id="cbFiltroRole"
+                                                    promptText="Todos"
+                                                    styleClass="pagination-combo"/>
+                                        </HBox>
+
+                                        <Region HBox.hgrow="ALWAYS"/>
+
+                                        <!-- Controlos paginação -->
+                                        <HBox alignment="CENTER" spacing="8">
+
+                                            <Button fx:id="btnAnteriorAtivos"
+                                                    text="Anterior"
+                                                    onAction="#handlePaginaAnteriorAtivos"
+                                                    styleClass="btn-pagination">
+                                                <graphic>
+                                                    <FontIcon iconLiteral="mdi2c-chevron-left" iconSize="18"/>
+                                                </graphic>
+                                            </Button>
+
+                                            <Label text="Linhas por página:"
+                                                styleClass="pagination-label"/>
+
+                                            <ComboBox fx:id="cbTamanhoPaginaAtivos"
+                                                    styleClass="pagination-combo"/>
+
+                                            <Button fx:id="btnProximaAtivos"
+                                                    text="Próxima"
+                                                    contentDisplay="RIGHT"
+                                                    onAction="#handleProximaPaginaAtivos"
+                                                    styleClass="btn-pagination">
+                                                <graphic>
+                                                    <FontIcon iconLiteral="mdi2c-chevron-right" iconSize="18"/>
+                                                </graphic>
+                                            </Button>
+
+                                        </HBox>
+
+                                    </HBox>
+                                    <VBox fx:id="tabelaAtivosContainer" styleClass="tabela-card"
+                                          fillWidth="true" VBox.vgrow="ALWAYS"/>
+                                </VBox>
+
+                                <!-- Loading overlay ativos -->
+                                <VBox fx:id="loadingOverlayAtivos" styleClass="loading-overlay"
+                                      alignment="CENTER" visible="false" managed="false">
+                                    <ProgressIndicator styleClass="loading-spinner"/>
+                                    <Label text="A carregar..." styleClass="loading-label"/>
+                                </VBox>
+                            </StackPane>
+                        </VBox>
+                    </Tab>
+
+                    <!-- ═══ ABA 2 — INATIVOS ═════════════════════════ -->
+                    <Tab text="Utilizadores Inativos">
+                        <VBox VBox.vgrow="ALWAYS">
+
+                            <!-- Barra de paginação inativos  -->
+                            <HBox styleClass="toolbar-filtros">
+                                <Region HBox.hgrow="ALWAYS"/>
+                            </HBox>
+
+                            <StackPane VBox.vgrow="ALWAYS">
+                                <VBox VBox.vgrow="ALWAYS">
+                                    <padding><Insets top="0" right="32" bottom="32" left="32"/></padding>
+                                    <!-- Barra de paginação inativos -->
+                                    <HBox styleClass="pagination-bar" alignment="CENTER_LEFT" spacing="8">
+                                        <Label fx:id="lblPaginaInativos" text="Página 1 de 1" styleClass="pagination-label"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <HBox alignment="CENTER" spacing="8">
+                                            <Button fx:id="btnAnteriorInativos" text="Anterior"
+                                                    onAction="#handlePaginaAnteriorInativos" styleClass="btn-pagination">
+                                                <graphic><FontIcon iconLiteral="mdi2c-chevron-left" iconSize="18"/></graphic>
+                                            </Button>
+                                            <Label text="Linhas por página:" styleClass="pagination-label"/>
+                                            <ComboBox fx:id="cbTamanhoPaginaInativos" styleClass="pagination-combo"/>
+                                            <Button fx:id="btnProximaInativos" text="Próxima" contentDisplay="RIGHT"
+                                                    onAction="#handleProximaPaginaInativos" styleClass="btn-pagination">
+                                                <graphic><FontIcon iconLiteral="mdi2c-chevron-right" iconSize="18"/></graphic>
+                                            </Button>
+                                        </HBox>
+                                    </HBox>
+                                    <VBox fx:id="tabelaInativosContainer" styleClass="tabela-card"
+                                          fillWidth="true" VBox.vgrow="ALWAYS"/>
+                                </VBox>
+
+                                <!-- Loading overlay inativos -->
+                                <VBox fx:id="loadingOverlayInativos" styleClass="loading-overlay"
+                                      alignment="CENTER" visible="false" managed="false">
+                                    <ProgressIndicator styleClass="loading-spinner"/>
+                                    <Label text="A carregar..." styleClass="loading-label"/>
+                                </VBox>
+                            </StackPane>
+                        </VBox>
+                    </Tab>
+
+                </TabPane>
+            </StackPane>
+        </VBox>
+    </center>
+
+</BorderPane>

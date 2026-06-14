@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.ordemProducao.SelecionarProdutoOrdemModalController"
+      styleClass="modal-root" prefWidth="600" prefHeight="550">
+
+    <stylesheets>
+        <String fx:value="/styles/ordemProducao.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Adicionar Produto" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Content -->
+    <VBox styleClass="modal-content" spacing="16" VBox.vgrow="ALWAYS">
+
+        <!-- Lista paginada -->
+        <VBox styleClass="selecionar-tipo-lista" VBox.vgrow="ALWAYS">
+            <!-- Scroll com a lista dinâmica de RadioButtons -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                <VBox fx:id="listaContainer"/>
+            </ScrollPane>
+
+            <!-- Paginação do Modal -->
+            <HBox styleClass="pagination-bar" alignment="CENTER" spacing="12">
+                <Button fx:id="btnAnterior" text="Anterior" onAction="#handleAnterior" styleClass="btn-pagination">
+                    <graphic><FontIcon iconLiteral="mdi2c-chevron-left" iconSize="16"/></graphic>
+                </Button>
+                <Label fx:id="lblPagina" text="Página 1" styleClass="pagination-label"/>
+                <Button fx:id="btnProxima" text="Próxima" contentDisplay="RIGHT" onAction="#handleProxima" styleClass="btn-pagination">
+                    <graphic><FontIcon iconLiteral="mdi2c-chevron-right" iconSize="16"/></graphic>
+                </Button>
+            </HBox>
+        </VBox>
+
+        <!-- Seleção de Quantidade -->
+        <VBox styleClass="form-group" spacing="8">
+            <Label text="Quantidade (kg)*" styleClass="form-label"/>
+            <TextField fx:id="txtQuantidade" promptText="Ex: 500" styleClass="form-control"/>
+            <Label fx:id="lblErroQuantidade" styleClass="quantidade-error"
+                   text="" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Label fx:id="lblErroGlobal" styleClass="form-error" text="" wrapText="true"
+               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnAdicionar" text="Adicionar"
+                onAction="#handleAdicionar" styleClass="btn-modal-submit" disable="true"/>
+    </HBox>
+
+</VBox>

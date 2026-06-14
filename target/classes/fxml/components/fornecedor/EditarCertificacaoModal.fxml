@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.fornecedor.EditarCertificacaoModalController"
+      styleClass="modal-root" prefWidth="420">
+
+    <stylesheets>
+        <String fx:value="/styles/fornecedor.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Editar Certificação" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content" spacing="16">
+
+        <HBox spacing="16">
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Data de Início*" styleClass="form-label"/>
+                <DatePicker fx:id="dpDataInicio" styleClass="form-control" maxWidth="Infinity"/>
+            </VBox>
+            <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+                <Label text="Data de Fim*" styleClass="form-label"/>
+                <DatePicker fx:id="dpDataFim" styleClass="form-control" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+
+        <!-- Label de erro com altura reservada -->
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"/>
+
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="modal-footer">
+        <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnGuardar" text="Guardar" defaultButton="true"
+                onAction="#handleGuardar" styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.utilizadores.SelecionarEmpresaModalController"
+      styleClass="modal-root" prefWidth="420">
+
+    <stylesheets>
+        <String fx:value="/styles/utilizadores.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Selecione uma Empresa" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content" spacing="12">
+
+        <!-- Controles de paginação -->
+        <HBox styleClass="selecionar-empresa-pagination" alignment="CENTER" spacing="12">
+            <Button fx:id="btnAnterior" text="Anterior" onAction="#handleAnterior"
+                    styleClass="btn-pagination" disable="true"/>
+            <Label fx:id="lblPagina" text="Página 1 de 1" styleClass="pagination-label"
+                   HBox.hgrow="ALWAYS" alignment="CENTER"/>
+            <Button fx:id="btnProximo" text="Próximo" onAction="#handleProximo"
+                    styleClass="btn-pagination"/>
+        </HBox>
+
+        <!-- Indicador de loading inline -->
+        <HBox fx:id="hboxLoading" styleClass="selecionar-empresa-loading"
+              alignment="CENTER" spacing="8" visible="false" managed="false">
+            <ProgressIndicator styleClass="loading-spinner" prefWidth="24" prefHeight="24"/>
+            <Label text="A carregar..." styleClass="loading-label"/>
+        </HBox>
+
+        <!-- Lista de empresas  -->
+        <VBox fx:id="listaContainer" styleClass="selecionar-empresa-lista" spacing="0"/>
+
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnContinuar" text="Continuar" defaultButton="true"
+                onAction="#handleContinuar" styleClass="btn-modal-submit"
+                disable="true"/>
+    </HBox>
+
+</VBox>

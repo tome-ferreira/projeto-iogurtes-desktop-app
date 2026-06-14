@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.fornecedorestipo.DetalhesFornecedorTipoModalController"
+      styleClass="modal-root" prefWidth="500">
+
+    <stylesheets>
+        <String fx:value="/styles/fornecedorestipo.css"/>
+    </stylesheets>
+
+    <!-- Cabeçalho -->
+    <HBox styleClass="modal-header">
+        <Label text="Detalhes do Tipo de Fornecedor" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- Conteúdo -->
+    <VBox styleClass="modal-content">
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Nome" styleClass="form-label"/>
+            <TextField fx:id="txtNome" styleClass="form-control" editable="false"/>
+        </VBox>
+
+        <VBox styleClass="form-group" HBox.hgrow="ALWAYS">
+            <Label text="Descrição" styleClass="form-label"/>
+            <TextArea fx:id="txtDescricao" styleClass="form-control" editable="false" prefRowCount="3" wrapText="true"/>
+        </VBox>
+    </VBox>
+
+    <!-- Rodapé -->
+    <HBox styleClass="modal-footer">
+        <Button fx:id="btnFechar" text="Fechar" cancelButton="true" defaultButton="true" onAction="#handleFechar"
+                styleClass="btn-modal-cancel"/>
+    </HBox>
+
+</VBox>

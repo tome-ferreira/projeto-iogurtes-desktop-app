@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestaoiogurtes.components.encomendaMp.CriarEncomendaMpModalController"
+      styleClass="modal-root" prefWidth="640" prefHeight="580">
+
+    <stylesheets>
+        <String fx:value="/styles/encomendaMp.css"/>
+    </stylesheets>
+
+    <!-- Header -->
+    <HBox styleClass="modal-header">
+        <Label text="Fazer Encomenda de Matéria Prima" styleClass="modal-title"/>
+    </HBox>
+
+    <!-- TabPane principal -->
+    <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+
+        <!-- ── Tab 1: Encomenda ─────────────────────────────────────────── -->
+        <Tab text="Encomenda">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+                <VBox styleClass="modal-content" spacing="16">
+
+                    <!-- Fornecedor -->
+                    <VBox styleClass="form-group" spacing="8">
+                        <Label text="Fornecedor*" styleClass="form-label"/>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label fx:id="lblFornecedorNome" styleClass="tipo-selecionado-nome"
+                                   HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                   visible="false" managed="false"/>
+                            <Button fx:id="btnSelecionarFornecedor"
+                                    text="Selecionar Fornecedor"
+                                    styleClass="btn-selecionar-tipo"
+                                    onAction="#handleSelecionarFornecedor"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Observações -->
+                    <VBox styleClass="form-group" spacing="8">
+                        <Label text="Observações" styleClass="form-label"/>
+                        <TextArea fx:id="campoObservacoes"
+                                  promptText="Notas ou instruções adicionais (opcional)"
+                                  styleClass="form-control"
+                                  wrapText="true" prefRowCount="3"/>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </Tab>
+
+        <!-- ── Tab 2: Matérias Primas ───────────────────────────────────── -->
+        <Tab fx:id="tabMateriasPrimas" text="Matérias Primas" disable="true">
+            <VBox spacing="8" style="-fx-padding: 16 24 16 24;" VBox.vgrow="ALWAYS">
+
+                <!-- Cabeçalho da secção -->
+                <HBox styleClass="composicao-section-header" alignment="CENTER_LEFT" spacing="12">
+                    <Label text="Linhas da Encomenda" styleClass="composicao-section-title"
+                           HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    <Button fx:id="btnAdicionarMateria" text="+ Adicionar Matéria Prima"
+                            onAction="#handleAdicionarMateria"
+                            styleClass="btn-modal-submit" disable="true"/>
+                </HBox>
+
+                <!-- Aviso de duplicado -->
+                <Label fx:id="lblLinhasAviso" styleClass="composicao-aviso"
+                       text="" wrapText="true" visible="false" managed="false"/>
+
+                <!-- Lista de linhas em scroll -->
+                <ScrollPane maxHeight="350" fitToWidth="true"
+                            VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-background: transparent;">
+                    <VBox fx:id="linhasContainer" spacing="0"/>
+                </ScrollPane>
+
+            </VBox>
+        </Tab>
+
+    </TabPane>
+
+    <!-- Footer (fora do TabPane) -->
+    <HBox styleClass="modal-footer">
+        <Label fx:id="lblErro" styleClass="form-error" text="" wrapText="true"
+               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <Button text="Cancelar" onAction="#handleCancelar" styleClass="btn-modal-cancel"/>
+        <Button fx:id="btnCriar" text="Criar Encomenda"
+                onAction="#handleCriar" styleClass="btn-modal-submit"/>
+    </HBox>
+
+</VBox>
